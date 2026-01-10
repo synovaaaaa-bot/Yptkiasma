@@ -1,8 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
-import logoTPK from 'figma:asset/24260d8aef2e8086a09f64ac0e634de86b72283f.png';
-import logoIASMA from 'figma:asset/7d2c7b58c5e1fe4e465a36c2ca34e6b64bf8c479.png';
+import { logoTPK, logoIASMA } from '../../assets/logos';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);

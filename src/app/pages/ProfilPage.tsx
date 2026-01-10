@@ -1,10 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
-import { Target, Eye, Users, BookOpen, GraduationCap, Briefcase, HandHeart, TrendingUp, Calendar, Award, Heart, CheckCircle2, ArrowRight, MapPin, Building2 } from 'lucide-react';
-import { useState } from 'react';
+import { Users, Target, Eye, Award, ArrowLeft, BookOpen, GraduationCap, Briefcase, HandHeart, Calendar, Heart, CheckCircle2, TrendingUp, MapPin, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/button';
-import logoTPK from 'figma:asset/24260d8aef2e8086a09f64ac0e634de86b72283f.png';
-import logoIASMA from 'figma:asset/7d2c7b58c5e1fe4e465a36c2ca34e6b64bf8c479.png';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { useState } from 'react';
+import { logoTPK, logoIASMA } from '../../assets/logos';
 
 export default function ProfilPage() {
   const navigate = useNavigate();

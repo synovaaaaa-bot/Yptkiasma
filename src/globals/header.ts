@@ -1,6 +1,5 @@
 import { Header } from '../types/globals';
-import logoTPK from 'figma:asset/24260d8aef2e8086a09f64ac0e634de86b72283f.png';
-import logoIASMA from 'figma:asset/7d2c7b58c5e1fe4e465a36c2ca34e6b64bf8c479.png';
+import { logoTPK, logoIASMA } from '../assets/logos';
 
 // Header Global Configuration
 export const header: Header = {
