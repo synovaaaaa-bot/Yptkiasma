@@ -12,21 +12,21 @@ export const footer: Footer = {
   contact: {
     address: 'Jl. Landbouw No. 10, Bukittinggi, Sumatera Barat 26115',
     phone: '+62 752 1234567',
-    email: 'info@tpkiasma.or.id',
+    email: 'info@yptk.or.id',
     whatsapp: '+62 812 3456 7890',
   },
   socialLinks: [
     {
       platform: 'facebook',
-      url: 'https://facebook.com/tpkiasma',
+      url: 'https://facebook.com/yptk',
     },
     {
       platform: 'instagram',
-      url: 'https://instagram.com/tpkiasma',
+      url: 'https://instagram.com/yptk',
     },
     {
       platform: 'youtube',
-      url: 'https://youtube.com/@tpkiasma',
+      url: 'https://youtube.com/@yptk',
     },
     {
       platform: 'whatsapp',
@@ -59,7 +59,7 @@ export const footer: Footer = {
       href: '/kontak',
     },
   ],
-  copyright: `© ${new Date().getFullYear()} Yayasan TPK IASMA 1 Landbouw Bukittinggi. Semua hak dilindungi.`,
+  copyright: `© ${new Date().getFullYear()} Yayasan YPTK Landbouw Bukittinggi. Semua hak dilindungi.`,
   footerText: 'Peduli Sesama, Berbagi Kebahagiaan',
 };
 

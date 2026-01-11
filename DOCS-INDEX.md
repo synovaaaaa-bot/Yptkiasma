@@ -4,6 +4,24 @@ Welcome to the TPK IASMA 1 Landbouw Bukittinggi Website documentation!
 
 ---
 
+## 🚨 VERCEL BUILD ERROR?
+
+**If you're getting Vercel deployment error, start here:**
+
+1. **[SOLUTION-SUMMARY.md](./SOLUTION-SUMMARY.md)** ⭐ Complete problem & solution overview
+2. **[QUICK-FIX.sh](./QUICK-FIX.sh)** - Automated fix script (RECOMMENDED)
+3. **[FORCE-FIX.md](./FORCE-FIX.md)** - Detailed manual fix guide
+4. **[verify-build.sh](./verify-build.sh)** - Verification script
+
+**Quick Fix:**
+```bash
+chmod +x QUICK-FIX.sh && ./QUICK-FIX.sh
+git commit -m "Fix: Force remove figma:asset imports"
+git push origin main --force-with-lease
+```
+
+---
+
 ## 🚀 Start Here
 
 ### New to the Project?

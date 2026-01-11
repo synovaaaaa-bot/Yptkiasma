@@ -1,280 +1,364 @@
 import { Program } from '../types/collections';
 
-// Programs Collection - Program Yayasan
+// Programs Collection - Program Yayasan YPTK
 export const programs: Program[] = [
   {
     id: '1',
-    title: 'Tahsin Al-Quran',
-    slug: 'tahsin-al-quran',
-    description: 'Belajar membaca Al-Quran dengan tartil dan benar sesuai kaidah tajwid',
-    image: 'https://images.unsplash.com/photo-1762059904093-c76f6f591b45?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-    category: 'pendidikan',
+    title: 'Qurban Idul Adha',
+    slug: 'qurban-idul-adha',
+    description: 'Program penyaluran daging qurban untuk masyarakat dhuafa di sekitar Bukittinggi',
+    image: 'https://images.unsplash.com/photo-1583623025817-d180a2221d0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
+    category: 'sosial',
     status: 'active',
-    participants: 200,
-    location: 'Masjid TPK IASMA, Bukittinggi',
-    content: `Program Tahsin Al-Quran merupakan program unggulan Yayasan TPK IASMA yang bertujuan untuk meningkatkan kemampuan membaca Al-Quran dengan benar sesuai kaidah tajwid.
+    participants: 500,
+    location: 'Seluruh Bukittinggi',
+    content: `Program Qurban YPTK merupakan kegiatan rutin tahunan untuk menyalurkan daging qurban kepada masyarakat dhuafa dan fakir miskin di wilayah Bukittinggi dan sekitarnya.
 
-**Jadwal Pembelajaran:**
-- Senin - Kamis: 16.00 - 17.30 WIB (Anak-anak)
-- Jum'at - Sabtu: 19.30 - 21.00 WIB (Dewasa)
-- Ahad: 08.00 - 10.00 WIB (Remaja)
+**Target Penerima:**
+- Keluarga dhuafa dan fakir miskin
+- Anak yatim piatu
+- Janda dan lansia tidak mampu
+- Masyarakat prasejahtera
 
-**Materi Pembelajaran:**
-- Makharijul Huruf (tempat keluar huruf)
-- Sifatul Huruf (sifat-sifat huruf)
-- Ahkamul Huruf (hukum-hukum huruf)
-- Tajwid dasar dan lanjutan
-- Praktik membaca dengan tartil`,
+**Proses Pelaksanaan:**
+- Penyembelihan hewan qurban sesuai syariat
+- Pengemasan dan distribusi daging
+- Penyaluran langsung ke rumah penerima
+- Dokumentasi dan pelaporan transparan`,
     benefits: [
-      'Belajar dengan ustadz berpengalaman dan bersanad',
-      'Kelas kecil maksimal 15 orang per kelas',
-      'Mendapatkan modul pembelajaran gratis',
-      'Sertifikat setelah menyelesaikan program',
-      'Evaluasi berkala setiap bulan',
+      'Hewan qurban berkualitas (sapi dan kambing)',
+      'Penyembelihan oleh jagal bersertifikat',
+      'Distribusi merata dan adil',
+      'Laporan transparan kepada donatur',
+      'Penyaluran tepat sasaran',
     ],
     requirements: [
-      'Muslim/Muslimah',
-      'Usia minimal 7 tahun',
-      'Mampu membaca huruf hijaiyah',
-      'Komitmen mengikuti pembelajaran rutin',
+      'Pendaftaran qurban H-30 Idul Adha',
+      'Pembayaran dapat dicicil',
+      'Dapat menitipkan niat qurban',
+      'Dokumentasi foto penyembelihan',
     ],
     _status: 'published',
     meta: {
-      title: 'Program Tahsin Al-Quran - TPK IASMA',
-      description: 'Belajar membaca Al-Quran dengan tartil dan benar sesuai kaidah tajwid',
+      title: 'Program Qurban Idul Adha - YPTK',
+      description: 'Program penyaluran daging qurban untuk masyarakat dhuafa',
     },
     createdAt: '2024-01-10T08:00:00Z',
     updatedAt: '2024-09-15T10:00:00Z',
   },
   {
     id: '2',
-    title: 'Tahfidz Al-Quran',
-    slug: 'tahfidz-al-quran',
-    description: 'Program menghafal Al-Quran dengan metode yang terbukti efektif dan menyenangkan',
-    image: 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-    category: 'pendidikan',
+    title: 'Bantuan Bencana Alam',
+    slug: 'bantuan-bencana-alam',
+    description: 'Respon cepat bantuan kemanusiaan untuk korban bencana alam di berbagai daerah',
+    image: 'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
+    category: 'sosial',
     status: 'active',
-    participants: 150,
-    location: 'Masjid TPK IASMA, Bukittinggi',
-    content: `Program Tahfidz Al-Quran adalah program unggulan untuk menghafal Al-Quran dengan metode yang mudah, efektif, dan menyenangkan. Program ini telah menghasilkan ratusan hafidz dan hafidzah.
+    participants: 1000,
+    location: 'Sumatera Barat & Sekitarnya',
+    content: `Program tanggap darurat YPTK untuk membantu korban bencana alam seperti gempa bumi, banjir, tanah longsor, dan bencana lainnya dengan bantuan logistik dan kebutuhan mendesak.
 
-**Target Hafalan:**
-- Level 1: Juz 30 (6 bulan)
-- Level 2: Juz 29-30 (1 tahun)
-- Level 3: Juz 1-3 (2 tahun)
-- Level 4: 10 Juz (3 tahun)
-- Level 5: 30 Juz (5 tahun)
+**Jenis Bantuan:**
+- Logistik: makanan, air bersih, obat-obatan
+- Kebutuhan darurat: tenda, selimut, pakaian
+- Trauma healing dan pendampingan
+- Bantuan pemulihan pasca bencana
 
-**Metode Pembelajaran:**
-- Talaqqi (setoran hafalan langsung ke ustadz)
-- Muraja'ah (pengulangan hafalan)
-- Tasmi' (mendengarkan hafalan teman)
-- Evaluasi berkala`,
+**Mekanisme Penyaluran:**
+- Tim siaga bencana 24 jam
+- Koordinasi dengan BPBD dan relawan
+- Penyaluran langsung ke lokasi bencana
+- Monitoring dan evaluasi berkelanjutan`,
     benefits: [
-      'Pembimbing hafidz/hafidzah bersanad',
-      'Metode hafalan yang terbukti efektif',
-      'Muraja'ah terjadwal dan terstruktur',
-      'Evaluasi dan motivasi rutin',
-      'Wisuda dan sertifikat resmi',
-      'Beasiswa untuk hafidz/hafidzah berprestasi',
+      'Tim relawan terlatih dan berpengalaman',
+      'Respon cepat maksimal 24 jam',
+      'Bantuan sesuai kebutuhan mendesak',
+      'Koordinasi dengan pemerintah daerah',
+      'Laporan transparan dan akuntabel',
     ],
     requirements: [
-      'Muslim/Muslimah',
-      'Usia minimal 10 tahun',
-      'Sudah lancar membaca Al-Quran',
-      'Lulus seleksi tes baca Al-Quran',
-      'Komitmen tinggi untuk menghafal',
+      'Verifikasi lokasi bencana',
+      'Data korban yang membutuhkan',
+      'Koordinasi dengan tim SAR',
+      'Dokumentasi penyaluran bantuan',
     ],
     _status: 'published',
     meta: {
-      title: 'Program Tahfidz Al-Quran - TPK IASMA',
-      description: 'Program menghafal Al-Quran dengan metode yang terbukti efektif',
+      title: 'Program Bantuan Bencana Alam - YPTK',
+      description: 'Respon cepat bantuan kemanusiaan untuk korban bencana',
     },
     createdAt: '2024-01-10T08:00:00Z',
     updatedAt: '2024-09-15T10:00:00Z',
   },
   {
     id: '3',
-    title: 'Kajian Rutin Mingguan',
-    slug: 'kajian-rutin-mingguan',
-    description: 'Kajian Islam rutin setiap minggu dengan berbagai tema aktual dan relevan',
-    image: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-    category: 'pendidikan',
+    title: 'Operasi Bibir Sumbing Gratis',
+    slug: 'operasi-bibir-sumbing',
+    description: 'Program operasi bibir sumbing gratis untuk anak-anak dari keluarga tidak mampu',
+    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
+    category: 'kesehatan',
     status: 'active',
-    participants: 300,
-    location: 'Masjid TPK IASMA, Bukittinggi',
-    content: `Kajian rutin mingguan merupakan program dakwah yang menghadirkan berbagai tema keislaman yang aktual dan relevan dengan kehidupan sehari-hari. Kajian dipandu oleh ustadz-ustadz kompeten dan berpengalaman.
+    participants: 50,
+    location: 'Rumah Sakit Partner YPTK',
+    content: `Program kesehatan YPTK bekerja sama dengan rumah sakit dan tim dokter bedah plastik untuk memberikan operasi bibir sumbing gratis bagi anak-anak dari keluarga kurang mampu.
 
-**Jadwal Kajian:**
-- Senin: Tafsir Al-Quran (Ba'da Maghrib)
-- Rabu: Hadits dan Fiqih (Ba'da Isya)
-- Jum'at: Kajian Wanita (Ba'da Ashar)
-- Ahad: Kajian Umum (Ba'da Subuh)
+**Layanan yang Diberikan:**
+- Pemeriksaan medis lengkap pra-operasi
+- Operasi bibir sumbing oleh dokter spesialis
+- Perawatan pasca operasi
+- Konsultasi dan follow-up gratis
+- Bantuan biaya transportasi
 
-**Tema Kajian:**
-- Akidah dan Tauhid
-- Fiqih Ibadah
-- Akhlak dan Adab
-- Muamalah Kontemporer
-- Tafsir Al-Quran
-- Sirah Nabawiyah`,
+**Target Peserta:**
+- Anak usia 3 bulan - 17 tahun
+- Penderita bibir sumbing dari keluarga tidak mampu
+- Hasil screening medis memenuhi syarat operasi
+- Berdomisili di Sumatera Barat dan sekitarnya`,
     benefits: [
-      'Gratis dan terbuka untuk umum',
-      'Ustadz kompeten dan berpengalaman',
-      'Materi yang aplikatif',
-      'Sesi tanya jawab interaktif',
-      'Modul kajian digital',
-      'Rekaman kajian tersedia',
+      'Operasi dan perawatan 100% gratis',
+      'Tim dokter spesialis berpengalaman',
+      'Fasilitas rumah sakit terpercaya',
+      'Pendampingan keluarga pasien',
+      'Follow-up hingga sembuh sempurna',
     ],
     requirements: [
-      'Muslim/Muslimah',
-      'Berpakaian sopan dan syar\'i',
-      'Datang tepat waktu',
+      'Surat keterangan tidak mampu dari kelurahan',
+      'Hasil pemeriksaan kesehatan awal',
+      'Kelengkapan dokumen identitas',
+      'Kesediaan mengikuti prosedur medis',
     ],
     _status: 'published',
     meta: {
-      title: 'Kajian Rutin Mingguan - TPK IASMA',
-      description: 'Kajian Islam rutin dengan berbagai tema aktual dan relevan',
+      title: 'Program Operasi Bibir Sumbing Gratis - YPTK',
+      description: 'Operasi bibir sumbing gratis untuk anak dari keluarga tidak mampu',
     },
     createdAt: '2024-01-10T08:00:00Z',
     updatedAt: '2024-09-15T10:00:00Z',
   },
   {
     id: '4',
-    title: 'Beasiswa Pendidikan',
-    slug: 'beasiswa-pendidikan',
-    description: 'Bantuan beasiswa untuk pelajar dan mahasiswa kurang mampu yang berprestasi',
-    image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-    category: 'sosial',
+    title: 'Operasi Katarak Gratis',
+    slug: 'operasi-katarak',
+    description: 'Program operasi katarak gratis untuk lansia dan masyarakat kurang mampu',
+    image: 'https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
+    category: 'kesehatan',
     status: 'active',
-    targetAmount: 100000000,
-    currentAmount: 65000000,
-    participants: 80,
-    content: `Program Beasiswa Pendidikan TPK IASMA bertujuan membantu pelajar dan mahasiswa kurang mampu namun memiliki prestasi akademik yang baik untuk melanjutkan pendidikan.
+    participants: 100,
+    location: 'Rumah Sakit Partner YPTK',
+    content: `Program bakti sosial kesehatan mata YPTK memberikan operasi katarak gratis untuk lansia dan masyarakat kurang mampu yang mengalami gangguan penglihatan akibat katarak.
 
-**Jenis Beasiswa:**
-- Beasiswa SD/MI: Rp 500.000/semester
-- Beasiswa SMP/MTs: Rp 750.000/semester
-- Beasiswa SMA/MA: Rp 1.000.000/semester
-- Beasiswa Perguruan Tinggi: Rp 2.000.000/semester
+**Layanan yang Diberikan:**
+- Pemeriksaan mata lengkap gratis
+- Operasi katarak dengan teknologi modern
+- Lensa tanam IOL berkualitas
+- Perawatan dan obat-obatan pasca operasi
+- Kacamata baca gratis (jika diperlukan)
 
-**Fasilitas:**
-- Bantuan biaya pendidikan
-- Bantuan seragam dan perlengkapan sekolah
-- Bimbingan belajar gratis
-- Pembinaan karakter dan akhlak`,
+**Proses Pelaksanaan:**
+- Screening awal kesehatan mata
+- Penjadwalan operasi sesuai urutan
+- Operasi oleh dokter spesialis mata
+- Kontrol dan evaluasi pasca operasi`,
     benefits: [
-      'Bantuan finansial pendidikan',
-      'Bimbingan akademik gratis',
-      'Pembinaan soft skills',
-      'Pendampingan hingga lulus',
-      'Jaringan alumni yang luas',
+      'Operasi dan lensa tanam 100% gratis',
+      'Dokter spesialis mata berpengalaman',
+      'Teknologi operasi modern dan aman',
+      'Obat-obatan lengkap gratis',
+      'Pemulihan penglihatan maksimal',
     ],
     requirements: [
-      'Pelajar/mahasiswa aktif',
-      'Berasal dari keluarga kurang mampu',
-      'Memiliki prestasi akademik baik',
-      'Berkelakuan baik',
-      'Melampirkan surat keterangan tidak mampu',
+      'Usia minimal 40 tahun',
+      'Surat keterangan tidak mampu',
+      'Hasil pemeriksaan mata awal',
+      'Tidak memiliki penyakit mata lain yang berat',
     ],
     _status: 'published',
     meta: {
-      title: 'Program Beasiswa Pendidikan - TPK IASMA',
-      description: 'Bantuan beasiswa untuk pelajar dan mahasiswa kurang mampu',
+      title: 'Program Operasi Katarak Gratis - YPTK',
+      description: 'Operasi katarak gratis untuk lansia dan masyarakat kurang mampu',
     },
     createdAt: '2024-01-10T08:00:00Z',
     updatedAt: '2024-09-15T10:00:00Z',
   },
   {
     id: '5',
-    title: 'Pemberdayaan Ekonomi UMKM',
-    slug: 'pemberdayaan-ekonomi-umkm',
-    description: 'Program pelatihan keterampilan dan bantuan modal usaha untuk masyarakat',
-    image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-    category: 'ekonomi',
+    title: 'Pembagian Takjil Ramadhan',
+    slug: 'pembagian-takjil-ramadhan',
+    description: 'Berbagi takjil gratis setiap sore di bulan Ramadhan untuk masyarakat',
+    image: 'https://images.unsplash.com/photo-1610399827100-02e3c525f144?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
+    category: 'sosial',
     status: 'active',
-    targetAmount: 200000000,
-    currentAmount: 120000000,
-    participants: 120,
-    content: `Program Pemberdayaan Ekonomi UMKM bertujuan memberdayakan masyarakat kurang mampu melalui pelatihan keterampilan dan bantuan modal usaha produktif.
+    participants: 300,
+    location: 'Beberapa Titik di Bukittinggi',
+    content: `Program berbagi takjil gratis YPTK di bulan Ramadhan untuk membantu masyarakat yang sedang berpuasa, terutama musafir, pekerja, dan masyarakat kurang mampu.
 
-**Jenis Pelatihan:**
-- Kuliner dan Food Processing
-- Menjahit dan Fashion
-- Kerajinan Tangan
-- Digital Marketing
-- Manajemen Usaha
-- Kewirausahaan
+**Pelaksanaan Program:**
+- Pembagian setiap sore pukul 17.00 - 18.00 WIB
+- Lokasi strategis di beberapa titik Bukittinggi
+- Menu takjil bervariasi dan bergizi
+- Khusus hari Jumat: nasi kotak gratis
 
-**Bantuan Modal:**
-- Modal Usaha Mikro: Rp 2-5 juta
-- Modal Usaha Kecil: Rp 5-10 juta
-- Sistem qardhul hasan (pinjaman tanpa bunga)`,
+**Lokasi Pembagian:**
+- Simpang 4 Bukittinggi
+- Terminal Aur Kuning
+- Masjid Raya Bukittinggi
+- Kawasan Jam Gadang
+- Dan titik-titik lainnya`,
     benefits: [
-      'Pelatihan keterampilan gratis',
-      'Bantuan modal usaha tanpa bunga',
-      'Pendampingan usaha intensif',
-      'Akses ke jaringan pemasaran',
-      'Pembinaan manajemen usaha',
+      'Takjil gratis setiap sore',
+      'Menu bervariasi dan higienis',
+      'Lokasi mudah diakses',
+      'Berbagi kebahagiaan Ramadhan',
+      'Pahala bagi donatur takjil',
     ],
     requirements: [
-      'Warga Bukittinggi atau sekitarnya',
-      'Usia 18-55 tahun',
-      'Memiliki komitmen berwirausaha',
-      'Mengikuti seluruh program pelatihan',
-      'Lulus seleksi proposal usaha',
+      'Terbuka untuk semua orang',
+      'Antri dengan tertib',
+      'Satu orang satu porsi',
+      'Menjaga kebersihan lokasi',
     ],
     _status: 'published',
     meta: {
-      title: 'Program Pemberdayaan Ekonomi UMKM - TPK IASMA',
-      description: 'Pelatihan keterampilan dan bantuan modal usaha',
+      title: 'Program Pembagian Takjil Ramadhan - YPTK',
+      description: 'Berbagi takjil gratis setiap sore di bulan Ramadhan',
     },
     createdAt: '2024-01-10T08:00:00Z',
     updatedAt: '2024-09-15T10:00:00Z',
   },
   {
     id: '6',
-    title: 'Santunan Yatim dan Dhuafa',
-    slug: 'santunan-yatim-dhuafa',
-    description: 'Bantuan rutin untuk anak yatim, janda, dan keluarga dhuafa',
-    image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
+    title: 'Go Clean Masjid dan Mushola',
+    slug: 'goclean-masjid-mushola',
+    description: 'Kegiatan gotong royong membersihkan masjid dan mushola di sekitar Bukittinggi',
+    image: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
     category: 'sosial',
     status: 'active',
-    targetAmount: 150000000,
-    currentAmount: 95000000,
-    participants: 150,
-    content: `Program Santunan Yatim dan Dhuafa adalah program sosial rutin untuk membantu anak yatim, janda, dan keluarga kurang mampu memenuhi kebutuhan hidup sehari-hari.
+    participants: 50,
+    location: 'Masjid & Mushola se-Bukittinggi',
+    content: `Program Go Clean YPTK mengajak relawan untuk bergotong royong membersihkan masjid dan mushola yang membutuhkan, meliputi pembersihan dalam dan luar bangunan, perawatan fasilitas, dan perbaikan ringan.
 
-**Jenis Bantuan:**
-- Santunan Rutin Bulanan
-- Bantuan Biaya Pendidikan
-- Bantuan Biaya Kesehatan
-- Paket Sembako Bulanan
-- Santunan Hari Raya
-- Bantuan Renovasi Rumah
+**Kegiatan yang Dilakukan:**
+- Pembersihan lantai, karpet, dan dinding
+- Pembersihan toilet dan tempat wudhu
+- Perawatan taman masjid
+- Perbaikan fasilitas yang rusak ringan
+- Pengecatan jika diperlukan
 
-**Nominal Bantuan:**
-- Anak Yatim: Rp 300.000/bulan
-- Janda Dhuafa: Rp 400.000/bulan
-- Lansia Terlantar: Rp 350.000/bulan`,
+**Jadwal Pelaksanaan:**
+- Setiap bulan 1-2 masjid/mushola
+- Hari Sabtu-Ahad pukul 08.00 - 12.00
+- Koordinasi dengan pengurus masjid
+- Dokumentasi sebelum dan sesudah`,
     benefits: [
-      'Bantuan finansial rutin',
-      'Bantuan kebutuhan pokok',
-      'Bantuan pendidikan anak',
-      'Bantuan kesehatan',
-      'Pembinaan mental dan spiritual',
+      'Masjid/mushola bersih dan nyaman',
+      'Mempererat silaturahmi umat',
+      'Pahala menjaga rumah Allah',
+      'Gratis untuk semua masjid/mushola',
+      'Tim relawan berpengalaman',
     ],
     requirements: [
-      'Anak yatim/piatu/yatim piatu',
-      'Janda dengan tanggungan',
-      'Lansia tidak mampu',
-      'Memiliki surat keterangan dari RT/RW',
-      'Domisili Bukittinggi atau sekitarnya',
+      'Pengajuan dari pengurus masjid/mushola',
+      'Survey lokasi terlebih dahulu',
+      'Kesediaan pengurus untuk berkoordinasi',
+      'Masjid/mushola yang memang membutuhkan',
     ],
     _status: 'published',
     meta: {
-      title: 'Program Santunan Yatim dan Dhuafa - TPK IASMA',
-      description: 'Bantuan rutin untuk anak yatim, janda, dan keluarga dhuafa',
+      title: 'Program Go Clean Masjid dan Mushola - YPTK',
+      description: 'Gotong royong membersihkan masjid dan mushola',
+    },
+    createdAt: '2024-01-10T08:00:00Z',
+    updatedAt: '2024-09-15T10:00:00Z',
+  },
+  {
+    id: '7',
+    title: 'Pembagian Sembako Rutin',
+    slug: 'pembagian-sembako',
+    description: 'Program distribusi paket sembako bulanan untuk keluarga dhuafa dan prasejahtera',
+    image: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
+    category: 'sosial',
+    status: 'active',
+    participants: 200,
+    location: 'Seluruh Bukittinggi',
+    content: `Program pembagian sembako rutin YPTK memberikan bantuan paket sembako kepada keluarga dhuafa, janda, lansia, dan masyarakat prasejahtera untuk membantu kebutuhan pokok sehari-hari.
+
+**Isi Paket Sembako:**
+- Beras 10 kg
+- Minyak goreng 2 liter
+- Gula pasir 2 kg
+- Teh dan kopi
+- Mie instan 1 dus
+- Susu dan biskuit
+- Bahan pokok lainnya
+
+**Frekuensi Penyaluran:**
+- Rutin setiap bulan
+- Extra di bulan Ramadhan
+- Menjelang hari raya
+- Saat ada donatur khusus`,
+    benefits: [
+      'Paket sembako berkualitas',
+      'Penyaluran tepat sasaran',
+      'Bantuan konsisten setiap bulan',
+      'Pendataan penerima transparan',
+      'Dapat dijadikan penerima tetap',
+    ],
+    requirements: [
+      'Surat keterangan tidak mampu',
+      'Domisili Bukittinggi dan sekitarnya',
+      'Verifikasi kondisi ekonomi keluarga',
+      'Pengambilan di lokasi yang ditentukan',
+    ],
+    _status: 'published',
+    meta: {
+      title: 'Program Pembagian Sembako Rutin - YPTK',
+      description: 'Distribusi paket sembako bulanan untuk keluarga dhuafa',
+    },
+    createdAt: '2024-01-10T08:00:00Z',
+    updatedAt: '2024-09-15T10:00:00Z',
+  },
+  {
+    id: '8',
+    title: 'Distribusi Al-Quran Gratis',
+    slug: 'alquran-gratis',
+    description: 'Program pembagian Al-Quran gratis untuk masjid, mushola, dan masyarakat yang membutuhkan',
+    image: 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
+    category: 'pendidikan',
+    status: 'active',
+    participants: 500,
+    location: 'Sumatera Barat',
+    content: `Program wakaf Al-Quran YPTK menyediakan mushaf Al-Quran gratis berkualitas untuk disebarkan ke masjid, mushola, pesantren, madrasah, dan masyarakat yang membutuhkan.
+
+**Jenis Al-Quran yang Tersedia:**
+- Al-Quran ukuran sedang (A5)
+- Al-Quran terjemahan
+- Al-Quran tajwid warna
+- Juz Amma untuk anak
+- Al-Quran ukuran besar untuk lansia
+
+**Syarat Penerima:**
+- Masjid/mushola yang membutuhkan
+- Pesantren dan madrasah
+- Perpustakaan umum
+- Masyarakat kurang mampu
+- Muallaf dan taman baca`,
+    benefits: [
+      'Al-Quran berkualitas cetak bagus',
+      'Gratis 100% tanpa biaya',
+      'Pengiriman ke lokasi (area Bukittinggi)',
+      'Berbagai ukuran sesuai kebutuhan',
+      'Pahala jariyah bagi donatur',
+    ],
+    requirements: [
+      'Pengajuan tertulis ke YPTK',
+      'Surat pengantar dari RT/Kelurahan (pribadi)',
+      'Surat pengantar pengurus (masjid/lembaga)',
+      'Jumlah yang dibutuhkan (maksimal)',
+    ],
+    _status: 'published',
+    meta: {
+      title: 'Program Distribusi Al-Quran Gratis - YPTK',
+      description: 'Pembagian Al-Quran gratis untuk masjid, mushola, dan masyarakat',
     },
     createdAt: '2024-01-10T08:00:00Z',
     updatedAt: '2024-09-15T10:00:00Z',

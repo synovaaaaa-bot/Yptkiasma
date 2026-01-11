@@ -151,7 +151,7 @@ export default function HomePage() {
               </h1>
               
               <p className="text-lg md:text-xl text-white/90 leading-relaxed">
-                Yayasan TPK IASMA Bukittinggi hadir sebagai wadah kepedulian alumni dalam 
+                Yayasan YPTK Bukittinggi hadir sebagai wadah kepedulian alumni dalam 
                 memberdayakan masyarakat melalui pendidikan, sosial, dan ekonomi.
               </p>
 

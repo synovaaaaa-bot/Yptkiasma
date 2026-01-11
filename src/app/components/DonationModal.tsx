@@ -23,17 +23,17 @@ export function DonationModal({ isOpen, onClose, program, selectedAmount, custom
     { 
       bank: 'Bank Syariah Indonesia', 
       account: '1234567890123', 
-      name: 'Yayasan TPK IASMA',
+      name: 'Yayasan YPTK',
     },
     { 
       bank: 'Bank Muamalat', 
       account: '0987654321098', 
-      name: 'Yayasan TPK IASMA',
+      name: 'Yayasan YPTK',
     },
     { 
       bank: 'Bank Mandiri Syariah', 
       account: '5555666677778', 
-      name: 'Yayasan TPK IASMA',
+      name: 'Yayasan YPTK',
     },
   ];
 

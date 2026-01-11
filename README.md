@@ -2,12 +2,36 @@
 
 Website resmi Yayasan TPK IASMA 1 Landbouw Bukittinggi yang dibangun dengan React, TypeScript, dan Tailwind CSS.
 
-## 🎨 Design System
+## 🚨 CRITICAL: Vercel Build Error Fix
 
-Website ini menggunakan tema warna Islamic modern:
-- **Primary Color**: Hijau Tua (#0F766E)
-- **Secondary Color**: Tosca (#5EEAD4)
-- **Accent Color**: Emas (#FACC15)
+**Jika Anda mendapati error saat deploy di Vercel**, pilih salah satu:
+
+### ⚡ Super Quick (Copy-Paste)
+👉 **[FIX-NOW.md](./FIX-NOW.md)** - 3 commands to fix
+
+### 🤖 Automated (Recommended)  
+👉 **[START-HERE.md](./START-HERE.md)** - Run script & deploy
+
+### 📚 Detailed Guide
+👉 **[SOLUTION-SUMMARY.md](./SOLUTION-SUMMARY.md)** - Understanding & solution  
+👉 **[FORCE-FIX.md](./FORCE-FIX.md)** - Manual step-by-step
+
+**Quick Solution:**
+```bash
+# Run auto-fix script
+chmod +x QUICK-FIX.sh
+./QUICK-FIX.sh
+
+# Then commit and push
+git commit -m "Fix: Force remove figma:asset imports"
+git push origin main --force-with-lease
+```
+
+**Root Cause:** Git cache masih menyimpan file lama dengan `figma:asset` imports.
+
+**📖 All Documentation:** [INDEX.md](./INDEX.md) | [DOCS-INDEX.md](./DOCS-INDEX.md)
+
+---
 
 ## 🚀 Quick Start
 

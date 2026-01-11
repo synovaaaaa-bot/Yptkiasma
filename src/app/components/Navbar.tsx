@@ -39,7 +39,7 @@ export function Navbar() {
               />
             </div>
             <div className="flex flex-col">
-              <span className="text-primary font-bold text-lg leading-tight">TPK IASMA 1</span>
+              <span className="text-primary font-bold text-lg leading-tight">YPTK</span>
               <span className="text-xs text-muted-foreground">Landbouw Bukittinggi</span>
             </div>
           </Link>
