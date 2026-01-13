@@ -4,6 +4,8 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { useState, useEffect } from 'react';
+import { programs } from '@/collections/programs';
+import { activities } from '@/collections/activities';
 
 export default function HomePage() {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -13,70 +15,27 @@ export default function HomePage() {
     return () => clearInterval(timer);
   }, []);
 
-  const featuredPrograms = [
-    {
-      title: 'Tahsin Al-Quran',
-      description: 'Belajar membaca Al-Quran dengan tartil dan benar sesuai kaidah tajwid',
-      image: 'https://images.unsplash.com/photo-1762059904093-c76f6f591b45?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      category: 'Pendidikan',
-      stats: '200+ Peserta',
-      color: 'from-primary to-primary/70',
-      icon: BookOpen,
-    },
-    {
-      title: 'Santunan Yatim',
-      description: 'Program rutin bantuan pendidikan dan kebutuhan untuk anak yatim',
-      image: 'https://images.unsplash.com/photo-1761666507437-9fb5a6ef7b0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      category: 'Sosial',
-      stats: '150+ Anak',
-      color: 'from-secondary to-secondary/70',
-      icon: HandHeart,
-    },
-    {
-      title: 'Pemberdayaan Ekonomi',
-      description: 'Pelatihan keterampilan dan bantuan modal usaha untuk masyarakat',
-      image: 'https://images.unsplash.com/photo-1554224311-beee415c201f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      category: 'Ekonomi',
-      stats: '300+ UMKM',
-      color: 'from-accent to-accent/70',
-      icon: Briefcase,
-    },
-  ];
+  // Get 3 featured programs from collections
+  const featuredPrograms = programs.slice(0, 3).map((program, index) => ({
+    title: program.title,
+    description: program.description,
+    image: program.image,
+    category: program.category === 'sosial' ? 'Sosial' : program.category === 'kesehatan' ? 'Kesehatan' : 'Pendidikan',
+    stats: `${program.participants}+ Penerima Manfaat`,
+    color: index === 0 ? 'from-primary to-primary/70' : index === 1 ? 'from-secondary to-secondary/70' : 'from-accent to-accent/70',
+    icon: index === 0 ? BookOpen : index === 1 ? HandHeart : Briefcase,
+    slug: program.slug,
+  }));
 
-  const upcomingEvents = [
-    { 
-      title: 'Kajian Rutin Minggu Pagi', 
-      date: '5 Jan', 
-      time: '08:00', 
-      category: 'Kajian',
-      venue: 'Aula Utama',
-      speaker: 'Ustadz Dr. Ahmad',
-    },
-    { 
-      title: 'Program Santunan Yatim', 
-      date: '10 Jan', 
-      time: '09:00', 
-      category: 'Sosial',
-      venue: 'Gedung Serbaguna',
-      speaker: 'Tim TPK IASMA',
-    },
-    { 
-      title: 'Pelatihan Wirausaha', 
-      date: '12 Jan', 
-      time: '13:00', 
-      category: 'Ekonomi',
-      venue: 'Ruang Workshop',
-      speaker: 'Coach Business',
-    },
-    { 
-      title: 'Maulid Nabi Muhammad SAW', 
-      date: '15 Jan', 
-      time: '19:00', 
-      category: 'Peringatan',
-      venue: 'Aula Utama',
-      speaker: 'Habib Ali',
-    },
-  ];
+  // Get recent activities as upcoming events
+  const upcomingEvents = activities.slice(0, 4).map(activity => ({
+    title: activity.title,
+    date: new Date(activity.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }),
+    time: new Date(activity.date).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+    category: activity.category,
+    venue: activity.location,
+    speaker: 'Tim YTPK IASMA 1',
+  }));
 
   const impactStats = [
     { value: '5000+', label: 'Penerima Manfaat', icon: Users, color: 'text-primary', bg: 'bg-primary/10' },
@@ -110,7 +69,7 @@ export default function HomePage() {
               </h1>
               
               <p className="text-lg md:text-xl text-white/90 leading-relaxed">
-                Yayasan TPK Iasma 1 Landbouw Bukittinggi hadir sebagai wadah kepedulian alumni dalam 
+                Yayasan YTPK IASMA 1 Landbouw Bukittinggi hadir sebagai wadah kepedulian alumni dalam 
                 memberdayakan masyarakat melalui pendidikan, sosial, dan ekonomi.
               </p>
 

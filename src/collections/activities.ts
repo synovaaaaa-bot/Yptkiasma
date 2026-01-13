@@ -25,28 +25,22 @@ const getImageUrl = (filename: string, category: string) => {
 
 // Activities Collection - Kegiatan YTPK IASMA 1 Landbouw
 export const activities: Activity[] = [
-  // 1. Bantuan Bencana & Kemanusiaan
+  // 1. Penyaluran Bantuan Nagari Guguak Malalo
   {
     id: 'ytpk-2026-01-03-malalo',
     title: 'Penyaluran Bantuan Nagari Guguak Malalo',
     slug: 'bantuan-guguak-malalo',
-    description: 'Penyaluran bantuan kemanusiaan untuk korban bencana di Nagari Guguak Malalo, Batipuh Selatan sebagai bentuk kepedulian YTPK terhadap saudara yang terdampak.',
+    description: 'YTPK IASMA 1 Landbouw menyalurkan bantuan untuk warga Nagari Guguak Malalo sebagai respon cepat terhadap kebutuhan lapangan pasca bencana.',
     image: getImageUrl('2026-01-03_malalo_cover.jpg', 'bantuan-bencana'),
     category: 'bantuan-bencana',
     date: '2026-01-03',
     location: 'Nagari Guguak Malalo, Batipuh Selatan',
     participants: 150,
-    content: `Kegiatan penyaluran bantuan logistik dan kebutuhan mendesak untuk masyarakat Nagari Guguak Malalo yang terdampak bencana. Tim YTPK bergerak cepat memberikan bantuan sembako, air bersih, dan kebutuhan dasar lainnya.
+    content: `YTPK IASMA 1 Landbouw Bukittinggi kembali melaksanakan kegiatan kemanusiaan dengan menyalurkan bantuan kepada masyarakat di Nagari Guguak Malalo, Kecamatan Batipuh Selatan. Kegiatan ini dilakukan sebagai bentuk kepedulian serta komitmen YTPK dalam hadir langsung di tengah masyarakat yang membutuhkan dukungan pasca bencana.
 
-**Bantuan yang Disalurkan:**
-- Paket sembako lengkap
-- Air bersih dan minuman
-- Perlengkapan kebersihan
-- Selimut dan pakaian layak pakai
-- Obat-obatan dan P3K
+Tim YTPK turun ke lapangan untuk memastikan bantuan dapat diterima secara tepat sasaran serta membantu meringankan beban warga terdampak. Melalui kegiatan ini, YTPK juga mengajak masyarakat dan para donatur untuk terus memperkuat solidaritas sosial serta gotong royong dalam situasi darurat.
 
-**Dokumentasi:**
-Kegiatan ini terdokumentasi lengkap di media sosial YTPK sebagai bentuk transparansi dan akuntabilitas kepada para donatur.`,
+YTPK menyampaikan terima kasih kepada seluruh pihak yang telah mendukung kegiatan ini, serta berharap bantuan yang diberikan dapat menjadi manfaat dan penguat semangat bagi masyarakat Nagari Guguak Malalo.`,
     socialLinks: [
       {
         platform: 'instagram',
@@ -56,33 +50,27 @@ Kegiatan ini terdokumentasi lengkap di media sosial YTPK sebagai bentuk transpar
     featured: true,
     _status: 'published',
     meta: {
-      title: 'Penyaluran Bantuan Nagari Guguak Malalo - YTPK',
-      description: 'Bantuan kemanusiaan untuk korban bencana di Batipuh Selatan',
+      title: 'Penyaluran Bantuan Nagari Guguak Malalo - YTPK IASMA 1',
+      description: 'Bantuan kemanusiaan untuk warga terdampak bencana di Batipuh Selatan',
     },
-    createdAt: '2026-01-03T08:00:00Z',
+    createdAt: '2026-01-03T18:00:00Z',
     updatedAt: '2026-01-03T18:00:00Z',
   },
+
+  // 2. Kegiatan #PrayforSumbar / #SumbarBangkit
   {
     id: 'ytpk-2026-01-06-prayforsumbar',
-    title: 'Kegiatan YTPK #PrayforSumbar #Sumbarbangkit',
-    slug: 'pray-for-sumbar',
-    description: 'Kegiatan YTPK dalam mendukung pemulihan Sumatera Barat pasca bencana dengan penyaluran bantuan dan dukungan moral kepada korban.',
-    image: getImageUrl('2026-01-06_prayforsumbar_cover.jpg', 'bantuan-bencana'),
+    title: 'Kegiatan YTPK #PrayforSumbar #SumbarBangkit',
+    slug: 'prayforsumbar-sumbarbangkit',
+    description: 'Kegiatan lapangan YTPK dalam mendukung pemulihan pasca bencana di Sumatera Barat melalui program bantuan dan pendampingan warga.',
+    image: getImageUrl('2026-01-06_prayforsumbar.jpg', 'bantuan-bencana'),
     category: 'bantuan-bencana',
     date: '2026-01-06',
     location: 'Berbagai lokasi di Sumatera Barat',
-    participants: 200,
-    content: `Program tanggap darurat YTPK untuk mendukung pemulihan Sumatera Barat pasca bencana. Kegiatan ini melibatkan tim relawan, pengumpulan donasi, dan penyaluran bantuan kepada korban di berbagai lokasi.
+    participants: 500,
+    content: `YTPK IASMA 1 Landbouw Bukittinggi melanjutkan rangkaian kegiatan kemanusiaan dalam gerakan solidaritas #PrayforSumbar dan #SumbarBangkit. Melalui kegiatan ini, YTPK kembali menguatkan komitmennya untuk membantu masyarakat yang terdampak bencana melalui aksi nyata di lapangan.
 
-**Fokus Kegiatan:**
-- Penyaluran bantuan darurat
-- Trauma healing untuk korban
-- Pendampingan psikososial
-- Koordinasi dengan BPBD dan relawan lain
-- Kampanye solidaritas #PrayforSumbar
-
-**Dampak:**
-Kegiatan ini memberikan harapan dan semangat bagi masyarakat Sumbar untuk bangkit kembali.`,
+Kegiatan ini menjadi pengingat bahwa pemulihan pasca bencana bukan hanya tentang distribusi bantuan, tetapi juga tentang menjaga harapan, memulihkan semangat, dan memastikan masyarakat tidak berjalan sendiri menghadapi kondisi sulit. YTPK mengajak seluruh pihak untuk terus menyalurkan dukungan, baik dalam bentuk bantuan maupun doa.`,
     socialLinks: [
       {
         platform: 'facebook',
@@ -92,299 +80,233 @@ Kegiatan ini memberikan harapan dan semangat bagi masyarakat Sumbar untuk bangki
     featured: true,
     _status: 'published',
     meta: {
-      title: 'Kegiatan #PrayforSumbar #Sumbarbangkit - YTPK',
-      description: 'Dukungan pemulihan Sumatera Barat pasca bencana',
+      title: 'YTPK Perkuat Gerakan #PrayforSumbar #SumbarBangkit',
+      description: 'Program bantuan dan pendampingan untuk pemulihan pasca bencana',
     },
-    createdAt: '2026-01-06T09:00:00Z',
+    createdAt: '2026-01-06T17:00:00Z',
     updatedAt: '2026-01-06T17:00:00Z',
   },
+
+  // 3. Kegiatan Lapangan Pasca Bencana Jorong Pauh
   {
     id: 'ytpk-2025-12-10-jorong-pauh',
-    title: 'Penyaluran Bantuan Jorong Pauh',
+    title: 'Bantuan Pasca Bencana Jorong Pauh',
     slug: 'bantuan-jorong-pauh',
-    description: 'Kegiatan lapangan pasca bencana dengan penyaluran bantuan kepada masyarakat Jorong Pauh yang membutuhkan.',
-    image: getImageUrl('2025-12-10_jorong-pauh_cover.jpg', 'bantuan-bencana'),
+    description: 'Dokumentasi kegiatan dan kondisi lapangan pasca bencana, serta langkah bantuan yang dilakukan YTPK untuk masyarakat Jorong Pauh.',
+    image: getImageUrl('2025-12-10_jorong_pauh.jpg', 'bantuan-bencana'),
     category: 'bantuan-bencana',
     date: '2025-12-10',
-    location: 'Jorong Pauh, Sumatera Barat',
-    participants: 100,
-    content: `Tim YTPK turun langsung ke lapangan untuk menyalurkan bantuan kepada masyarakat Jorong Pauh yang terdampak bencana. Bantuan diberikan dalam bentuk logistik dan kebutuhan darurat.
+    location: 'Jorong Pauh',
+    participants: 200,
+    content: `YTPK IASMA 1 Landbouw Bukittinggi melakukan kegiatan lapangan serta pendokumentasian kondisi masyarakat di Jorong Pauh pasca bencana. Kegiatan ini dilakukan untuk memastikan kebutuhan mendasar warga dapat dipetakan dengan baik, serta program bantuan yang disalurkan berjalan sesuai kondisi aktual di lapangan.
 
-**Kondisi Lapangan:**
-Situasi pasca bencana masih memerlukan perhatian khusus, sehingga YTPK berkomitmen untuk terus memantau dan memberikan bantuan lanjutan.
-
-**Bentuk Bantuan:**
-- Sembako dan makanan siap saji
-- Perlengkapan darurat
-- Air bersih
-- Dukungan kesehatan`,
+Melalui dokumentasi dan update kegiatan ini, YTPK juga membuka ruang transparansi kepada para donatur dan masyarakat luas terkait aktivitas yayasan di lapangan, sekaligus mengajak semua pihak untuk terus mendukung pemulihan masyarakat terdampak.`,
     socialLinks: [
       {
         platform: 'facebook',
-        url: 'https://www.facebook.com/reni.mulyati1/videos/assalamualaikum-wr-wb-uda-uni-kawan-dan-adiak2-sadonyoupdate-kegiatan-ytpk-iasma/26176051835316403/',
+        url: 'https://www.facebook.com/reni.mulyati1/videos/26176051835316403/',
       },
     ],
     featured: false,
     _status: 'published',
     meta: {
-      title: 'Penyaluran Bantuan Jorong Pauh - YTPK',
-      description: 'Bantuan lapangan pasca bencana untuk masyarakat Jorong Pauh',
+      title: 'Bantuan Pasca Bencana Jorong Pauh - YTPK IASMA 1',
+      description: 'Dokumentasi kondisi dan penyaluran bantuan di Jorong Pauh',
     },
-    createdAt: '2025-12-10T10:00:00Z',
+    createdAt: '2025-12-10T16:00:00Z',
     updatedAt: '2025-12-10T16:00:00Z',
   },
 
-  // 2. Bantuan Air Bersih
+  // 4. Distribusi Filter Air IA ITB ke Maninjau
   {
     id: 'ytpk-2025-12-16-filter-air-maninjau',
-    title: 'Distribusi Filter Air dari IA ITB ke Jorong Surau Ujung',
-    slug: 'filter-air-maninjau',
-    description: 'Pendistribusian filter air hasil kolaborasi dengan IA ITB kepada masyarakat Jorong Surau Ujung Sungai Batang Maninjau untuk penyediaan air bersih.',
-    image: getImageUrl('2025-12-16_filter-air_maninjau_cover.jpg', 'bantuan-air-bersih'),
+    title: 'Distribusi Filter Air IA ITB untuk Maninjau',
+    slug: 'distribusi-filter-air-maninjau',
+    description: 'YTPK menyalurkan filter air dari IA ITB ke Surau Ujung Maninjau untuk mendukung akses air bersih warga.',
+    image: getImageUrl('2025-12-16_filter_air_maninjau.jpg', 'bantuan-air-bersih'),
     category: 'bantuan-air-bersih',
     date: '2025-12-16',
-    location: 'Jorong Surau Ujung, Sungai Batang Maninjau',
-    participants: 80,
-    content: `Program kolaborasi YTPK dengan Ikatan Alumni ITB (IA ITB) dalam mendistribusikan filter air bersih untuk masyarakat Jorong Surau Ujung. Filter air ini sangat membantu masyarakat yang kesulitan mendapatkan akses air bersih.
+    location: 'Surau Ujung, Sungai Batang Maninjau',
+    participants: 50,
+    content: `YTPK IASMA 1 Landbouw Bukittinggi melaksanakan kegiatan pendistribusian filter air dari IA ITB kepada masyarakat di wilayah Surau Ujung, Sungai Batang Maninjau. Kegiatan ini merupakan bagian dari respon kebutuhan vital masyarakat, khususnya terkait akses air bersih yang aman dan layak.
 
-**Spesifikasi Filter Air:**
-- Filter air multi-tahap
-- Kapasitas penyaringan tinggi
-- Teknologi dari IA ITB
-- Mudah dioperasikan dan dirawat
-- Tahan lama dan efisien
-
-**Manfaat Langsung:**
-- Akses air bersih untuk 50+ keluarga
-- Mengurangi penyakit berbasis air
-- Menghemat biaya air bersih
-- Peningkatan kualitas hidup masyarakat
-
-**Kolaborasi:**
-Kegiatan ini merupakan bukti nyata kolaborasi antar alumni untuk kesejahteraan masyarakat.`,
+Melalui kerja sama serta dukungan berbagai pihak, YTPK memastikan bantuan diterima secara langsung oleh masyarakat yang membutuhkan. Program ini diharapkan dapat membantu menjaga kesehatan warga serta mendukung aktivitas harian masyarakat agar tetap berjalan dengan baik.`,
     socialLinks: [
       {
         platform: 'instagram',
         url: 'https://www.instagram.com/reel/DSXnAw8Ecij/',
       },
-      {
-        platform: 'facebook',
-        url: 'https://www.facebook.com/jadisyakila/videos/giat-ytpkiasma1landbouw-selasa-16-des-2025pendistribusian-filter-air-dari-ia-itb/1493458572653113/',
-      },
-      {
-        platform: 'threads',
-        url: 'https://www.threads.com/%40mariam_vaisyila/post/DSXnOCRj0Dy/',
-      },
     ],
     featured: true,
     _status: 'published',
     meta: {
-      title: 'Distribusi Filter Air dari IA ITB - YTPK',
-      description: 'Filter air bersih untuk masyarakat Maninjau',
+      title: 'Distribusi Filter Air IA ITB untuk Maninjau - YTPK IASMA 1',
+      description: 'Bantuan filter air untuk akses air bersih masyarakat Maninjau',
     },
-    createdAt: '2025-12-16T08:00:00Z',
+    createdAt: '2025-12-16T17:00:00Z',
     updatedAt: '2025-12-16T17:00:00Z',
   },
+
+  // 5. Update Dokumentasi Distribusi Filter Air
   {
     id: 'ytpk-2025-12-16-update-filter-air',
-    title: 'Update Kegiatan Distribusi Filter Air',
+    title: 'Update Dokumentasi Distribusi Filter Air',
     slug: 'update-distribusi-filter-air',
-    description: 'Dokumentasi lengkap kegiatan distribusi filter air kepada masyarakat yang membutuhkan akses air bersih.',
-    image: getImageUrl('2025-12-16_update-filter-air_cover.jpg', 'bantuan-air-bersih'),
+    description: 'Update lanjutan kegiatan distribusi filter air dan dokumentasi penyaluran di lapangan.',
+    image: getImageUrl('2025-12-16_update_filter_air.jpg', 'bantuan-air-bersih'),
     category: 'bantuan-air-bersih',
     date: '2025-12-16',
-    location: 'Maninjau, Sumatera Barat',
-    participants: 100,
-    content: `Update lengkap kegiatan distribusi filter air YTPK yang dilakukan di berbagai lokasi. Program ini bertujuan memberikan akses air bersih kepada masyarakat yang membutuhkan.
-
-**Lokasi Distribusi:**
-- Daerah terpencil dengan akses air terbatas
-- Kampung-kampung yang jauh dari sumber air
-- Wilayah pasca bencana
-- Desa dengan kualitas air rendah
-
-**Proses Distribusi:**
-- Survei kebutuhan lokasi
-- Koordinasi dengan tokoh masyarakat
-- Pemasangan dan training penggunaan
-- Monitoring dan evaluasi`,
+    location: 'Maninjau',
+    participants: 50,
+    content: `YTPK IASMA 1 Landbouw Bukittinggi menyampaikan update kegiatan serta dokumentasi distribusi filter air yang dilaksanakan di Maninjau. Update ini menjadi bagian dari transparansi kegiatan yayasan sekaligus bentuk pelaporan publik kepada para donatur dan masyarakat yang ikut mendukung program kemanusiaan.`,
     socialLinks: [
       {
         platform: 'instagram',
-        url: 'https://www.instagram.com/reel/DSYj395k69q/',
+        url: 'https://www.instagram.com/reel/DSXnAw8Ecij/',
       },
     ],
     featured: false,
     _status: 'published',
     meta: {
-      title: 'Update Kegiatan Distribusi Filter Air - YTPK',
-      description: 'Dokumentasi distribusi filter air di berbagai lokasi',
+      title: 'Update Dokumentasi Distribusi Filter Air - YTPK IASMA 1',
+      description: 'Dokumentasi dan pelaporan kegiatan distribusi filter air',
     },
-    createdAt: '2025-12-16T14:00:00Z',
+    createdAt: '2025-12-16T18:00:00Z',
     updatedAt: '2025-12-16T18:00:00Z',
   },
 
-  // 3. Penyaluran Donasi & Santunan
+  // 6. Penyaluran Donasi Genset
   {
     id: 'ytpk-2025-12-12-penyaluran-donasi',
-    title: 'Penyaluran Donasi Amanah Donatur',
-    slug: 'donasi-alumni',
-    description: 'Penyaluran donasi kepada penerima manfaat yang membutuhkan bantuan, sebagai wujud amanah dari para donatur.',
-    image: getImageUrl('2025-12-12_penyaluran-donasi_cover.jpg', 'donasi-santunan'),
+    title: 'Penyaluran Donasi Genset untuk Penerima Manfaat',
+    slug: 'penyaluran-donasi-genset',
+    description: 'Penyaluran donasi berupa bantuan genset untuk mendukung kebutuhan warga di lapangan.',
+    image: getImageUrl('2025-12-12_penyaluran_donasi_genset.jpg', 'donasi-santunan'),
     category: 'donasi-santunan',
     date: '2025-12-12',
-    location: 'Bukittinggi dan sekitarnya',
-    participants: 50,
-    content: `Program penyaluran donasi kepada penerima manfaat yang membutuhkan bantuan. Kegiatan ini merupakan manifestasi dari semangat gotong royong dan kepedulian sesama.
+    location: 'Lawang, Pabatuangan',
+    participants: 100,
+    content: `YTPK IASMA 1 Landbouw Bukittinggi melaksanakan kegiatan penyaluran amanah donasi pada Jumat, 12 Desember 2025. Bantuan yang disalurkan berupa genset yang diharapkan dapat membantu kebutuhan penerima manfaat, terutama pada kondisi lapangan yang membutuhkan dukungan energi listrik untuk aktivitas dasar.
 
-**Penerima Bantuan:**
-- Masyarakat yang mengalami kesulitan ekonomi
-- Keluarga yang membutuhkan bantuan kesehatan
-- Anak-anak yang membutuhkan biaya pendidikan
-- Korban bencana dan masyarakat terdampak
-
-**Bentuk Bantuan:**
-- Bantuan tunai
-- Sembako
-- Biaya kesehatan
-- Biaya pendidikan
-
-**Amanah Donatur:**
-YTPK berkomitmen menyalurkan setiap donasi dengan penuh amanah dan transparansi.`,
+Kegiatan penyaluran ini menunjukkan peran penting gotong royong, di mana donasi dari berbagai pihak dapat dikonversi menjadi dampak nyata di lokasi penerima bantuan.`,
     socialLinks: [
       {
         platform: 'instagram',
         url: 'https://www.instagram.com/reel/DRvw-Vnkw-F/',
       },
     ],
-    featured: false,
+    featured: true,
     _status: 'published',
     meta: {
-      title: 'Penyaluran Donasi Amanah Donatur - YTPK',
-      description: 'Bantuan untuk masyarakat yang membutuhkan',
+      title: 'Penyaluran Donasi Genset - YTPK IASMA 1',
+      description: 'Bantuan genset untuk mendukung kebutuhan energi penerima manfaat',
     },
-    createdAt: '2025-12-12T09:00:00Z',
-    updatedAt: '2025-12-12T15:00:00Z',
+    createdAt: '2025-12-12T17:00:00Z',
+    updatedAt: '2025-12-12T17:00:00Z',
   },
+
+  // 7. Penyaluran Donasi Uda-Uni
   {
     id: 'ytpk-2025-12-04-donasi-uda-uni',
-    title: 'Penyaluran Donasi dari Uda-Uni',
-    slug: 'donasi-uda-uni',
-    description: 'Penyaluran donasi dari para Uda-Uni (kakak-kakak alumni) melalui tim YTPK kepada lokasi dan penerima yang sangat membutuhkan.',
-    image: getImageUrl('2025-12-04_donasi-uda-uni_cover.jpg', 'donasi-santunan'),
+    title: 'Penyaluran Amanah Donasi Uda-Uni',
+    slug: 'penyaluran-donasi-uda-uni',
+    description: 'YTPK menyalurkan kembali donasi dari Uda-Uni kepada pihak yang membutuhkan, disertai dokumentasi penyerahan.',
+    image: getImageUrl('2025-12-04_donasi_uda_uni.jpg', 'donasi-santunan'),
     category: 'donasi-santunan',
     date: '2025-12-04',
-    location: 'Berbagai lokasi penerima bantuan',
+    location: 'Bukittinggi',
     participants: 75,
-    content: `Alhamdulillah, tersalurkan kembali donasi dari Uda-Uni (kakak-kakak alumni) melalui tim YTPK kepada masyarakat yang sangat membutuhkan. Kegiatan ini menunjukkan solidaritas tinggi alumni IASMA 1 Landbouw.
+    content: `YTPK IASMA 1 Landbouw Bukittinggi kembali menyalurkan amanah donasi dari Uda-Uni kepada penerima manfaat yang membutuhkan. Kegiatan penyaluran disertai dokumentasi sebagai bentuk transparansi sekaligus laporan kepada para donatur.
 
-**Sumber Donasi:**
-- Uda-Uni alumni IASMA 1
-- Donatur tetap YTPK
-- Kampanye penggalangan dana
-- Infaq dan sedekah spontan
-
-**Target Penerima:**
-- Keluarga dhuafa
-- Yatim piatu
-- Lansia tidak mampu
-- Korban bencana
-- Masyarakat terpencil
-
-**Mekanisme Transparan:**
-Setiap penyaluran didokumentasikan dan dilaporkan kepada donatur.`,
+YTPK menegaskan bahwa setiap amanah yang diberikan akan dijaga dan disalurkan sebaik mungkin agar berdampak langsung bagi masyarakat.`,
     socialLinks: [
       {
         platform: 'facebook',
-        url: 'https://www.facebook.com/iasma1bukittinggi/videos/alhamdulillah-kamis-4-desember-kembali-tersalurkan-donasi-dari-uda-uni-melalui-t/4157831264433236/',
+        url: 'https://www.facebook.com/iasma1bukittinggi/videos/4157831264433236/',
       },
     ],
     featured: false,
     _status: 'published',
     meta: {
-      title: 'Penyaluran Donasi dari Uda-Uni - YTPK',
-      description: 'Donasi alumni untuk masyarakat yang membutuhkan',
+      title: 'Penyaluran Amanah Donasi Uda-Uni - YTPK IASMA 1',
+      description: 'Penyaluran donasi dengan transparansi dan akuntabilitas',
     },
-    createdAt: '2025-12-04T10:00:00Z',
+    createdAt: '2025-12-04T16:00:00Z',
     updatedAt: '2025-12-04T16:00:00Z',
   },
 
-  // 4. Program Pendidikan
+  // 8. Kegiatan Santunan
   {
-    id: 'ytpk-2025-12-15-pendataan-siswa',
-    title: 'Pendataan Siswa-Siswa Program YTPK',
-    slug: 'pendataan-siswa',
-    description: 'Kegiatan pendataan siswa-siswa penerima manfaat program pendidikan YTPK untuk memastikan bantuan tepat sasaran.',
-    image: getImageUrl('2025-12-15_pendataan-siswa_cover.jpg', 'program-pendidikan'),
-    category: 'program-pendidikan',
-    date: '2025-12-15',
-    location: 'Beberapa sekolah di Bukittinggi',
-    participants: 40,
-    content: `Tim YTPK melakukan pendataan siswa-siswa yang akan menjadi penerima manfaat program pendidikan. Pendataan ini penting untuk memastikan bantuan pendidikan tepat sasaran dan berkelanjutan.
-
-**Tujuan Pendataan:**
-- Identifikasi siswa yang membutuhkan bantuan
-- Verifikasi data ekonomi keluarga
-- Pemetaan kebutuhan pendidikan
-- Database penerima beasiswa
-- Monitoring prestasi siswa
-
-**Data yang Dikumpulkan:**
-- Biodata siswa dan keluarga
-- Kondisi ekonomi keluarga
-- Prestasi akademik
-- Kebutuhan khusus
-- Rencana pendidikan
-
-**Program Lanjutan:**
-Hasil pendataan akan menjadi dasar pemberian beasiswa, bantuan buku, seragam, dan program pendidikan YTPK lainnya.`,
+    id: 'ytpk-2025-12-santunan',
+    title: 'Santunan untuk Penerima Manfaat',
+    slug: 'santunan-penerima-manfaat',
+    description: 'Kegiatan santunan sebagai bentuk kepedulian YTPK terhadap penerima manfaat di lapangan.',
+    image: getImageUrl('2025-12-santunan.jpg', 'donasi-santunan'),
+    category: 'donasi-santunan',
+    date: '2025-12-01',
+    location: 'Bukittinggi dan sekitarnya',
+    participants: 120,
+    content: `YTPK IASMA 1 Landbouw Bukittinggi melaksanakan kegiatan santunan bagi penerima manfaat sebagai bagian dari program kepedulian sosial. Kegiatan ini menjadi bentuk komitmen YTPK untuk terus hadir memberikan penguatan, bukan hanya bantuan material tetapi juga dukungan moral dan kemanusiaan.`,
     socialLinks: [
       {
-        platform: 'instagram',
-        url: 'https://www.instagram.com/reel/DSSQ8PSEzuI/',
+        platform: 'facebook',
+        url: 'https://www.facebook.com/reni.mulyati1/videos/1296203558940924/',
       },
     ],
     featured: false,
     _status: 'published',
     meta: {
-      title: 'Pendataan Siswa-Siswa Program YTPK',
-      description: 'Pendataan untuk program pendidikan yang tepat sasaran',
+      title: 'Santunan untuk Penerima Manfaat - YTPK IASMA 1',
+      description: 'Program kepedulian sosial dan dukungan kemanusiaan',
     },
-    createdAt: '2025-12-15T08:00:00Z',
-    updatedAt: '2025-12-15T15:00:00Z',
+    createdAt: '2025-12-01T15:00:00Z',
+    updatedAt: '2025-12-01T15:00:00Z',
   },
 
-  // 5. Bantuan Material & Infrastruktur
+  // 9. Pendataan Siswa
+  {
+    id: 'ytpk-2025-12-15-pendataan-siswa',
+    title: 'Pendataan Siswa untuk Program Pendidikan',
+    slug: 'pendataan-siswa-program-pendidikan',
+    description: 'Kegiatan pendataan siswa sebagai bagian dari program sosial/pendidikan YTPK.',
+    image: getImageUrl('2025-12-15_pendataan_siswa.jpg', 'program-pendidikan'),
+    category: 'program-pendidikan',
+    date: '2025-12-15',
+    location: 'Beberapa sekolah di Bukittinggi',
+    participants: 200,
+    content: `YTPK IASMA 1 Landbouw Bukittinggi melakukan kegiatan pendataan siswa sebagai upaya awal dalam penyusunan program pendidikan dan sosial. Pendataan ini bertujuan agar bantuan pendidikan dapat diberikan lebih tepat sasaran, terukur, serta sesuai kebutuhan di lapangan.
+
+Kegiatan ini memperlihatkan bahwa program pendidikan tidak hanya soal bantuan sesaat, tetapi juga tentang membangun sistem bantuan yang rapi dan berkelanjutan.`,
+    socialLinks: [
+      {
+        platform: 'instagram',
+        url: 'https://www.instagram.com/reel/DSbcw9Gk3Aq/',
+      },
+    ],
+    featured: true,
+    _status: 'published',
+    meta: {
+      title: 'Pendataan Siswa untuk Program Pendidikan - YTPK IASMA 1',
+      description: 'Langkah awal untuk bantuan pendidikan yang tepat sasaran',
+    },
+    createdAt: '2025-12-15T16:00:00Z',
+    updatedAt: '2025-12-15T16:00:00Z',
+  },
+
+  // 10. Pengiriman Material Program BSPS
   {
     id: 'ytpk-2025-11-17-bsps-material',
     title: 'Pengiriman Material Program BSPS',
-    slug: 'material-bsps',
-    description: 'Pengiriman material untuk Program Bantuan Stimulan Perumahan Swadaya (BSPS) kepada masyarakat yang membutuhkan rumah layak huni.',
-    image: getImageUrl('2025-11-17_bsps_material_cover.jpg', 'bantuan-material'),
+    slug: 'pengiriman-material-bsps',
+    description: 'Pengiriman material bantuan untuk program BSPS sebagai dukungan terhadap perbaikan/rumah layak huni.',
+    image: getImageUrl('2025-11-17_bsps_material.jpg', 'bantuan-material'),
     category: 'bantuan-material',
     date: '2025-11-17',
     location: 'Desa Bongkok, Bukittinggi',
-    participants: 60,
-    content: `Program kolaborasi YTPK dalam penyaluran Bantuan Stimulan Perumahan Swadaya (BSPS) dengan mengirimkan material bangunan kepada masyarakat yang membutuhkan perbaikan atau pembangunan rumah.
+    participants: 30,
+    content: `YTPK IASMA 1 Landbouw Bukittinggi melaksanakan kegiatan pengiriman material untuk program BSPS (Bantuan Stimulan Perumahan Swadaya). Program ini berfokus pada dukungan pembangunan/perbaikan hunian yang lebih layak bagi masyarakat.
 
-**Material yang Dikirim:**
-- Semen dan pasir
-- Batu bata dan batako
-- Kayu dan material atap
-- Cat dan finishing
-- Peralatan konstruksi
-
-**Target Penerima:**
-- Keluarga tidak mampu dengan rumah tidak layak huni
-- Korban bencana yang rumahnya rusak
-- Keluarga dhuafa dengan kondisi rumah darurat
-- Lansia dengan rumah tidak terawat
-
-**Dampak Program:**
-Program BSPS membantu masyarakat mendapatkan rumah yang layak huni dan aman, meningkatkan kualitas hidup dan kesejahteraan keluarga.
-
-**Mekanisme Program:**
-YTPK melakukan survei lokasi, verifikasi penerima, pengadaan material, pengiriman, dan monitoring pelaksanaan pembangunan/perbaikan.`,
+Melalui kegiatan ini, YTPK berupaya mendorong peningkatan kualitas hidup masyarakat melalui bantuan yang sifatnya jangka panjang, bukan hanya bantuan darurat.`,
     socialLinks: [
       {
         platform: 'instagram',
@@ -394,65 +316,38 @@ YTPK melakukan survei lokasi, verifikasi penerima, pengadaan material, pengirima
     featured: false,
     _status: 'published',
     meta: {
-      title: 'Pengiriman Material Program BSPS - YTPK',
-      description: 'Bantuan material untuk rumah layak huni',
+      title: 'Pengiriman Material Program BSPS - YTPK IASMA 1',
+      description: 'Dukungan material untuk rumah layak huni masyarakat',
     },
-    createdAt: '2025-11-17T09:00:00Z',
-    updatedAt: '2025-11-17T17:00:00Z',
+    createdAt: '2025-11-17T18:00:00Z',
+    updatedAt: '2025-11-17T18:00:00Z',
   },
 
-  // 6. Majelis Taklim & Kajian
+  // 11. Undangan Majelis Taklim SLA
   {
     id: 'ytpk-2025-09-06-undangan-majelis-taklim',
-    title: 'Undangan Majelis Taklim IASMA 1 Landbouw - SLA 2025',
-    slug: 'majelis-taklim-sla-2025',
-    description: 'Undangan terbuka untuk seluruh Uda, Uni, Kawan, dan Adiak untuk menghadiri Majelis Taklim IASMA 1 Landbouw dalam rangka SLA 2025.',
-    image: getImageUrl('2025-09-06_undangan-majelis-taklim_cover.jpg', 'majelis-taklim'),
+    title: 'Undangan Majelis Taklim IASMA 1 Landbouw',
+    slug: 'undangan-majelis-taklim-sla',
+    description: 'Undangan Majelis Taklim IASMA 1 Landbouw sebagai kegiatan pembinaan rutin dan penguatan ukhuwah.',
+    image: getImageUrl('2025-09-06_majelis_taklim.jpg', 'majelis-taklim'),
     category: 'majelis-taklim',
     date: '2025-09-06',
     location: 'Lokasi SLA Bukittinggi',
     participants: 300,
-    content: `Majelis Taklim IASMA 1 Landbouw mengundang seluruh Uda, Uni, Kawan, dan Adiak-Adiak untuk hadir dalam acara Silaturahmi Landbouw Alumni (SLA) 2025. Acara ini merupakan momentum berkumpul, berbagi ilmu, dan mempererat ukhuwah islamiyah.
-
-**Tema Kajian:**
-Membangun Ukhuwah dan Kepedulian Sesama dalam Bingkai Islam
-
-**Agenda Acara:**
-- Pembukaan dan sambutan
-- Kajian Islam oleh Ustadz/Ustadzah
-- Diskusi dan tanya jawab
-- Silaturahmi dan networking
-- Doa bersama
-
-**Narasumber:**
-Ustadz/Ustadzah pilihan dengan pemahaman Islam yang moderat dan rahmatan lil alamin.
-
-**Manfaat Mengikuti:**
-- Menambah ilmu agama
-- Memperkuat silaturahmi alumni
-- Berbagi pengalaman dan inspirasi
-- Memperluas jaringan
-- Pahala beramal saleh
-
-**Catatan:**
-Acara terbuka untuk umum, gratis, dan ramah keluarga. Kami menunggu kehadiran Uda-Uni sekalian.`,
+    content: `Majelis Taklim IASMA 1 Landbouw mengadakan kegiatan pembinaan keagamaan yang mengajak Uda-Uni, kawan, dan masyarakat untuk meningkatkan kebersamaan serta memperkuat nilai-nilai spiritual. Kegiatan majelis taklim menjadi salah satu bagian penting dari aktivitas komunitas IASMA 1 Landbouw.`,
     socialLinks: [
       {
         platform: 'instagram',
-        url: 'https://www.instagram.com/p/DNISxsyvi4w/',
-      },
-      {
-        platform: 'facebook',
-        url: 'https://www.facebook.com/iasma1bukittinggi/posts/majelis-taklim-iasma-1-landbouw-mengundang-uda-uni-kawan-adiak-adiak-/729348509728746/',
+        url: 'https://www.instagram.com/p/DSKIbpmk9ou/',
       },
     ],
-    featured: true,
+    featured: false,
     _status: 'published',
     meta: {
       title: 'Undangan Majelis Taklim IASMA 1 Landbouw - SLA 2025',
-      description: 'Undangan kajian dan silaturahmi alumni',
+      description: 'Kegiatan pembinaan dan penguatan ukhuwah islamiyah',
     },
-    createdAt: '2025-09-06T07:00:00Z',
+    createdAt: '2025-09-06T20:00:00Z',
     updatedAt: '2025-09-06T20:00:00Z',
   },
 ];

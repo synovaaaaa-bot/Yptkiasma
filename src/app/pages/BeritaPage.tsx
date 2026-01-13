@@ -5,6 +5,7 @@ import { Button } from '../components/ui/button';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArticleDetailModal } from '../components/ArticleDetailModal';
+import { posts } from '@/collections/posts';
 
 export default function BeritaPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -13,114 +14,38 @@ export default function BeritaPage() {
   const [selectedArticle, setSelectedArticle] = useState<any>(null);
   const [email, setEmail] = useState('');
 
-  const categories = ['Semua', 'Pendidikan', 'Sosial', 'Ekonomi', 'Peringatan'];
+  // Extract unique categories from posts
+  const allCategories = Array.from(new Set(posts.flatMap(post => post.categories)));
+  const categories = ['Semua', ...allCategories];
 
-  const articles = [
-    {
-      id: 1,
-      title: 'Peringatan Maulid Nabi Muhammad SAW 1446 H',
-      excerpt: 'Yayasan TPK IASMA menyelenggarakan peringatan Maulid Nabi Muhammad SAW dengan rangkaian acara yang meriah dan penuh makna, dihadiri ribuan jamaah.',
-      date: '20 Desember 2025',
-      category: 'Peringatan',
-      image: 'https://images.unsplash.com/photo-1700306692751-1fd5f2b88443?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      views: 1250,
-      author: 'Tim TPK IASMA',
-      readTime: '5 min',
-      featured: true,
-      gradient: 'from-emerald-500 to-teal-600',
-    },
-    {
-      id: 2,
-      title: 'Program Tahfidz Quran Berhasil Cetak 20 Penghafal',
-      excerpt: 'Alhamdulillah, program tahfidz Al-Quran TPK IASMA berhasil mencetak 20 penghafal Al-Quran dalam periode ini dengan prestasi gemilang.',
-      date: '15 Desember 2025',
-      category: 'Pendidikan',
-      image: 'https://images.unsplash.com/photo-1600814832809-579119f47045?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      views: 980,
-      author: 'Ustadz Ahmad',
-      readTime: '4 min',
-      featured: false,
-      gradient: 'from-blue-500 to-cyan-600',
-    },
-    {
-      id: 3,
-      title: 'Bakti Sosial: Berbagi dengan 500 Keluarga Dhuafa',
-      excerpt: 'Kegiatan bakti sosial berhasil menyalurkan bantuan sembako dan dana tunai kepada 500 keluarga kurang mampu di wilayah Bukittinggi.',
-      date: '10 Desember 2025',
-      category: 'Sosial',
-      image: 'https://images.unsplash.com/photo-1593113702251-272b1bc414a9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      views: 1450,
-      author: 'Tim Sosial',
-      readTime: '6 min',
-      featured: true,
-      gradient: 'from-rose-500 to-pink-600',
-    },
-    {
-      id: 4,
-      title: 'Pembangunan Gedung Baru TPK IASMA Dimulai',
-      excerpt: 'Proyek pembangunan gedung baru senilai 5 miliar rupiah resmi dimulai untuk menambah kapasitas dan memperbaiki fasilitas pembelajaran.',
-      date: '5 Desember 2025',
-      category: 'Pendidikan',
-      image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      views: 2100,
-      author: 'Tim Manajemen',
-      readTime: '7 min',
-      featured: false,
-      gradient: 'from-yellow-500 to-accent',
-    },
-    {
-      id: 5,
-      title: 'UMKM Binaan TPK IASMA Raih Omzet Miliaran',
-      excerpt: 'Kebanggan tersendiri, UMKM binaan TPK IASMA berhasil meraih omzet hingga miliaran rupiah melalui program pemberdayaan ekonomi.',
-      date: '1 Desember 2025',
-      category: 'Ekonomi',
-      image: 'https://images.unsplash.com/photo-1554224311-beee415c201f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      views: 1890,
-      author: 'Tim Ekonomi',
-      readTime: '5 min',
-      featured: false,
-      gradient: 'from-purple-500 to-indigo-600',
-    },
-    {
-      id: 6,
-      title: 'Santunan Yatim Piatu untuk 150 Anak',
-      excerpt: 'Program santunan bulanan kembali disalurkan kepada 150 anak yatim piatu dengan bantuan biaya pendidikan dan kebutuhan sehari-hari.',
-      date: '28 November 2025',
-      category: 'Sosial',
-      image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      views: 1320,
-      author: 'Tim Sosial',
-      readTime: '4 min',
-      featured: false,
-      gradient: 'from-teal-500 to-green-600',
-    },
-    {
-      id: 7,
-      title: 'Workshop Digital Marketing untuk UMKM',
-      excerpt: 'TPK IASMA mengadakan workshop digital marketing gratis untuk meningkatkan kemampuan pemasaran online para pelaku UMKM binaan.',
-      date: '25 November 2025',
-      category: 'Ekonomi',
-      image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      views: 870,
-      author: 'Coach Digital',
-      readTime: '6 min',
-      featured: false,
-      gradient: 'from-cyan-500 to-blue-600',
-    },
-    {
-      id: 8,
-      title: 'Beasiswa S1 untuk 30 Mahasiswa Berprestasi',
-      excerpt: 'TPK IASMA memberikan beasiswa penuh untuk 30 mahasiswa berprestasi dari keluarga kurang mampu untuk melanjutkan pendidikan ke jenjang S1.',
-      date: '20 November 2025',
-      category: 'Pendidikan',
-      image: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      views: 2450,
-      author: 'Tim Pendidikan',
-      readTime: '5 min',
-      featured: false,
-      gradient: 'from-indigo-500 to-purple-600',
-    },
-  ];
+  // Transform posts to match article format
+  const articles = posts.map(post => ({
+    id: post.id,
+    title: post.title,
+    excerpt: post.excerpt,
+    date: new Date(post.publishedDate).toLocaleDateString('id-ID', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    }),
+    category: post.categories[0],
+    image: post.featuredImage,
+    views: Math.floor(Math.random() * 2000) + 500, // Mock views
+    author: post.author,
+    readTime: `${Math.ceil(post.content.length / 1000)} min`,
+    featured: post.categories.includes('bantuan-bencana'),
+    gradient: post.categories.includes('bantuan-bencana') 
+      ? 'from-rose-500 to-pink-600' 
+      : post.categories.includes('bantuan-air-bersih')
+      ? 'from-blue-500 to-cyan-600'
+      : post.categories.includes('donasi-santunan')
+      ? 'from-emerald-500 to-teal-600'
+      : post.categories.includes('program-pendidikan')
+      ? 'from-purple-500 to-indigo-600'
+      : 'from-yellow-500 to-accent',
+    content: post.content,
+    tags: post.tags,
+  })).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   const filteredArticles = articles.filter(article => {
     const matchesCategory = selectedCategory === 'Semua' || article.category === selectedCategory;
@@ -129,7 +54,7 @@ export default function BeritaPage() {
     return matchesCategory && matchesSearch;
   });
 
-  const featuredArticles = filteredArticles.filter(a => a.featured);
+  const featuredArticles = filteredArticles.filter(a => a.featured).slice(0, 2);
   const regularArticles = filteredArticles.filter(a => !a.featured);
 
   return (
@@ -154,7 +79,7 @@ export default function BeritaPage() {
           <div className="max-w-4xl mx-auto space-y-6">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/20 backdrop-blur-sm rounded-full border border-accent/30 mb-4">
               <Newspaper className="w-4 h-4 text-accent" />
-              <span className="text-accent text-sm font-medium">Berita & Artikel</span>
+              <span className="text-accent text-sm font-medium">Berita & Artikel YTPK</span>
             </div>
             
             <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight">
@@ -162,7 +87,7 @@ export default function BeritaPage() {
             </h1>
             
             <p className="text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
-              Ikuti perkembangan terbaru kegiatan dan program TPK IASMA Bukittinggi
+              Ikuti perkembangan kegiatan dan program YTPK IASMA 1 Landbouw Bukittinggi
             </p>
           </div>
         </div>
@@ -373,7 +298,7 @@ export default function BeritaPage() {
             </h2>
 
             <p className="text-white/90 text-lg leading-relaxed">
-              Berlangganan newsletter kami untuk mendapatkan update terbaru tentang kegiatan dan program TPK IASMA
+              Berlangganan newsletter kami untuk mendapatkan update terbaru tentang kegiatan dan program YTPK IASMA 1 Landbouw
             </p>
 
             <div className="flex gap-4 justify-center max-w-md mx-auto pt-4">

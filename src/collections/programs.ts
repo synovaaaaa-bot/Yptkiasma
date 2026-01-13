@@ -324,7 +324,7 @@ export const programs: Program[] = [
 - Masyarakat kurang mampu (dengan surat keterangan)
 - Komunitas pengajian yang aktif`,
     benefits: [
-      'Al-Qur'an berkualitas cetak bagus dan jelas',
+      'Al-Quran berkualitas cetak bagus dan jelas',
       'Gratis 100% tanpa biaya apapun',
       'Pengiriman ke lokasi (area Bukittinggi)',
       'Berbagai ukuran sesuai kebutuhan',

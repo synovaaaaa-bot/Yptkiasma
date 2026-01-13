@@ -1,9 +1,9 @@
-import { X, Calendar, Eye, User, Clock, Share2, Facebook, Twitter, MessageCircle } from 'lucide-react';
+import { X, Calendar, Eye, User, Clock, Share2, Facebook, Twitter, MessageCircle, ExternalLink, Instagram } from 'lucide-react';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 
 interface Article {
-  id: number;
+  id: number | string;
   title: string;
   excerpt: string;
   date: string;
@@ -14,6 +14,7 @@ interface Article {
   readTime: string;
   gradient: string;
   content?: string;
+  tags?: string[];
 }
 
 interface ArticleDetailModalProps {
@@ -41,13 +42,35 @@ export function ArticleDetailModal({ article, isOpen, onClose }: ArticleDetailMo
     }
   };
 
-  const articleContent = article.content || `
+  // Extract source links from content
+  const extractSourceLinks = (content: string) => {
+    const links: Array<{ platform: string; url: string }> = [];
+    const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+    let match;
+
+    while ((match = regex.exec(content)) !== null) {
+      const text = match[1];
+      const url = match[2];
+      
+      let platform = 'External';
+      if (url.includes('instagram.com')) platform = 'Instagram';
+      else if (url.includes('facebook.com')) platform = 'Facebook';
+      else if (url.includes('threads.net')) platform = 'Threads';
+      
+      links.push({ platform, url });
+    }
+    
+    return links;
+  };
+
+  const sourceLinks = article.content ? extractSourceLinks(article.content) : [];
+
+  // Remove source links from content for display
+  const contentWithoutLinks = article.content 
+    ? article.content.replace(/\*\*Sumber:\*\*[\s\S]*$/, '').trim()
+    : `
     <p class="mb-4">${article.excerpt}</p>
-    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    <p class="mb-4">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    <h3 class="text-xl font-bold mb-3 mt-6">Poin Penting</h3>
-    <p class="mb-4">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-    <p class="mb-4">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
   `;
 
   return (
@@ -145,9 +168,63 @@ export function ArticleDetailModal({ article, isOpen, onClose }: ArticleDetailMo
 
           {/* Article Content */}
           <div 
-            className="prose prose-lg max-w-none text-foreground"
-            dangerouslySetInnerHTML={{ __html: articleContent }}
+            className="prose prose-lg max-w-none text-foreground mb-8"
+            dangerouslySetInnerHTML={{ __html: contentWithoutLinks }}
           />
+
+          {/* Source Links Section */}
+          {sourceLinks.length > 0 && (
+            <div className="border-t pt-6 mb-6">
+              <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                <ExternalLink className="w-5 h-5 text-primary" />
+                Sumber & Dokumentasi
+              </h3>
+              <div className="flex flex-wrap gap-3">
+                {sourceLinks.map((link, index) => {
+                  const icon = link.platform === 'Instagram' ? Instagram : 
+                               link.platform === 'Facebook' ? Facebook : 
+                               ExternalLink;
+                  const Icon = icon;
+                  
+                  return (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => window.open(link.url, '_blank')}
+                      className={`
+                        ${link.platform === 'Instagram' ? 'text-pink-600 hover:text-pink-700 hover:bg-pink-50 border-pink-200' : ''}
+                        ${link.platform === 'Facebook' ? 'text-blue-600 hover:text-blue-700 hover:bg-blue-50 border-blue-200' : ''}
+                        ${link.platform === 'Threads' ? 'text-gray-800 hover:text-gray-900 hover:bg-gray-50 border-gray-200' : ''}
+                        ${link.platform === 'External' ? 'text-primary hover:text-primary/90 hover:bg-primary/5 border-primary/20' : ''}
+                      `}
+                    >
+                      <Icon className="w-4 h-4 mr-2" />
+                      {link.platform}
+                      <ExternalLink className="w-3 h-3 ml-2" />
+                    </Button>
+                  );
+                })}
+              </div>
+              <p className="text-sm text-muted-foreground mt-3">
+                Klik tombol di atas untuk melihat dokumentasi asli kegiatan di media sosial resmi YTPK
+              </p>
+            </div>
+          )}
+
+          {/* Tags Section */}
+          {article.tags && article.tags.length > 0 && (
+            <div className="border-t pt-6 mb-6">
+              <h3 className="text-sm font-semibold text-muted-foreground mb-3">Tags:</h3>
+              <div className="flex flex-wrap gap-2">
+                {article.tags.map((tag, index) => (
+                  <Badge key={index} variant="secondary" className="text-sm">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Footer Actions */}
           <div className="mt-8 pt-6 border-t flex flex-col sm:flex-row gap-4">

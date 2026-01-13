@@ -150,6 +150,29 @@ export interface Activity {
   updatedAt: string;
 }
 
+export interface Album {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  coverImage: string | Media;
+  category: 'bantuan-bencana' | 'bantuan-air-bersih' | 'donasi-santunan' | 'program-pendidikan' | 'bantuan-material' | 'majelis-taklim' | 'komunitas-alumni';
+  images: Array<{
+    id: string;
+    url: string;
+    caption?: string;
+    activityId?: string;
+  }>;
+  activityIds: string[]; // Reference to activities in this album
+  date: string;
+  location?: string;
+  views?: number;
+  likes?: number;
+  _status: 'draft' | 'published';
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Donation {
   id: string;
   donorName: string;

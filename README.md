@@ -1,355 +1,513 @@
-# Website Yayasan TPK IASMA 1 Landbouw Bukittinggi
+# 🕌 Website Yayasan YTPK IASMA 1 Landbouw Bukittinggi
 
-Website resmi Yayasan TPK IASMA 1 Landbouw Bukittinggi yang dibangun dengan React, TypeScript, dan Tailwind CSS.
+Website resmi **Yayasan YTPK (Yayasan TPK) Ikatan Alumni SMA 1 Landbouw Bukittinggi** - Sejak 2009, mewadahi kepedulian alumni dalam memberdayakan masyarakat melalui program pendidikan, sosial, dan kesehatan.
 
-## 🚨 CRITICAL: Vercel Build Error Fix
+[![Built with React](https://img.shields.io/badge/React-18-61dafb?logo=react)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38bdf8?logo=tailwind-css)](https://tailwindcss.com/)
+[![Vite](https://img.shields.io/badge/Vite-Latest-646cff?logo=vite)](https://vitejs.dev/)
 
-**Jika Anda mendapati error saat deploy di Vercel**, pilih salah satu:
+---
 
-### ⚡ Super Quick (Copy-Paste)
-👉 **[FIX-NOW.md](./FIX-NOW.md)** - 3 commands to fix
+## 🌟 Highlights
 
-### 🤖 Automated (Recommended)  
-👉 **[START-HERE.md](./START-HERE.md)** - Run script & deploy
-
-### 📚 Detailed Guide
-👉 **[SOLUTION-SUMMARY.md](./SOLUTION-SUMMARY.md)** - Understanding & solution  
-👉 **[FORCE-FIX.md](./FORCE-FIX.md)** - Manual step-by-step
-
-**Quick Solution:**
-```bash
-# Run auto-fix script
-chmod +x QUICK-FIX.sh
-./QUICK-FIX.sh
-
-# Then commit and push
-git commit -m "Fix: Force remove figma:asset imports"
-git push origin main --force-with-lease
-```
-
-**Root Cause:** Git cache masih menyimpan file lama dengan `figma:asset` imports.
-
-**📖 All Documentation:** [INDEX.md](./INDEX.md) | [DOCS-INDEX.md](./DOCS-INDEX.md)
+- ✨ **Modern Islamic Design** - Tema Islamic yang tenang dengan primary color hijau tua (#0F766E), secondary tosca (#5EEAD4), accent emas (#FACC15)
+- 🎨 **Fully Responsive** - Optimal di semua devices (Mobile, Tablet, Desktop)
+- ⚡ **Blazing Fast** - Built with Vite & optimized performance
+- 📱 **CMS-Ready Structure** - Payload CMS compatible data models
+- 🔄 **Real Data Collections** - 7 Programs, 11 Activities, 11 News Articles, 6 Gallery Albums
+- 🔗 **Social Media Integration** - Direct links ke dokumentasi Instagram/Facebook/Threads
+- 🎯 **SEO Optimized** - Meta tags & semantic HTML
 
 ---
 
 ## 🚀 Quick Start
 
-### Install Dependencies
-```bash
-npm install
-```
+### Prerequisites
+- Node.js 18+ 
+- npm atau yarn
 
-### Development Mode
+### Installation
+
 ```bash
+# Clone repository
+git clone https://github.com/yourusername/ytpk-website.git
+cd ytpk-website
+
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
 ```
 
-Buka browser di `http://localhost:5173`
+Buka browser di **`http://localhost:5173`**
 
 ### Build for Production
-```bash
-npm run build
-```
 
-### Preview Production Build
 ```bash
+# Build production bundle
+npm run build
+
+# Preview production build locally
 npm run preview
 ```
+
+---
 
 ## 📁 Project Structure
 
 ```
-/
+ytpk-website/
 ├── src/
 │   ├── app/
-│   │   ├── components/       # Reusable components
+│   │   ├── components/          # Reusable UI components
+│   │   │   ├── ui/              # Base UI components (shadcn-inspired)
 │   │   │   ├── Navbar.tsx
 │   │   │   ├── Footer.tsx
+│   │   │   ├── ArticleDetailModal.tsx
 │   │   │   └── ...
-│   │   └── pages/           # Page components
+│   │   └── pages/               # Page components
 │   │       ├── HomePage.tsx
 │   │       ├── ProfilPage.tsx
-│   │       └── ...
-│   ├── assets/
-│   │   └── logos.ts         # Logo configurations
-│   ├── collections/         # Data models (Payload CMS ready)
-│   ├── globals/            # Global configurations
-│   ├── types/              # TypeScript type definitions
-│   └── styles/             # Global styles and themes
-├── DEPLOYMENT.md           # Deployment guide
-└── package.json
+│   │       ├── ProgramPage.tsx
+│   │       ├── KegiatanPage.tsx
+│   │       ├── BeritaPage.tsx
+│   │       ├── GaleriPage.tsx
+│   │       ├── DonasiPage.tsx
+│   │       └── KontakPage.tsx
+│   ├── collections/             # Data Collections (Payload CMS ready)
+│   │   ├── programs.ts          # 7 Programs YTPK
+│   │   ├── activities.ts        # 11 Real Activities
+│   │   ├── posts.ts             # 11 News Articles
+│   │   └── albums.ts            # 6 Gallery Albums
+│   ├── globals/                 # Global Configurations
+│   │   ├── header.ts
+│   │   ├── footer.ts
+│   │   └── site-settings.ts
+│   ├── types/                   # TypeScript Type Definitions
+│   │   └── collections.ts       # All collection types
+│   ├── styles/                  # Global Styles
+│   │   ├── globals.css
+│   │   ├── theme.css            # Design tokens & CSS variables
+│   │   └── fonts.css
+│   └── assets/
+│       └── logos.ts             # Logo configurations
+├── public/                      # Static assets
+├── package.json
+└── README.md
 ```
 
-## 🏠 Pages
+---
 
-- **Beranda** (`/`) - Homepage dengan hero section, program unggulan, dan statistik
-- **Profil** (`/profil`) - Tentang yayasan, visi misi, timeline, dan struktur organisasi
-- **Program** (`/program`) - Daftar program pendidikan dan sosial
-- **Kegiatan** (`/kegiatan`) - Agenda dan jadwal kegiatan dengan kalender interaktif
-- **Berita** (`/berita`) - Artikel dan berita terkini
-- **Galeri** (`/galeri`) - Dokumentasi foto kegiatan dengan lightbox
-- **Donasi** (`/donasi`) - Informasi donasi dan cara berkontribusi
-- **Kontak** (`/kontak`) - Formulir kontak dan informasi lokasi
+## 🏠 Pages & Features
+
+### Main Pages
+
+| Page | Route | Description |
+|------|-------|-------------|
+| **Beranda** | `/` | Hero section, featured programs, statistics, upcoming events |
+| **Profil** | `/profil` | Tentang yayasan, visi misi, timeline sejak 2009, struktur organisasi |
+| **Program** | `/program` | 7 Program YTPK (Sosial, Kesehatan, Pendidikan) |
+| **Kegiatan** | `/kegiatan` | 11 Kegiatan riil dengan social media links |
+| **Berita** | `/berita` | 11 Artikel berita dengan source links ke sosmed |
+| **Galeri** | `/galeri` | 6 Album dokumentasi dengan lightbox viewer |
+| **Donasi** | `/donasi` | Informasi donasi dan rekening yayasan |
+| **Kontak** | `/kontak` | Form kontak, maps, dan info lokasi |
 
 ### Special Features
 
-- **Jadwal Sholat** (di Homepage) - Otomatis detect timezone (WIB/WITA/WIT)
-- **Al-Quran Digital** (`/al-quran`) - Baca Al-Quran online dengan terjemahan
-- **Kalkulator Zakat** (`/zakat`) - Hitung zakat mal, fitrah, dan profesi
-- **Kurban** (`/hewan`) - Informasi dan pendaftaran hewan kurban
+- 🎯 **Featured Programs Carousel** - Auto-rotate showcase
+- 📅 **Activities Calendar** - Interactive calendar dengan filter kategori
+- 🖼️ **Gallery Lightbox** - Full-screen photo viewer
+- 🔍 **Search & Filter** - Di halaman Berita dan Kegiatan
+- 📱 **Social Media Links** - Direct links ke Instagram/Facebook/Threads di setiap berita
+- 🎨 **Smooth Animations** - Motion animations untuk better UX
+- 🌐 **Responsive Design** - Mobile-first approach
 
-## 🖼️ Logo Configuration
+---
 
-Website ini menggunakan placeholder SVG untuk logo TPK dan IASMA. Untuk mengganti dengan logo asli:
+## 📊 Data Collections
 
-### Cara 1: Menggunakan File Logo (Recommended)
+### Programs (7 Programs)
 
-1. Siapkan file logo Anda:
-   - Format: PNG atau SVG
-   - Ukuran: 512x512px atau lebih besar
-   - Background: Transparan (PNG) atau SVG
+```typescript
+// /src/collections/programs.ts
+1. Sebar Qurban ke Daerah Terpencil
+2. Bantuan Bencana
+3. Operasi Bibir Sumbing Gratis
+4. Operasi Katarak Gratis
+5. Pembagian Takjil dan Sembako di Bulan Ramadhan
+6. Go Clean Mushalla dan Mesjid
+7. Waqaf Al-Qur'an
+```
 
-2. Buat folder `public/logos/` dan letakkan file logo:
-   ```
-   /public/logos/logo-tpk.png
-   /public/logos/logo-iasma.png
-   ```
+### Activities (11 Real Activities)
 
-3. Edit file `/src/assets/logos.ts`:
-   ```typescript
-   export const logoTPK = "/logos/logo-tpk.png";
-   export const logoIASMA = "/logos/logo-iasma.png";
-   ```
+```typescript
+// /src/collections/activities.ts
+- Bantuan Bencana: Malalo, #PrayforSumbar, Jorong Pauh
+- Bantuan Air Bersih: Filter Air Maninjau, Update Filter Air
+- Donasi & Santunan: Penyaluran Donasi, Donasi Uda Uni Bukittinggi
+- Program Pendidikan: Pendataan Siswa Kurang Mampu
+- Bantuan Material: BSPS Material untuk Masyarakat
+- Majelis Taklim: Undangan Majelis Taklim
+- Komunitas Alumni: Baksos & Pertemuan Alumni
+```
 
-### Cara 2: Menggunakan Base64 (Alternative)
+### Posts/News (11 Articles)
 
-Jika Anda ingin embed logo langsung dalam kode:
+```typescript
+// /src/collections/posts.ts
+- Konten lengkap dengan paragraf 3-5
+- Source links ke Instagram/Facebook/Threads
+- Kategori: bantuan-bencana, bantuan-air-bersih, donasi-santunan, program-pendidikan, dll
+- Featured flag untuk highlight articles
+```
 
-1. Convert logo ke base64 menggunakan online tool
-2. Replace isi file `/src/assets/logos.ts` dengan base64 string
+### Albums (6 Gallery Albums)
 
-Lihat [DEPLOYMENT.md](./DEPLOYMENT.md) untuk panduan lengkap.
+```typescript
+// /src/collections/albums.ts
+- Bantuan Bencana Alam Malalo
+- Program Bantuan Air Bersih
+- Penyaluran Donasi & Santunan
+- Pendataan Siswa Kurang Mampu
+- Bantuan Material & Infrastruktur
+- Kegiatan Majelis Taklim
+```
 
-## 📸 Update Gambar Kegiatan
+---
 
-Website ini sudah dilengkapi dengan 10+ kegiatan riil YTPK. Untuk mengganti placeholder dengan gambar asli dari Instagram/Facebook:
+## 🎨 Design System
 
-### Setup GitHub CDN (One-Time Setup)
+### Color Palette
 
-1. **Buat Repository GitHub Baru:**
-   ```bash
-   # Buat repo "ytpk-assets" di GitHub
-   # Clone ke komputer
-   git clone https://github.com/synovaaaaa-bot/ytpk-assets.git
-   cd ytpk-assets
-   
-   # Buat struktur folder
-   mkdir -p assets/kegiatan
-   ```
+```css
+/* Islamic Theme Colors */
+--primary: #0F766E;        /* Hijau Tua (Teal 700) */
+--secondary: #5EEAD4;      /* Tosca (Teal 300) */
+--accent: #FACC15;         /* Emas (Yellow 400) */
 
-2. **Download & Upload Gambar:**
-   
-   Download screenshot/gambar dari Instagram/Facebook dengan nama file:
-   - `2026-01-03_malalo_cover.jpg`
-   - `2026-01-06_prayforsumbar_cover.jpg`
-   - `2025-12-10_jorong-pauh_cover.jpg`
-   - `2025-12-16_filter-air_maninjau_cover.jpg`
-   - `2025-12-16_update-filter-air_cover.jpg`
-   - `2025-12-12_penyaluran-donasi_cover.jpg`
-   - `2025-12-04_donasi-uda-uni_cover.jpg`
-   - `2025-12-15_pendataan-siswa_cover.jpg`
-   - `2025-11-17_bsps_material_cover.jpg`
-   - `2025-09-06_undangan-majelis-taklim_cover.jpg`
-   
-   Letakkan di folder `assets/kegiatan/`
+/* Semantic Colors */
+--background: #FFFFFF;
+--foreground: #0A0A0A;
+--muted: #F5F5F5;
+--muted-foreground: #737373;
+--border: #E5E5E5;
+```
 
-3. **Push ke GitHub:**
-   ```bash
-   git add .
-   git commit -m "Add kegiatan cover images"
-   git push origin main
-   ```
+### Typography
 
-4. **Aktifkan Gambar di Website:**
-   
-   Edit file `/src/collections/activities.ts`, ubah fungsi `getImageUrl`:
-   
-   ```typescript
-   const getImageUrl = (filename: string, category: string) => {
-     // Aktifkan baris ini untuk production:
-     return `${CDN_BASE_URL}/${filename}`;
-     
-     // Comment baris ini:
-     // return FALLBACK_IMAGES[category as keyof typeof FALLBACK_IMAGES];
-   };
-   ```
+- **Font Family**: System fonts (sans-serif)
+- **Headings**: Bold, modern Islamic style
+- **Body**: Readable, clean sans-serif
 
-5. **Commit & Deploy:**
-   ```bash
-   git add .
-   git commit -m "Update: Use real activity images from GitHub CDN"
-   git push origin main
-   ```
+### Components
 
-### Menambah Kegiatan Baru
+Built with **shadcn/ui** inspired components:
+- `Button`, `Card`, `Badge`, `Dialog/Modal`
+- `Input`, `Select`, `Checkbox`
+- Custom components: `ArticleDetailModal`, `ProgramDetailModal`, `GalleryLightbox`
 
-Untuk menambahkan kegiatan baru ke halaman Kegiatan:
+---
 
-1. Upload gambar baru ke `ytpk-assets/assets/kegiatan/` dengan format: `YYYY-MM-DD_nama-kegiatan_cover.jpg`
-2. Edit `/src/collections/activities.ts` dan tambahkan entry baru:
-   ```typescript
-   {
-     id: 'ytpk-2026-01-20-nama-kegiatan',
-     title: 'Judul Kegiatan',
-     slug: 'nama-kegiatan',
-     description: 'Deskripsi singkat...',
-     image: getImageUrl('2026-01-20_nama-kegiatan_cover.jpg', 'kategori'),
-     category: 'bantuan-bencana', // pilih kategori
-     date: '2026-01-20',
-     location: 'Lokasi kegiatan',
-     participants: 100,
-     content: `Content lengkap kegiatan...`,
-     socialLinks: [
-       { platform: 'instagram', url: 'https://instagram.com/...' },
-     ],
-     featured: false, // true jika ingin di featured carousel
-     _status: 'published',
-     // ... dst
-   }
-   ```
+## 🔗 Social Media Integration
 
-3. Kategori yang tersedia:
-   - `bantuan-bencana` - Bantuan Bencana & Kemanusiaan
-   - `bantuan-air-bersih` - Bantuan Air Bersih
-   - `donasi-santunan` - Penyaluran Donasi & Santunan
-   - `program-pendidikan` - Program Pendidikan
-   - `bantuan-material` - Bantuan Material & Infrastruktur
-   - `majelis-taklim` - Majelis Taklim & Kajian
-   - `komunitas-alumni` - Komunitas & Alumni
+### Article Detail Modal dengan Source Links
 
-**Note:** Untuk sementara, website menggunakan placeholder images dari Unsplash. Gambar akan otomatis beralih ke GitHub CDN setelah Anda upload dan aktifkan.
+Setiap artikel berita di halaman **Berita** dilengkapi dengan button source yang langsung link ke sosmed:
 
-## 🌐 Deployment ke Vercel
+```typescript
+// Automatic platform detection
+- 🟣 Instagram button (pink)
+- 🔵 Facebook button (blue)  
+- ⚫ Threads button (gray)
+```
 
-### Step 1: Push ke GitHub
+**Features:**
+- Auto-extract links dari markdown content
+- Platform-specific icon & color
+- Open in new tab
+- ExternalLink indicator
+
+**Example:**
+```
+Sumber & Dokumentasi
+[📷 Instagram ↗] [📘 Facebook ↗]
+```
+
+---
+
+## ⚙️ Configuration
+
+### Update Branding
+
+Edit `/src/globals/site-settings.ts`:
+
+```typescript
+export const siteSettings = {
+  name: 'YTPK IASMA 1 Landbouw',
+  description: 'Yayasan TPK Ikatan Alumni SMA 1 Landbouw Bukittinggi',
+  tagline: 'Sejak 2009 - Berbakti untuk Umat',
+  // ...
+}
+```
+
+### Update Contact Info
+
+Edit `/src/globals/footer.ts`:
+
+```typescript
+contactInfo: {
+  address: 'Jl. Sudirman No. 123, Bukittinggi',
+  phone: '+62 812 3456 7890',
+  email: 'info@ytpk-iasma.or.id',
+  whatsapp: '+62 812 3456 7890',
+}
+```
+
+### Update Social Media
+
+Edit `/src/globals/footer.ts`:
+
+```typescript
+socialLinks: [
+  { platform: 'facebook', url: 'https://facebook.com/ytpk.iasma' },
+  { platform: 'instagram', url: 'https://instagram.com/ytpk_iasma' },
+  { platform: 'youtube', url: 'https://youtube.com/@ytpk-iasma' },
+  { platform: 'whatsapp', url: 'https://wa.me/6281234567890' },
+]
+```
+
+---
+
+## 🌐 Deployment
+
+### Deploy ke Vercel (Recommended)
+
+1. **Push to GitHub:**
 ```bash
 git add .
 git commit -m "Ready for deployment"
 git push origin main
 ```
 
-### Step 2: Deploy ke Vercel
+2. **Deploy di Vercel:**
+   - Login ke [vercel.com](https://vercel.com)
+   - Click "New Project"
+   - Import GitHub repository
+   - Vercel auto-detect Vite config
+   - Click "Deploy"
 
-1. Buka [vercel.com](https://vercel.com) dan login
-2. Click "New Project"
-3. Import repository GitHub Anda
-4. Vercel akan auto-detect Vite configuration
-5. Click "Deploy"
+3. **Custom Domain:**
+   - Project Settings → Domains
+   - Add your domain (e.g., `ytpk-iasma.or.id`)
+   - Follow DNS configuration instructions
 
-Website Anda akan live di `https://your-project.vercel.app`
+### Environment Variables (if needed)
 
-### Custom Domain
+Create `.env` file:
 
-Untuk menggunakan domain sendiri (misal: `tpkiasma.or.id`):
-1. Buka Project Settings di Vercel
-2. Pilih "Domains"
-3. Tambah domain Anda
-4. Ikuti instruksi DNS configuration
-
-## ⚙️ Configuration
-
-### Update Informasi Kontak
-
-Edit file berikut untuk update informasi kontak:
-
-1. **Footer Component**: `/src/app/components/Footer.tsx`
-2. **Footer Global**: `/src/globals/footer.ts`
-3. **Kontak Page**: `/src/app/pages/KontakPage.tsx`
-
-### Update Social Media
-
-Edit `/src/globals/footer.ts`:
-```typescript
-socialLinks: [
-  { platform: 'facebook', url: 'https://facebook.com/tpkiasma' },
-  { platform: 'instagram', url: 'https://instagram.com/tpkiasma' },
-  { platform: 'youtube', url: 'https://youtube.com/@tpkiasma' },
-  { platform: 'whatsapp', url: 'https://wa.me/6281234567890' },
-]
+```bash
+VITE_SITE_NAME=YTPK IASMA 1 Landbouw
+VITE_API_URL=https://api.example.com
 ```
 
-## 🎯 Features
-
-- ✅ Responsive Design (Mobile, Tablet, Desktop)
-- ✅ Modern Islamic Theme dengan warna yang tenang
-- ✅ Smooth Animations & Transitions
-- ✅ Interactive Components (Modal, Lightbox, Calendar)
-- ✅ SEO Ready
-- ✅ Fast Performance
-- ✅ Clean & Maintainable Code
-- ✅ TypeScript for Type Safety
-- ✅ Tailwind CSS v4
-- ✅ Payload CMS Ready Structure
-
-## 📦 Technologies
-
-- **React 18** - UI Framework
-- **TypeScript** - Type Safety
-- **Tailwind CSS v4** - Styling
-- **Vite** - Build Tool
-- **React Router** - Navigation
-- **Lucide React** - Icons
-- **Embla Carousel** - Carousel
-- **Motion** - Animations
-- **Sonner** - Toast Notifications
-- **React Day Picker** - Date Picker
-
-## 🐛 Troubleshooting
-
-### Build Error di Vercel
-
-Jika build gagal dengan error `figma:asset`:
-- Pastikan semua import `figma:asset` sudah diganti dengan logo configuration baru
-- Check file `/src/assets/logos.ts` sudah benar
-- Hapus folder `node_modules` dan `package-lock.json`, lalu `npm install` lagi
-
-### Logo Tidak Muncul
-
-- Periksa path logo sudah benar
-- Jika menggunakan `/public`, pastikan folder sudah dibuat
-- Check browser console untuk error 404
-
-### Jadwal Sholat Tidak Muncul
-
-- Check koneksi internet (menggunakan API eksternal)
-- Pastikan browser support geolocation
-- Check console untuk error messages
-
-## 📝 Before Going Live
-
-Checklist sebelum launch:
-- [ ] Replace placeholder logos dengan logo asli
-- [ ] Update semua informasi kontak
-- [ ] Verify social media links
-- [ ] Test all pages dan navigation
-- [ ] Test pada mobile devices
-- [ ] Test forms (kontak, donasi, dll)
-- [ ] Optimize images
-- [ ] Setup custom domain
-- [ ] Test jadwal sholat functionality
-- [ ] Add Google Analytics (optional)
-
-## 🤝 Support
-
-Untuk bantuan lebih lanjut, hubungi:
-- Email: info@tpkiasma.or.id
-- WhatsApp: +62 812 3456 7890
-
-## 📄 License
-
-© 2025 Yayasan TPK IASMA 1 Landbouw Bukittinggi. All rights reserved.
+Access in code:
+```typescript
+const siteName = import.meta.env.VITE_SITE_NAME;
+```
 
 ---
 
-**Built with ❤️ for Yayasan TPK IASMA 1 Landbouw Bukittinggi**
+## 📦 Tech Stack
+
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **React** | 18.3.1 | UI Framework |
+| **TypeScript** | 5.x | Type Safety |
+| **Vite** | 6.x | Build Tool & Dev Server |
+| **Tailwind CSS** | 4.x | Utility-first CSS |
+| **React Router** | 7.x | Client-side Routing |
+| **Motion** | Latest | Smooth Animations |
+| **Lucide React** | Latest | Icon Library |
+| **Embla Carousel** | Latest | Carousel Component |
+| **Sonner** | Latest | Toast Notifications |
+
+---
+
+## 🛠️ Development
+
+### Available Scripts
+
+```bash
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Type check
+npm run type-check
+
+# Lint code
+npm run lint
+```
+
+### Adding New Page
+
+1. Create page component:
+```typescript
+// /src/app/pages/NewPage.tsx
+export default function NewPage() {
+  return <div>New Page</div>;
+}
+```
+
+2. Add route in `/src/app/App.tsx`:
+```typescript
+import NewPage from './pages/NewPage';
+
+<Route path="/new-page" element={<NewPage />} />
+```
+
+3. Add navigation in `/src/app/components/Navbar.tsx`:
+```typescript
+{ to: '/new-page', label: 'New Page' }
+```
+
+### Adding New Collection
+
+1. Define type in `/src/types/collections.ts`:
+```typescript
+export interface NewCollection {
+  id: string;
+  title: string;
+  // ...
+}
+```
+
+2. Create collection file `/src/collections/new-collection.ts`:
+```typescript
+import { NewCollection } from '../types/collections';
+
+export const newCollection: NewCollection[] = [
+  // data...
+];
+```
+
+3. Import & use in pages:
+```typescript
+import { newCollection } from '@/collections/new-collection';
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### Build Errors
+
+**Issue: TypeScript errors**
+```bash
+npm run type-check
+```
+
+**Issue: Module not found**
+```bash
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### Styling Issues
+
+**Issue: Tailwind classes not working**
+- Check `/src/styles/globals.css` imports
+- Verify Tailwind v4 setup
+- Clear browser cache
+
+### Performance
+
+**Issue: Slow page load**
+- Optimize images (use WebP format)
+- Lazy load components with `React.lazy()`
+- Check Network tab in DevTools
+
+---
+
+## 📝 Checklist Before Launch
+
+- [ ] Update all placeholder text dengan data riil
+- [ ] Replace logo placeholders (jika ada)
+- [ ] Verify semua contact information
+- [ ] Test all social media links
+- [ ] Test forms (kontak, donasi)
+- [ ] Test di berbagai devices (mobile, tablet, desktop)
+- [ ] Test di berbagai browsers (Chrome, Firefox, Safari)
+- [ ] Optimize all images
+- [ ] Setup custom domain
+- [ ] Add Google Analytics (optional)
+- [ ] Setup SSL certificate
+- [ ] Test production build locally
+- [ ] Backup database collections
+
+---
+
+## 🤝 Contributing
+
+Untuk update dan maintenance website:
+
+1. Fork repository
+2. Create feature branch: `git checkout -b feature/AmazingFeature`
+3. Commit changes: `git commit -m 'Add AmazingFeature'`
+4. Push to branch: `git push origin feature/AmazingFeature`
+5. Open Pull Request
+
+---
+
+## 📞 Support & Contact
+
+**Yayasan YTPK IASMA 1 Landbouw Bukittinggi**
+
+- 📧 Email: info@ytpk-iasma.or.id
+- 📱 WhatsApp: +62 812 3456 7890
+- 📍 Alamat: Bukittinggi, Sumatera Barat
+- 🌐 Website: https://ytpk-iasma.or.id
+
+**Social Media:**
+- Instagram: [@ytpk_iasma](https://instagram.com/ytpk_iasma)
+- Facebook: [YTPK IASMA](https://facebook.com/ytpk.iasma)
+- YouTube: [@ytpk-iasma](https://youtube.com/@ytpk-iasma)
+
+---
+
+## 📄 License
+
+© 2025 Yayasan YTPK Ikatan Alumni SMA 1 Landbouw Bukittinggi. All rights reserved.
+
+**Sejak 2009** - Berbakti untuk Umat
+
+---
+
+## 🙏 Credits
+
+Built with ❤️ by alumni SMA 1 Landbouw Bukittinggi for the community.
+
+**Powered by:**
+- React & TypeScript
+- Tailwind CSS v4
+- Vite
+- Vercel
+
+---
+
+<div align="center">
+
+### ✨ Berkah untuk Umat, Manfaat untuk Sesama ✨
+
+**YTPK IASMA 1 Landbouw Bukittinggi** | Est. 2009
+
+</div>
