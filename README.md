@@ -131,6 +131,105 @@ Jika Anda ingin embed logo langsung dalam kode:
 
 Lihat [DEPLOYMENT.md](./DEPLOYMENT.md) untuk panduan lengkap.
 
+## 📸 Update Gambar Kegiatan
+
+Website ini sudah dilengkapi dengan 10+ kegiatan riil YTPK. Untuk mengganti placeholder dengan gambar asli dari Instagram/Facebook:
+
+### Setup GitHub CDN (One-Time Setup)
+
+1. **Buat Repository GitHub Baru:**
+   ```bash
+   # Buat repo "ytpk-assets" di GitHub
+   # Clone ke komputer
+   git clone https://github.com/synovaaaaa-bot/ytpk-assets.git
+   cd ytpk-assets
+   
+   # Buat struktur folder
+   mkdir -p assets/kegiatan
+   ```
+
+2. **Download & Upload Gambar:**
+   
+   Download screenshot/gambar dari Instagram/Facebook dengan nama file:
+   - `2026-01-03_malalo_cover.jpg`
+   - `2026-01-06_prayforsumbar_cover.jpg`
+   - `2025-12-10_jorong-pauh_cover.jpg`
+   - `2025-12-16_filter-air_maninjau_cover.jpg`
+   - `2025-12-16_update-filter-air_cover.jpg`
+   - `2025-12-12_penyaluran-donasi_cover.jpg`
+   - `2025-12-04_donasi-uda-uni_cover.jpg`
+   - `2025-12-15_pendataan-siswa_cover.jpg`
+   - `2025-11-17_bsps_material_cover.jpg`
+   - `2025-09-06_undangan-majelis-taklim_cover.jpg`
+   
+   Letakkan di folder `assets/kegiatan/`
+
+3. **Push ke GitHub:**
+   ```bash
+   git add .
+   git commit -m "Add kegiatan cover images"
+   git push origin main
+   ```
+
+4. **Aktifkan Gambar di Website:**
+   
+   Edit file `/src/collections/activities.ts`, ubah fungsi `getImageUrl`:
+   
+   ```typescript
+   const getImageUrl = (filename: string, category: string) => {
+     // Aktifkan baris ini untuk production:
+     return `${CDN_BASE_URL}/${filename}`;
+     
+     // Comment baris ini:
+     // return FALLBACK_IMAGES[category as keyof typeof FALLBACK_IMAGES];
+   };
+   ```
+
+5. **Commit & Deploy:**
+   ```bash
+   git add .
+   git commit -m "Update: Use real activity images from GitHub CDN"
+   git push origin main
+   ```
+
+### Menambah Kegiatan Baru
+
+Untuk menambahkan kegiatan baru ke halaman Kegiatan:
+
+1. Upload gambar baru ke `ytpk-assets/assets/kegiatan/` dengan format: `YYYY-MM-DD_nama-kegiatan_cover.jpg`
+2. Edit `/src/collections/activities.ts` dan tambahkan entry baru:
+   ```typescript
+   {
+     id: 'ytpk-2026-01-20-nama-kegiatan',
+     title: 'Judul Kegiatan',
+     slug: 'nama-kegiatan',
+     description: 'Deskripsi singkat...',
+     image: getImageUrl('2026-01-20_nama-kegiatan_cover.jpg', 'kategori'),
+     category: 'bantuan-bencana', // pilih kategori
+     date: '2026-01-20',
+     location: 'Lokasi kegiatan',
+     participants: 100,
+     content: `Content lengkap kegiatan...`,
+     socialLinks: [
+       { platform: 'instagram', url: 'https://instagram.com/...' },
+     ],
+     featured: false, // true jika ingin di featured carousel
+     _status: 'published',
+     // ... dst
+   }
+   ```
+
+3. Kategori yang tersedia:
+   - `bantuan-bencana` - Bantuan Bencana & Kemanusiaan
+   - `bantuan-air-bersih` - Bantuan Air Bersih
+   - `donasi-santunan` - Penyaluran Donasi & Santunan
+   - `program-pendidikan` - Program Pendidikan
+   - `bantuan-material` - Bantuan Material & Infrastruktur
+   - `majelis-taklim` - Majelis Taklim & Kajian
+   - `komunitas-alumni` - Komunitas & Alumni
+
+**Note:** Untuk sementara, website menggunakan placeholder images dari Unsplash. Gambar akan otomatis beralih ke GitHub CDN setelah Anda upload dan aktifkan.
+
 ## 🌐 Deployment ke Vercel
 
 ### Step 1: Push ke GitHub
