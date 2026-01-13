@@ -1,185 +1,122 @@
-import { Calendar, Clock, MapPin, Users, Search, ArrowRight, Sparkles, Share2 } from 'lucide-react';
+import { Calendar, MapPin, Users, Search, ArrowRight, Sparkles, Instagram, Facebook, Youtube, ExternalLink, Filter, TrendingUp } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { RegistrationModal } from '../components/RegistrationModal';
+import { activities } from '../../collections/activities';
+import { Activity } from '../../types/collections';
 
 export default function KegiatanPage() {
-  const [selectedCategory, setSelectedCategory] = useState('Semua');
+  const [selectedCategory, setSelectedCategory] = useState('semua');
   const [searchQuery, setSearchQuery] = useState('');
-  const [registrationModalOpen, setRegistrationModalOpen] = useState(false);
-  const [activityForRegistration, setActivityForRegistration] = useState<any>(null);
 
-  const categories = ['Semua', 'Pendidikan', 'Sosial', 'Kajian', 'Ekonomi'];
-
-  const activities = [
-    {
-      id: 1,
-      title: 'Tahsin Al-Quran Intensif',
-      date: '7 Januari 2026',
-      time: '08:00 - 10:00',
-      location: 'Gedung Utama TPK IASMA',
-      participants: '50 Peserta',
-      category: 'Pendidikan',
-      status: 'Akan Datang',
-      description: 'Program pembelajaran membaca Al-Quran dengan tartil dan tajwid yang benar, dibimbing oleh ustadz berpengalaman.',
-      image: 'https://images.unsplash.com/photo-1600814832809-579119f47045?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      gradient: 'from-emerald-500 to-teal-600',
-    },
-    {
-      id: 2,
-      title: 'Bakti Sosial & Sembako Gratis',
-      date: '12 Januari 2026',
-      time: '09:00 - 12:00',
-      location: 'Wilayah Bukittinggi',
-      participants: '30 Relawan',
-      category: 'Sosial',
-      status: 'Akan Datang',
-      description: 'Kegiatan bakti sosial membersihkan lingkungan dan membagikan sembako kepada warga yang membutuhkan.',
-      image: 'https://images.unsplash.com/photo-1593113702251-272b1bc414a9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      gradient: 'from-rose-500 to-pink-600',
-    },
-    {
-      id: 3,
-      title: 'Pengajian Akbar Bulanan',
-      date: '20 Januari 2026',
-      time: '19:00 - 21:00',
-      location: 'Aula TPK IASMA',
-      participants: '500+ Jamaah',
-      category: 'Kajian',
-      status: 'Akan Datang',
-      description: 'Pengajian akbar bulanan dengan ustadz terkenal, tema: Akhlak Mulia dalam Kehidupan Sehari-hari.',
-      image: 'https://images.unsplash.com/photo-1625246433906-6cfa33544b31?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      gradient: 'from-blue-500 to-cyan-600',
-    },
-    {
-      id: 4,
-      title: 'Tahfidz Anak Usia Dini',
-      date: '22 Januari 2026',
-      time: '16:00 - 17:30',
-      location: 'Ruang Kelas TPK IASMA',
-      participants: '40 Anak',
-      category: 'Pendidikan',
-      status: 'Akan Datang',
-      description: 'Program menghafal Al-Quran untuk anak-anak usia 7-12 tahun dengan metode fun learning.',
-      image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      gradient: 'from-purple-500 to-indigo-600',
-    },
-    {
-      id: 5,
-      title: 'Santunan Yatim Bulanan',
-      date: '25 Januari 2026',
-      time: '10:00 - 12:00',
-      location: 'Gedung Serbaguna',
-      participants: '100+ Anak Yatim',
-      category: 'Sosial',
-      status: 'Akan Datang',
-      description: 'Program santunan rutin untuk anak yatim dan dhuafa, termasuk bantuan pendidikan dan sembako.',
-      image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      gradient: 'from-teal-500 to-secondary',
-    },
-    {
-      id: 6,
-      title: 'Workshop Kewirausahaan',
-      date: '28 Januari 2026',
-      time: '13:00 - 17:00',
-      location: 'Ruang Workshop',
-      participants: '60 Peserta',
-      category: 'Ekonomi',
-      status: 'Akan Datang',
-      description: 'Pelatihan kewirausahaan dan manajemen usaha untuk UMKM binaan yayasan.',
-      image: 'https://images.unsplash.com/photo-1554224311-beee415c201f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      gradient: 'from-cyan-500 to-blue-600',
-    },
-    {
-      id: 7,
-      title: 'Kajian Keluarga Sakinah',
-      date: '2 Februari 2026',
-      time: '15:00 - 17:00',
-      location: 'Aula Utama',
-      participants: '150+ Peserta',
-      category: 'Kajian',
-      status: 'Pendaftaran Dibuka',
-      description: 'Kajian tentang membangun keluarga yang harmonis sesuai tuntunan Islam.',
-      image: 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      gradient: 'from-teal-500 to-green-600',
-    },
-    {
-      id: 8,
-      title: 'Beasiswa Tahfidz 2026',
-      date: '5 Februari 2026',
-      time: '08:00 - 12:00',
-      location: 'Kampus TPK IASMA',
-      participants: 'Terbatas',
-      category: 'Pendidikan',
-      status: 'Pendaftaran Dibuka',
-      description: 'Seleksi penerima beasiswa tahfidz Al-Quran untuk periode 2026-2027.',
-      image: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      gradient: 'from-indigo-500 to-purple-600',
-    },
+  const categories = [
+    { value: 'semua', label: 'Semua Kegiatan', count: activities.length },
+    { value: 'bantuan-bencana', label: 'Bantuan Bencana', count: activities.filter(a => a.category === 'bantuan-bencana').length },
+    { value: 'bantuan-air-bersih', label: 'Bantuan Air Bersih', count: activities.filter(a => a.category === 'bantuan-air-bersih').length },
+    { value: 'donasi-santunan', label: 'Donasi & Santunan', count: activities.filter(a => a.category === 'donasi-santunan').length },
+    { value: 'program-pendidikan', label: 'Program Pendidikan', count: activities.filter(a => a.category === 'program-pendidikan').length },
+    { value: 'bantuan-material', label: 'Bantuan Material', count: activities.filter(a => a.category === 'bantuan-material').length },
+    { value: 'majelis-taklim', label: 'Majelis Taklim', count: activities.filter(a => a.category === 'majelis-taklim').length },
+    { value: 'komunitas-alumni', label: 'Komunitas Alumni', count: activities.filter(a => a.category === 'komunitas-alumni').length },
   ];
 
   const filteredActivities = activities.filter(activity => {
-    const matchesCategory = selectedCategory === 'Semua' || activity.category === selectedCategory;
+    const matchesCategory = selectedCategory === 'semua' || activity.category === selectedCategory;
     const matchesSearch = activity.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          activity.description.toLowerCase().includes(searchQuery.toLowerCase());
+                          activity.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          activity.location.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
-  const handleRegister = (activity: any) => {
-    setActivityForRegistration(activity);
-    setRegistrationModalOpen(true);
+  // Featured activities (with featured flag)
+  const featuredActivities = activities.filter(a => a.featured).slice(0, 3);
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('id-ID', { 
+      day: 'numeric', 
+      month: 'long', 
+      year: 'numeric' 
+    });
   };
 
-  const handleShare = (activity: any) => {
-    if (navigator.share) {
-      navigator.share({
-        title: activity.title,
-        text: activity.description,
-        url: window.location.href,
-      }).catch(() => {
-        alert('Link berhasil disalin ke clipboard!');
-      });
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      alert('Link berhasil disalin ke clipboard!');
+  const getCategoryLabel = (category: string) => {
+    return categories.find(c => c.value === category)?.label || category;
+  };
+
+  const getCategoryColor = (category: string) => {
+    const colors: Record<string, string> = {
+      'bantuan-bencana': 'bg-rose-100 text-rose-700 border-rose-200',
+      'bantuan-air-bersih': 'bg-blue-100 text-blue-700 border-blue-200',
+      'donasi-santunan': 'bg-emerald-100 text-emerald-700 border-emerald-200',
+      'program-pendidikan': 'bg-purple-100 text-purple-700 border-purple-200',
+      'bantuan-material': 'bg-orange-100 text-orange-700 border-orange-200',
+      'majelis-taklim': 'bg-cyan-100 text-cyan-700 border-cyan-200',
+      'komunitas-alumni': 'bg-pink-100 text-pink-700 border-pink-200',
+    };
+    return colors[category] || 'bg-gray-100 text-gray-700 border-gray-200';
+  };
+
+  const getSocialIcon = (platform: string) => {
+    switch (platform) {
+      case 'instagram': return Instagram;
+      case 'facebook': return Facebook;
+      case 'youtube': return Youtube;
+      default: return ExternalLink;
     }
   };
 
   return (
     <div className="min-h-screen overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative min-h-[500px] flex items-center overflow-hidden">
+      <section className="relative min-h-[600px] flex items-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: 'url(https://images.unsplash.com/photo-1511632765486-a01980e01a18?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1600)',
           }}
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/95 via-secondary/90 to-accent/85"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/95 via-primary/90 to-secondary/85"></div>
         </div>
 
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-20 -right-20 w-96 h-96 bg-accent/20 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-secondary/20 rounded-full blur-3xl"></div>
+          <div className="absolute -top-20 -right-20 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute top-40 left-20 w-64 h-64 bg-secondary/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse delay-500"></div>
         </div>
 
-        <div className="relative container mx-auto px-4 py-20 text-center">
-          <div className="max-w-4xl mx-auto space-y-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/20 backdrop-blur-sm rounded-full border border-accent/30 mb-4">
-              <Calendar className="w-4 h-4 text-accent" />
-              <span className="text-accent text-sm font-medium">Agenda & Kegiatan</span>
+        <div className="relative container mx-auto px-4 py-24 text-center z-10">
+          <div className="max-w-4xl mx-auto space-y-8">
+            <div className="inline-flex items-center gap-2 px-6 py-3 bg-accent/20 backdrop-blur-sm rounded-full border border-accent/30 mb-4">
+              <TrendingUp className="w-5 h-5 text-accent" />
+              <span className="text-accent font-semibold">Dokumentasi Kegiatan Terbaru</span>
             </div>
             
-            <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight">
-              Kegiatan <span className="text-accent">TPK IASMA</span>
+            <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
+              Kegiatan <span className="text-accent">YTPK</span><br />
+              <span className="text-4xl md:text-5xl">IASMA 1 Landbouw Bukittinggi</span>
             </h1>
             
-            <p className="text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
-              Ikuti berbagai kegiatan bermanfaat dan jadilah bagian dari perubahan positif di masyarakat
+            <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+              Jejak langkah nyata YTPK dalam melayani masyarakat melalui berbagai program kemanusiaan, pendidikan, dan pemberdayaan
             </p>
+
+            <div className="flex flex-wrap gap-6 justify-center pt-6">
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-8 py-4 border border-white/20">
+                <div className="text-4xl font-bold text-accent mb-1">{activities.length}+</div>
+                <div className="text-white/90 text-sm">Kegiatan Terlaksana</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-8 py-4 border border-white/20">
+                <div className="text-4xl font-bold text-accent mb-1">7</div>
+                <div className="text-white/90 text-sm">Kategori Program</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-8 py-4 border border-white/20">
+                <div className="text-4xl font-bold text-accent mb-1">1000+</div>
+                <div className="text-white/90 text-sm">Orang Terbantu</div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -190,36 +127,131 @@ export default function KegiatanPage() {
         </div>
       </section>
 
+      {/* Featured Carousel Section */}
+      {featuredActivities.length > 0 && (
+        <section className="container mx-auto px-4 -mt-20 relative z-20 mb-20">
+          <div className="text-center mb-8">
+            <Badge className="mb-4 px-4 py-2 bg-accent text-accent-foreground">
+              <Sparkles className="w-4 h-4 mr-2" />
+              Kegiatan Unggulan
+            </Badge>
+            <h2 className="text-3xl font-bold mb-2">Kegiatan Terbaru Kami</h2>
+            <p className="text-muted-foreground">Program dan kegiatan yang baru saja terlaksana</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {featuredActivities.map((activity) => (
+              <Card key={activity.id} className="group overflow-hidden hover:shadow-2xl transition-all duration-500 border-2 border-primary/20">
+                <div className="relative h-64 overflow-hidden">
+                  <img
+                    src={activity.image as string}
+                    alt={activity.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                  
+                  <div className="absolute top-4 left-4">
+                    <Badge className={`${getCategoryColor(activity.category)} border`}>
+                      {getCategoryLabel(activity.category)}
+                    </Badge>
+                  </div>
+
+                  <div className="absolute bottom-4 left-4 right-4 text-white">
+                    <h3 className="font-bold text-xl mb-2 line-clamp-2">{activity.title}</h3>
+                    <div className="flex items-center gap-2 text-sm opacity-90">
+                      <Calendar className="w-4 h-4" />
+                      <span>{formatDate(activity.date)}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <CardContent className="p-6">
+                  <p className="text-muted-foreground text-sm line-clamp-3 mb-4">
+                    {activity.description}
+                  </p>
+
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <MapPin className="w-4 h-4 text-primary" />
+                      <span className="line-clamp-1">{activity.location}</span>
+                    </div>
+                    {activity.participants && (
+                      <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                        <Users className="w-4 h-4 text-primary" />
+                        <span>{activity.participants}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {activity.socialLinks && activity.socialLinks.length > 0 && (
+                    <div className="flex gap-2 border-t pt-4">
+                      {activity.socialLinks.map((link, idx) => {
+                        const Icon = getSocialIcon(link.platform);
+                        return (
+                          <a
+                            key={idx}
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-muted hover:bg-primary hover:text-white transition-colors text-sm flex-1 justify-center"
+                          >
+                            <Icon className="w-4 h-4" />
+                            <span className="capitalize">{link.platform}</span>
+                          </a>
+                        );
+                      })}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Filter Section */}
-      <section className="container mx-auto px-4 -mt-16 relative z-10">
-        <Card className="shadow-2xl border-0">
+      <section className="container mx-auto px-4 mb-12">
+        <Card className="shadow-lg border-2">
           <CardContent className="p-6">
-            <div className="flex flex-col md:flex-row gap-4 items-center">
-              {/* Search */}
-              <div className="flex-1 relative w-full">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            {/* Search Bar */}
+            <div className="mb-6">
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <input
                   type="text"
-                  placeholder="Cari kegiatan..."
+                  placeholder="Cari kegiatan berdasarkan judul, deskripsi, atau lokasi..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full pl-12 pr-4 py-4 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-lg"
                 />
               </div>
+            </div>
 
-              {/* Category Filter */}
-              <div className="flex flex-wrap gap-2">
+            {/* Category Filters */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Filter className="w-4 h-4" />
+                <span className="font-semibold">Filter Kategori:</span>
+              </div>
+              <div className="flex flex-wrap gap-3">
                 {categories.map((category) => (
                   <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                      selectedCategory === category
-                        ? 'bg-primary text-white shadow-lg scale-105'
-                        : 'bg-muted hover:bg-muted/80 text-foreground'
+                    key={category.value}
+                    onClick={() => setSelectedCategory(category.value)}
+                    className={`px-5 py-2.5 rounded-xl font-medium transition-all duration-300 border-2 ${
+                      selectedCategory === category.value
+                        ? 'bg-primary text-white border-primary shadow-lg scale-105'
+                        : 'bg-white hover:bg-muted border-muted text-foreground hover:border-primary/50'
                     }`}
                   >
-                    {category}
+                    <span>{category.label}</span>
+                    <span className={`ml-2 px-2 py-0.5 rounded-full text-xs ${
+                      selectedCategory === category.value
+                        ? 'bg-white/20'
+                        : 'bg-muted'
+                    }`}>
+                      {category.count}
+                    </span>
                   </button>
                 ))}
               </div>
@@ -229,13 +261,15 @@ export default function KegiatanPage() {
       </section>
 
       {/* Activities Grid */}
-      <section className="container mx-auto px-4 py-20">
+      <section className="container mx-auto px-4 pb-20">
         <div className="mb-8">
           <h2 className="text-3xl font-bold mb-2">
-            {filteredActivities.length} Kegiatan Tersedia
+            {filteredActivities.length} Kegiatan Ditemukan
           </h2>
           <p className="text-muted-foreground">
-            {selectedCategory === 'Semua' ? 'Menampilkan semua kegiatan' : `Kategori: ${selectedCategory}`}
+            {selectedCategory === 'semua' 
+              ? 'Menampilkan semua kegiatan YTPK' 
+              : `Kategori: ${getCategoryLabel(selectedCategory)}`}
           </p>
         </div>
 
@@ -243,133 +277,142 @@ export default function KegiatanPage() {
           {filteredActivities.map((activity) => (
             <Card 
               key={activity.id}
-              className="group overflow-hidden hover:shadow-2xl transition-all duration-500 cursor-pointer border-0"
+              className="group overflow-hidden hover:shadow-2xl transition-all duration-500 border-0 shadow-lg"
             >
               {/* Image */}
               <div className="relative h-56 overflow-hidden">
                 <img
-                  src={activity.image}
+                  src={activity.image as string}
                   alt={activity.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className={`absolute inset-0 bg-gradient-to-t ${activity.gradient} opacity-60 group-hover:opacity-80 transition-opacity`}></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
                 
-                <div className="absolute top-4 left-4 right-4 flex items-start justify-between">
-                  <Badge className="bg-white text-primary shadow-lg">
-                    {activity.category}
-                  </Badge>
-                  <Badge className="bg-accent text-accent-foreground shadow-lg">
-                    {activity.status}
+                <div className="absolute top-4 left-4">
+                  <Badge className={`${getCategoryColor(activity.category)} border shadow-lg`}>
+                    {getCategoryLabel(activity.category)}
                   </Badge>
                 </div>
 
                 <div className="absolute bottom-4 left-4 right-4">
-                  <div className="flex items-center gap-2 text-white">
+                  <div className="flex items-center gap-2 text-white text-sm font-medium">
                     <Calendar className="w-4 h-4" />
-                    <span className="font-semibold text-sm">{activity.date}</span>
+                    <span>{formatDate(activity.date)}</span>
                   </div>
                 </div>
               </div>
 
               {/* Content */}
               <CardContent className="p-6 space-y-4">
-                <h3 className="text-xl font-bold group-hover:text-primary transition-colors line-clamp-2">
+                <h3 className="text-xl font-bold group-hover:text-primary transition-colors line-clamp-2 min-h-[56px]">
                   {activity.title}
                 </h3>
 
-                <p className="text-muted-foreground text-sm line-clamp-2">
+                <p className="text-muted-foreground text-sm line-clamp-3 min-h-[60px]">
                   {activity.description}
                 </p>
 
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <Clock className="w-4 h-4 text-primary flex-shrink-0" />
-                    <span>{activity.time} WIB</span>
+                <div className="space-y-2 text-sm pt-2 border-t">
+                  <div className="flex items-start gap-2 text-muted-foreground">
+                    <MapPin className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="line-clamp-2">{activity.location}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <MapPin className="w-4 h-4 text-primary flex-shrink-0" />
-                    <span className="line-clamp-1">{activity.location}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <Users className="w-4 h-4 text-primary flex-shrink-0" />
-                    <span>{activity.participants}</span>
-                  </div>
+                  {activity.participants && (
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <Users className="w-4 h-4 text-primary flex-shrink-0" />
+                      <span>{activity.participants} partisipan</span>
+                    </div>
+                  )}
                 </div>
 
-                <div className="flex gap-2 pt-2">
-                  <Button 
-                    className="flex-1 bg-primary hover:bg-primary/90"
-                    onClick={() => handleRegister(activity)}
-                  >
-                    Daftar Sekarang
-                    <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="icon"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleShare(activity);
-                    }}
-                  >
-                    <Share2 className="w-4 h-4" />
-                  </Button>
-                </div>
+                {activity.socialLinks && activity.socialLinks.length > 0 && (
+                  <div className="flex gap-2 pt-4 border-t">
+                    <span className="text-xs text-muted-foreground self-center">Lihat di:</span>
+                    {activity.socialLinks.map((link, idx) => {
+                      const Icon = getSocialIcon(link.platform);
+                      return (
+                        <a
+                          key={idx}
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 rounded-lg bg-muted hover:bg-primary hover:text-white transition-colors"
+                          title={`Lihat di ${link.platform}`}
+                        >
+                          <Icon className="w-4 h-4" />
+                        </a>
+                      );
+                    })}
+                  </div>
+                )}
               </CardContent>
             </Card>
           ))}
         </div>
 
         {filteredActivities.length === 0 && (
-          <div className="text-center py-20">
-            <Calendar className="w-20 h-20 mx-auto mb-4 text-muted-foreground" />
-            <h3 className="text-2xl font-bold mb-2">Tidak Ada Kegiatan</h3>
-            <p className="text-muted-foreground">
-              Tidak ada kegiatan yang sesuai dengan pencarian Anda
+          <div className="text-center py-20 bg-muted/30 rounded-3xl">
+            <Calendar className="w-24 h-24 mx-auto mb-6 text-muted-foreground/50" />
+            <h3 className="text-2xl font-bold mb-2">Tidak Ada Kegiatan Ditemukan</h3>
+            <p className="text-muted-foreground mb-6">
+              Tidak ada kegiatan yang sesuai dengan pencarian atau filter Anda
             </p>
+            <Button 
+              onClick={() => {
+                setSelectedCategory('semua');
+                setSearchQuery('');
+              }}
+              variant="outline"
+            >
+              Reset Filter
+            </Button>
           </div>
         )}
       </section>
 
-      {/* CTA Section */}
+      {/* Social Media CTA */}
       <section className="bg-gradient-to-br from-primary via-secondary to-primary py-20">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto space-y-6">
             <Sparkles className="w-16 h-16 mx-auto text-accent" />
             
             <h2 className="text-4xl md:text-5xl font-bold text-white">
-              Punya Pertanyaan tentang Kegiatan?
+              Ikuti Kegiatan Kami di Media Sosial
             </h2>
 
             <p className="text-white/90 text-lg leading-relaxed">
-              Hubungi kami untuk informasi lebih lanjut atau daftarkan diri Anda untuk mengikuti kegiatan-kegiatan bermanfaat
+              Dapatkan update terbaru tentang kegiatan YTPK dan jadilah bagian dari gerakan kebaikan untuk sesama
             </p>
 
-            <div className="flex flex-wrap gap-4 justify-center pt-4">
+            <div className="flex flex-wrap gap-4 justify-center pt-6">
+              <a 
+                href="https://www.instagram.com/iasma1bukittinggi/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-white text-primary hover:bg-white/90 shadow-xl rounded-xl font-semibold transition-all hover:scale-105"
+              >
+                <Instagram className="w-6 h-6" />
+                <span>Instagram</span>
+              </a>
+              <a 
+                href="https://www.facebook.com/iasma1bukittinggi" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-white text-primary hover:bg-white/90 shadow-xl rounded-xl font-semibold transition-all hover:scale-105"
+              >
+                <Facebook className="w-6 h-6" />
+                <span>Facebook</span>
+              </a>
               <Link to="/kontak">
-                <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-xl">
+                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl px-8 py-4 text-base">
                   Hubungi Kami
                   <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </Link>
-              <Link to="/program">
-                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl">
-                  Lihat Program Lainnya
                 </Button>
               </Link>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Registration Modal */}
-      <RegistrationModal
-        isOpen={registrationModalOpen}
-        onClose={() => setRegistrationModalOpen(false)}
-        title={activityForRegistration?.title || ''}
-        category={activityForRegistration?.category || ''}
-        type="kegiatan"
-      />
     </div>
   );
 }

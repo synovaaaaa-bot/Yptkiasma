@@ -1,91 +1,100 @@
 import { Program } from '../types/collections';
 
-// Programs Collection - Program Yayasan YPTK
+// Programs Collection - Program Yayasan YTPK
 export const programs: Program[] = [
   {
     id: '1',
-    title: 'Qurban Idul Adha',
-    slug: 'qurban-idul-adha',
-    description: 'Program penyaluran daging qurban untuk masyarakat dhuafa di sekitar Bukittinggi',
+    title: 'Sebar Qurban ke Daerah Terpencil',
+    slug: 'sebar-qurban-daerah-terpencil',
+    description: 'Program penyaluran daging qurban ke daerah-daerah terpencil dan masyarakat dhuafa yang jauh dari pusat kota',
     image: 'https://images.unsplash.com/photo-1583623025817-d180a2221d0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
     category: 'sosial',
     status: 'active',
     participants: 500,
-    location: 'Seluruh Bukittinggi',
-    content: `Program Qurban YPTK merupakan kegiatan rutin tahunan untuk menyalurkan daging qurban kepada masyarakat dhuafa dan fakir miskin di wilayah Bukittinggi dan sekitarnya.
+    location: 'Daerah Terpencil Sumbar',
+    content: `Program Sebar Qurban YTPK khusus menyalurkan daging qurban ke daerah-daerah terpencil yang sulit dijangkau dan jarang mendapat bantuan, memastikan masyarakat pelosok juga merasakan kebahagiaan Idul Adha.
 
 **Target Penerima:**
-- Keluarga dhuafa dan fakir miskin
-- Anak yatim piatu
-- Janda dan lansia tidak mampu
-- Masyarakat prasejahtera
+- Masyarakat daerah terpencil dan pelosok
+- Keluarga dhuafa di pegunungan
+- Kampung-kampung yang sulit diakses
+- Desa tertinggal di Sumatera Barat
+
+**Wilayah Penyaluran:**
+- Daerah pegunungan Bukittinggi
+- Kampung-kampung terpencil di Agam
+- Desa-desa pelosok di Lima Puluh Kota
+- Wilayah sulit akses lainnya
 
 **Proses Pelaksanaan:**
+- Survey lokasi terpencil yang membutuhkan
 - Penyembelihan hewan qurban sesuai syariat
-- Pengemasan dan distribusi daging
-- Penyaluran langsung ke rumah penerima
+- Pengemasan daging untuk perjalanan jauh
+- Distribusi langsung ke lokasi terpencil
 - Dokumentasi dan pelaporan transparan`,
     benefits: [
       'Hewan qurban berkualitas (sapi dan kambing)',
-      'Penyembelihan oleh jagal bersertifikat',
-      'Distribusi merata dan adil',
+      'Penyembelihan sesuai syariat Islam',
+      'Distribusi ke daerah yang benar-benar membutuhkan',
+      'Menjangkau area yang jarang tersentuh bantuan',
       'Laporan transparan kepada donatur',
-      'Penyaluran tepat sasaran',
     ],
     requirements: [
       'Pendaftaran qurban H-30 Idul Adha',
       'Pembayaran dapat dicicil',
       'Dapat menitipkan niat qurban',
-      'Dokumentasi foto penyembelihan',
+      'Dokumentasi proses penyembelihan dan distribusi',
     ],
     _status: 'published',
     meta: {
-      title: 'Program Qurban Idul Adha - YPTK',
-      description: 'Program penyaluran daging qurban untuk masyarakat dhuafa',
+      title: 'Program Sebar Qurban ke Daerah Terpencil - YTPK',
+      description: 'Penyaluran daging qurban untuk masyarakat daerah terpencil',
     },
     createdAt: '2024-01-10T08:00:00Z',
     updatedAt: '2024-09-15T10:00:00Z',
   },
   {
     id: '2',
-    title: 'Bantuan Bencana Alam',
-    slug: 'bantuan-bencana-alam',
-    description: 'Respon cepat bantuan kemanusiaan untuk korban bencana alam di berbagai daerah',
+    title: 'Bantuan Bencana',
+    slug: 'bantuan-bencana',
+    description: 'Tim tanggap darurat YTPK siap membantu korban bencana dengan bantuan logistik dan kebutuhan mendesak',
     image: 'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
     category: 'sosial',
     status: 'active',
     participants: 1000,
     location: 'Sumatera Barat & Sekitarnya',
-    content: `Program tanggap darurat YPTK untuk membantu korban bencana alam seperti gempa bumi, banjir, tanah longsor, dan bencana lainnya dengan bantuan logistik dan kebutuhan mendesak.
+    content: `Program tanggap darurat YTPK untuk membantu korban bencana seperti gempa bumi, banjir, tanah longsor, kebakaran, dan bencana lainnya dengan bantuan logistik, trauma healing, dan kebutuhan mendesak lainnya.
 
 **Jenis Bantuan:**
-- Logistik: makanan, air bersih, obat-obatan
-- Kebutuhan darurat: tenda, selimut, pakaian
-- Trauma healing dan pendampingan
+- Logistik darurat: makanan, air bersih, obat-obatan
+- Kebutuhan mendesak: tenda, selimut, pakaian, perlengkapan tidur
+- Trauma healing dan pendampingan psikososial
 - Bantuan pemulihan pasca bencana
+- Koordinasi dengan tim SAR dan relawan
 
 **Mekanisme Penyaluran:**
-- Tim siaga bencana 24 jam
-- Koordinasi dengan BPBD dan relawan
+- Tim siaga bencana 24 jam standby
+- Koordinasi dengan BPBD dan relawan daerah
 - Penyaluran langsung ke lokasi bencana
-- Monitoring dan evaluasi berkelanjutan`,
+- Monitoring dan evaluasi berkelanjutan
+- Laporan transparan penggunaan dana`,
     benefits: [
       'Tim relawan terlatih dan berpengalaman',
       'Respon cepat maksimal 24 jam',
-      'Bantuan sesuai kebutuhan mendesak',
-      'Koordinasi dengan pemerintah daerah',
+      'Bantuan sesuai kebutuhan mendesak korban',
+      'Koordinasi dengan pemerintah dan SAR',
       'Laporan transparan dan akuntabel',
     ],
     requirements: [
-      'Verifikasi lokasi bencana',
-      'Data korban yang membutuhkan',
-      'Koordinasi dengan tim SAR',
+      'Verifikasi lokasi dan kondisi bencana',
+      'Data korban yang membutuhkan bantuan',
+      'Koordinasi dengan tim SAR dan relawan lokal',
       'Dokumentasi penyaluran bantuan',
     ],
     _status: 'published',
     meta: {
-      title: 'Program Bantuan Bencana Alam - YPTK',
-      description: 'Respon cepat bantuan kemanusiaan untuk korban bencana',
+      title: 'Program Bantuan Bencana - YTPK',
+      description: 'Tim tanggap darurat untuk korban bencana',
     },
     createdAt: '2024-01-10T08:00:00Z',
     updatedAt: '2024-09-15T10:00:00Z',
@@ -99,15 +108,15 @@ export const programs: Program[] = [
     category: 'kesehatan',
     status: 'active',
     participants: 50,
-    location: 'Rumah Sakit Partner YPTK',
-    content: `Program kesehatan YPTK bekerja sama dengan rumah sakit dan tim dokter bedah plastik untuk memberikan operasi bibir sumbing gratis bagi anak-anak dari keluarga kurang mampu.
+    location: 'Rumah Sakit Partner YTPK',
+    content: `Program kesehatan YTPK bekerja sama dengan rumah sakit dan tim dokter bedah plastik untuk memberikan operasi bibir sumbing gratis bagi anak-anak dari keluarga kurang mampu, memberikan harapan baru dan masa depan yang lebih baik.
 
 **Layanan yang Diberikan:**
 - Pemeriksaan medis lengkap pra-operasi
-- Operasi bibir sumbing oleh dokter spesialis
-- Perawatan pasca operasi
+- Operasi bibir sumbing oleh dokter spesialis bedah plastik
+- Perawatan intensif pasca operasi
 - Konsultasi dan follow-up gratis
-- Bantuan biaya transportasi
+- Bantuan biaya transportasi dan akomodasi
 
 **Target Peserta:**
 - Anak usia 3 bulan - 17 tahun
@@ -124,12 +133,12 @@ export const programs: Program[] = [
     requirements: [
       'Surat keterangan tidak mampu dari kelurahan',
       'Hasil pemeriksaan kesehatan awal',
-      'Kelengkapan dokumen identitas',
+      'Kelengkapan dokumen identitas anak dan orangtua',
       'Kesediaan mengikuti prosedur medis',
     ],
     _status: 'published',
     meta: {
-      title: 'Program Operasi Bibir Sumbing Gratis - YPTK',
+      title: 'Program Operasi Bibir Sumbing Gratis - YTPK',
       description: 'Operasi bibir sumbing gratis untuk anak dari keluarga tidak mampu',
     },
     createdAt: '2024-01-10T08:00:00Z',
@@ -144,21 +153,21 @@ export const programs: Program[] = [
     category: 'kesehatan',
     status: 'active',
     participants: 100,
-    location: 'Rumah Sakit Partner YPTK',
-    content: `Program bakti sosial kesehatan mata YPTK memberikan operasi katarak gratis untuk lansia dan masyarakat kurang mampu yang mengalami gangguan penglihatan akibat katarak.
+    location: 'Rumah Sakit Partner YTPK',
+    content: `Program bakti sosial kesehatan mata YTPK memberikan operasi katarak gratis untuk lansia dan masyarakat kurang mampu yang mengalami gangguan penglihatan akibat katarak, mengembalikan cahaya kehidupan mereka.
 
 **Layanan yang Diberikan:**
 - Pemeriksaan mata lengkap gratis
 - Operasi katarak dengan teknologi modern
-- Lensa tanam IOL berkualitas
+- Lensa tanam IOL berkualitas internasional
 - Perawatan dan obat-obatan pasca operasi
 - Kacamata baca gratis (jika diperlukan)
 
 **Proses Pelaksanaan:**
 - Screening awal kesehatan mata
-- Penjadwalan operasi sesuai urutan
-- Operasi oleh dokter spesialis mata
-- Kontrol dan evaluasi pasca operasi`,
+- Penjadwalan operasi sesuai urutan pendaftaran
+- Operasi oleh dokter spesialis mata berpengalaman
+- Kontrol dan evaluasi pasca operasi rutin`,
     benefits: [
       'Operasi dan lensa tanam 100% gratis',
       'Dokter spesialis mata berpengalaman',
@@ -168,13 +177,13 @@ export const programs: Program[] = [
     ],
     requirements: [
       'Usia minimal 40 tahun',
-      'Surat keterangan tidak mampu',
+      'Surat keterangan tidak mampu dari kelurahan',
       'Hasil pemeriksaan mata awal',
       'Tidak memiliki penyakit mata lain yang berat',
     ],
     _status: 'published',
     meta: {
-      title: 'Program Operasi Katarak Gratis - YPTK',
+      title: 'Program Operasi Katarak Gratis - YTPK',
       description: 'Operasi katarak gratis untuk lansia dan masyarakat kurang mampu',
     },
     createdAt: '2024-01-10T08:00:00Z',
@@ -182,183 +191,155 @@ export const programs: Program[] = [
   },
   {
     id: '5',
-    title: 'Pembagian Takjil Ramadhan',
-    slug: 'pembagian-takjil-ramadhan',
-    description: 'Berbagi takjil gratis setiap sore di bulan Ramadhan untuk masyarakat',
+    title: 'Pembagian Takjil dan Sembako di Bulan Ramadhan',
+    slug: 'takjil-sembako-ramadhan',
+    description: 'Program berbagi takjil gratis setiap sore dan paket sembako untuk keluarga dhuafa di bulan suci Ramadhan',
     image: 'https://images.unsplash.com/photo-1610399827100-02e3c525f144?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
     category: 'sosial',
     status: 'active',
-    participants: 300,
+    participants: 500,
     location: 'Beberapa Titik di Bukittinggi',
-    content: `Program berbagi takjil gratis YPTK di bulan Ramadhan untuk membantu masyarakat yang sedang berpuasa, terutama musafir, pekerja, dan masyarakat kurang mampu.
+    content: `Program Ramadhan YTPK yang membagikan takjil gratis setiap sore dan paket sembako untuk membantu masyarakat yang sedang berpuasa, terutama musafir, pekerja, dan keluarga kurang mampu.
 
-**Pelaksanaan Program:**
+**Program Takjil Gratis:**
 - Pembagian setiap sore pukul 17.00 - 18.00 WIB
 - Lokasi strategis di beberapa titik Bukittinggi
 - Menu takjil bervariasi dan bergizi
 - Khusus hari Jumat: nasi kotak gratis
 
-**Lokasi Pembagian:**
+**Program Sembako Ramadhan:**
+- Paket sembako untuk 500+ keluarga dhuafa
+- Distribusi di awal dan pertengahan Ramadhan
+- Berisi beras, minyak, gula, dan bahan pokok lainnya
+- Penyaluran langsung ke rumah penerima
+
+**Lokasi Pembagian Takjil:**
 - Simpang 4 Bukittinggi
 - Terminal Aur Kuning
 - Masjid Raya Bukittinggi
 - Kawasan Jam Gadang
-- Dan titik-titik lainnya`,
+- Dan titik-titik strategis lainnya`,
     benefits: [
-      'Takjil gratis setiap sore',
+      'Takjil gratis setiap sore di bulan Ramadhan',
+      'Paket sembako lengkap untuk keluarga',
       'Menu bervariasi dan higienis',
       'Lokasi mudah diakses',
-      'Berbagi kebahagiaan Ramadhan',
-      'Pahala bagi donatur takjil',
+      'Berbagi kebahagiaan di bulan suci',
     ],
     requirements: [
-      'Terbuka untuk semua orang',
-      'Antri dengan tertib',
-      'Satu orang satu porsi',
-      'Menjaga kebersihan lokasi',
+      'Takjil: Terbuka untuk semua orang yang berpuasa',
+      'Sembako: Surat keterangan tidak mampu',
+      'Antri dengan tertib dan menjaga kebersihan',
+      'Pendataan penerima sembako',
     ],
     _status: 'published',
     meta: {
-      title: 'Program Pembagian Takjil Ramadhan - YPTK',
-      description: 'Berbagi takjil gratis setiap sore di bulan Ramadhan',
+      title: 'Program Pembagian Takjil dan Sembako Ramadhan - YTPK',
+      description: 'Berbagi takjil gratis dan sembako di bulan Ramadhan',
     },
     createdAt: '2024-01-10T08:00:00Z',
     updatedAt: '2024-09-15T10:00:00Z',
   },
   {
     id: '6',
-    title: 'Go Clean Masjid dan Mushola',
-    slug: 'goclean-masjid-mushola',
-    description: 'Kegiatan gotong royong membersihkan masjid dan mushola di sekitar Bukittinggi',
+    title: 'Go Clean Mushalla dan Mesjid',
+    slug: 'goclean-mushalla-mesjid',
+    description: 'Kegiatan gotong royong membersihkan mushalla dan mesjid yang membutuhkan di sekitar Bukittinggi',
     image: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
     category: 'sosial',
     status: 'active',
     participants: 50,
-    location: 'Masjid & Mushola se-Bukittinggi',
-    content: `Program Go Clean YPTK mengajak relawan untuk bergotong royong membersihkan masjid dan mushola yang membutuhkan, meliputi pembersihan dalam dan luar bangunan, perawatan fasilitas, dan perbaikan ringan.
+    location: 'Mushalla & Mesjid se-Bukittinggi',
+    content: `Program Go Clean YTPK mengajak relawan untuk bergotong royong membersihkan mushalla dan mesjid yang membutuhkan, meliputi pembersihan menyeluruh dalam dan luar bangunan, perawatan fasilitas, dan perbaikan ringan.
 
 **Kegiatan yang Dilakukan:**
 - Pembersihan lantai, karpet, dan dinding
 - Pembersihan toilet dan tempat wudhu
-- Perawatan taman masjid
+- Perawatan taman mushalla/mesjid
 - Perbaikan fasilitas yang rusak ringan
 - Pengecatan jika diperlukan
+- Pembersihan selokan dan area parkir
 
 **Jadwal Pelaksanaan:**
-- Setiap bulan 1-2 masjid/mushola
+- Setiap bulan 2-3 mushalla/mesjid
 - Hari Sabtu-Ahad pukul 08.00 - 12.00
-- Koordinasi dengan pengurus masjid
-- Dokumentasi sebelum dan sesudah`,
+- Koordinasi dengan pengurus mushalla/mesjid
+- Dokumentasi sebelum dan sesudah
+
+**Target Lokasi:**
+- Mushalla dan mesjid yang kurang terawat
+- Fasilitas ibadah di daerah kurang mampu
+- Prioritas untuk mushalla/mesjid yang pengurus terbatas`,
     benefits: [
-      'Masjid/mushola bersih dan nyaman',
+      'Mushalla/mesjid bersih dan nyaman untuk ibadah',
       'Mempererat silaturahmi umat',
-      'Pahala menjaga rumah Allah',
-      'Gratis untuk semua masjid/mushola',
-      'Tim relawan berpengalaman',
+      'Pahala menjaga kebersihan rumah Allah',
+      'Gratis 100% untuk semua mushalla/mesjid',
+      'Tim relawan berpengalaman dan bersemangat',
     ],
     requirements: [
-      'Pengajuan dari pengurus masjid/mushola',
+      'Pengajuan dari pengurus mushalla/mesjid',
       'Survey lokasi terlebih dahulu',
       'Kesediaan pengurus untuk berkoordinasi',
-      'Masjid/mushola yang memang membutuhkan',
+      'Mushalla/mesjid yang memang membutuhkan',
     ],
     _status: 'published',
     meta: {
-      title: 'Program Go Clean Masjid dan Mushola - YPTK',
-      description: 'Gotong royong membersihkan masjid dan mushola',
+      title: 'Program Go Clean Mushalla dan Mesjid - YTPK',
+      description: 'Gotong royong membersihkan mushalla dan mesjid',
     },
     createdAt: '2024-01-10T08:00:00Z',
     updatedAt: '2024-09-15T10:00:00Z',
   },
   {
     id: '7',
-    title: 'Pembagian Sembako Rutin',
-    slug: 'pembagian-sembako',
-    description: 'Program distribusi paket sembako bulanan untuk keluarga dhuafa dan prasejahtera',
-    image: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-    category: 'sosial',
-    status: 'active',
-    participants: 200,
-    location: 'Seluruh Bukittinggi',
-    content: `Program pembagian sembako rutin YPTK memberikan bantuan paket sembako kepada keluarga dhuafa, janda, lansia, dan masyarakat prasejahtera untuk membantu kebutuhan pokok sehari-hari.
-
-**Isi Paket Sembako:**
-- Beras 10 kg
-- Minyak goreng 2 liter
-- Gula pasir 2 kg
-- Teh dan kopi
-- Mie instan 1 dus
-- Susu dan biskuit
-- Bahan pokok lainnya
-
-**Frekuensi Penyaluran:**
-- Rutin setiap bulan
-- Extra di bulan Ramadhan
-- Menjelang hari raya
-- Saat ada donatur khusus`,
-    benefits: [
-      'Paket sembako berkualitas',
-      'Penyaluran tepat sasaran',
-      'Bantuan konsisten setiap bulan',
-      'Pendataan penerima transparan',
-      'Dapat dijadikan penerima tetap',
-    ],
-    requirements: [
-      'Surat keterangan tidak mampu',
-      'Domisili Bukittinggi dan sekitarnya',
-      'Verifikasi kondisi ekonomi keluarga',
-      'Pengambilan di lokasi yang ditentukan',
-    ],
-    _status: 'published',
-    meta: {
-      title: 'Program Pembagian Sembako Rutin - YPTK',
-      description: 'Distribusi paket sembako bulanan untuk keluarga dhuafa',
-    },
-    createdAt: '2024-01-10T08:00:00Z',
-    updatedAt: '2024-09-15T10:00:00Z',
-  },
-  {
-    id: '8',
-    title: 'Distribusi Al-Quran Gratis',
-    slug: 'alquran-gratis',
-    description: 'Program pembagian Al-Quran gratis untuk masjid, mushola, dan masyarakat yang membutuhkan',
+    title: 'Waqaf Al-Qur\'an',
+    slug: 'waqaf-alquran',
+    description: 'Program wakaf Al-Qur\'an berkualitas untuk mushalla, mesjid, pesantren, dan masyarakat yang membutuhkan',
     image: 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
     category: 'pendidikan',
     status: 'active',
     participants: 500,
     location: 'Sumatera Barat',
-    content: `Program wakaf Al-Quran YPTK menyediakan mushaf Al-Quran gratis berkualitas untuk disebarkan ke masjid, mushola, pesantren, madrasah, dan masyarakat yang membutuhkan.
+    content: `Program wakaf Al-Qur'an YTPK menyediakan mushaf Al-Qur'an berkualitas untuk disebarkan ke mushalla, mesjid, pesantren, madrasah, dan masyarakat yang membutuhkan sebagai amal jariyah yang pahalanya terus mengalir.
 
-**Jenis Al-Quran yang Tersedia:**
-- Al-Quran ukuran sedang (A5)
-- Al-Quran terjemahan
-- Al-Quran tajwid warna
-- Juz Amma untuk anak
-- Al-Quran ukuran besar untuk lansia
+**Jenis Al-Qur'an yang Tersedia:**
+- Al-Qur'an ukuran sedang (A5) untuk mesjid/mushalla
+- Al-Qur'an terjemahan Bahasa Indonesia
+- Al-Qur'an tajwid warna untuk belajar
+- Juz Amma untuk anak-anak
+- Al-Qur'an ukuran besar untuk lansia (khusus)
+
+**Program Penyaluran:**
+- Prioritas untuk mushalla/mesjid yang kekurangan Al-Qur'an
+- Pesantren dan madrasah yang membutuhkan
+- Perpustakaan umum dan taman baca
+- Masyarakat kurang mampu yang ingin memiliki Al-Qur'an
+- Muallaf dan komunitas pengajian
 
 **Syarat Penerima:**
-- Masjid/mushola yang membutuhkan
-- Pesantren dan madrasah
-- Perpustakaan umum
-- Masyarakat kurang mampu
-- Muallaf dan taman baca`,
+- Mushalla/mesjid yang membutuhkan tambahan Al-Qur'an
+- Pesantren dan lembaga pendidikan Islam
+- Perpustakaan dan taman baca Al-Qur'an
+- Masyarakat kurang mampu (dengan surat keterangan)
+- Komunitas pengajian yang aktif`,
     benefits: [
-      'Al-Quran berkualitas cetak bagus',
-      'Gratis 100% tanpa biaya',
+      'Al-Qur'an berkualitas cetak bagus dan jelas',
+      'Gratis 100% tanpa biaya apapun',
       'Pengiriman ke lokasi (area Bukittinggi)',
       'Berbagai ukuran sesuai kebutuhan',
-      'Pahala jariyah bagi donatur',
+      'Pahala jariyah mengalir terus bagi wakif',
     ],
     requirements: [
-      'Pengajuan tertulis ke YPTK',
-      'Surat pengantar dari RT/Kelurahan (pribadi)',
-      'Surat pengantar pengurus (masjid/lembaga)',
-      'Jumlah yang dibutuhkan (maksimal)',
+      'Pengajuan tertulis ke sekretariat YTPK',
+      'Surat pengantar dari RT/Kelurahan (untuk pribadi)',
+      'Surat pengantar pengurus (untuk mushalla/lembaga)',
+      'Mencantumkan jumlah yang dibutuhkan',
     ],
     _status: 'published',
     meta: {
-      title: 'Program Distribusi Al-Quran Gratis - YPTK',
-      description: 'Pembagian Al-Quran gratis untuk masjid, mushola, dan masyarakat',
+      title: 'Program Waqaf Al-Qur\'an - YTPK',
+      description: 'Wakaf Al-Qur\'an untuk mushalla, mesjid, dan masyarakat',
     },
     createdAt: '2024-01-10T08:00:00Z',
     updatedAt: '2024-09-15T10:00:00Z',

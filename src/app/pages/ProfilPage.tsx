@@ -114,7 +114,7 @@ export default function ProfilPage() {
               <p className="text-accent font-medium">Sejak 2009</p>
             </div>
             <h1 className="text-4xl md:text-6xl text-white mb-6">
-              Yayasan YPTK<br />Landbouw Bukittinggi
+              Yayasan YTPK<br />Landbouw Bukittinggi
             </h1>
             <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
               Peduli Sesama, Berbagi Kebahagiaan
@@ -140,22 +140,25 @@ export default function ProfilPage() {
           <h2 className="mb-6 text-primary">Tentang Kami</h2>
           <div className="space-y-4 text-muted-foreground text-justify">
             <p>
-              Yayasan YPTK Landbouw Bukittinggi merupakan lembaga sosial dan pendidikan yang dibentuk pada tahun 2009 
+              Yayasan YTPK Landbouw Bukittinggi merupakan lembaga sosial dan pendidikan yang dibentuk pada tahun 2009 
               untuk bantuan kemanusiaan oleh IASMA 1 (Ikatan Alumni SMA 1) Bukittinggi. Nama "Landbouw" merujuk pada lokasi 
               SMA Negeri 1 Bukittinggi yang terletak di kawasan bersejarah Landbouw di Kota Bukittinggi, Sumatera Barat.
             </p>
+
             <p>
               Berawal dari kepedulian para alumni SMA 1 Bukittinggi terhadap kondisi masyarakat, yayasan ini didirikan dengan 
-              semangat berbagi dan memberdayakan sesama. Fokus utama YPTK adalah dalam bidang pendidikan, sosial kemanusiaan, 
+              semangat berbagi dan memberdayakan sesama. Fokus utama YTPK adalah dalam bidang pendidikan, sosial kemanusiaan, 
               dan pemberdayaan ekonomi masyarakat, khususnya bagi kaum dhuafa dan anak yatim.
             </p>
+
             <p>
-              Beberapa program terbaik YPTK yang terus berkembang hingga saat ini seperti Taman Pendidikan Al-Qur'an, 
+              Beberapa program terbaik YTPK yang terus berkembang hingga saat ini seperti Taman Pendidikan Al-Qur'an, 
               program beasiswa pendidikan, bantuan santunan untuk yatim piatu dan dhuafa, serta program pemberdayaan ekonomi 
               masyarakat yang dikhususkan untuk mencetak generasi yang profesional, berilmu, dan berakhlak mulia.
             </p>
+
             <p>
-              Demi terciptanya sumber daya manusia yang berkualitas dan bermanfaat bagi masyarakat, YPTK terus 
+              Demi terciptanya sumber daya manusia yang berkualitas dan bermanfaat bagi masyarakat, YTPK terus 
               berkomitmen menjalankan program-program pembinaan, pendidikan, dan bantuan sosial yang terstruktur, 
               amanah, dan berkelanjutan dengan semangat alumni yang peduli sesama.
             </p>
@@ -188,7 +191,7 @@ export default function ProfilPage() {
         <div className="text-center mb-12">
           <h2 className="mb-4 text-primary">Perjalanan Kami</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Jejak langkah Yayasan YPTK dalam melayani masyarakat
+            Jejak langkah Yayasan YTPK dalam melayani masyarakat
           </p>
         </div>
         <div className="max-w-5xl mx-auto">

@@ -12,21 +12,21 @@ export const footer: Footer = {
   contact: {
     address: 'Jl. Landbouw No. 10, Bukittinggi, Sumatera Barat 26115',
     phone: '+62 752 1234567',
-    email: 'info@yptk.or.id',
+    email: 'info@ytpk.or.id',
     whatsapp: '+62 812 3456 7890',
   },
-  socialLinks: [
+  socialMedia: [
     {
       platform: 'facebook',
-      url: 'https://facebook.com/yptk',
+      url: 'https://facebook.com/ytpk',
     },
     {
       platform: 'instagram',
-      url: 'https://instagram.com/yptk',
+      url: 'https://instagram.com/ytpk',
     },
     {
       platform: 'youtube',
-      url: 'https://youtube.com/@yptk',
+      url: 'https://youtube.com/@ytpk',
     },
     {
       platform: 'whatsapp',
@@ -59,7 +59,7 @@ export const footer: Footer = {
       href: '/kontak',
     },
   ],
-  copyright: `© ${new Date().getFullYear()} Yayasan YPTK Landbouw Bukittinggi. Semua hak dilindungi.`,
+  copyright: `© ${new Date().getFullYear()} Yayasan YTPK Landbouw Bukittinggi. Semua hak dilindungi.`,
   footerText: 'Peduli Sesama, Berbagi Kebahagiaan',
 };
 

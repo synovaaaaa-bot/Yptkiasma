@@ -2,13 +2,13 @@ import { SiteSettings } from '../types/globals';
 
 // Site Settings Global Configuration
 export const siteSettings: SiteSettings = {
-  siteName: 'Yayasan YPTK Landbouw Bukittinggi',
+  siteName: 'Yayasan YTPK Landbouw Bukittinggi',
   siteDescription:
-    'Yayasan YPTK Landbouw Bukittinggi - Lembaga sosial dan pendidikan yang berkomitmen untuk pemberdayaan masyarakat melalui program pendidikan, sosial, dan ekonomi.',
-  siteUrl: 'https://yptk.or.id',
+    'Yayasan YTPK Landbouw Bukittinggi - Lembaga sosial dan pendidikan yang berkomitmen untuk pemberdayaan masyarakat melalui program pendidikan, sosial, dan ekonomi.',
+  siteUrl: 'https://ytpk.or.id',
   organizationInfo: {
-    fullName: 'Yayasan Pendidikan dan Pemberdayaan Masyarakat YPTK Landbouw Bukittinggi',
-    shortName: 'YPTK',
+    fullName: 'Yayasan Pendidikan dan Pemberdayaan Masyarakat YTPK Landbouw Bukittinggi',
+    shortName: 'YTPK',
     tagline: 'Peduli Sesama, Berbagi Kebahagiaan',
     foundedYear: '2009',
     location: 'Bukittinggi, Sumatera Barat',
@@ -19,13 +19,13 @@ export const siteSettings: SiteSettings = {
     accentColor: '#FACC15', // Emas
   },
   seo: {
-    defaultTitle: 'Yayasan YPTK Landbouw Bukittinggi',
+    defaultTitle: 'Yayasan YTPK Landbouw Bukittinggi',
     defaultDescription:
       'Lembaga sosial dan pendidikan Islam yang fokus pada pemberdayaan masyarakat melalui program pendidikan Al-Quran, bantuan sosial, dan pengembangan ekonomi.',
-    defaultImage: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=1200',
+    defaultImage: '/og-image.jpg',
     keywords: [
       'yayasan islam',
-      'yptk',
+      'ytpk',
       'bukittinggi',
       'pendidikan islam',
       'tahfidz quran',

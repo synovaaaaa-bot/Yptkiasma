@@ -125,6 +125,31 @@ export interface Event {
   updatedAt: string;
 }
 
+export interface Activity {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  image: string | Media;
+  category: 'bantuan-bencana' | 'bantuan-air-bersih' | 'donasi-santunan' | 'program-pendidikan' | 'bantuan-material' | 'majelis-taklim' | 'komunitas-alumni';
+  date: string;
+  location: string;
+  participants?: number;
+  content?: string;
+  socialLinks?: Array<{
+    platform: 'instagram' | 'facebook' | 'youtube' | 'threads';
+    url: string;
+  }>;
+  featured?: boolean;
+  _status: 'draft' | 'published';
+  meta?: {
+    title?: string;
+    description?: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Donation {
   id: string;
   donorName: string;

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Calendar, Users, Heart, BookOpen, Clock, MapPin, GraduationCap, HandHeart, Briefcase, ArrowRight, Sparkles, TrendingUp, Award, Target, Sunrise, Sun, Cloud, Sunset, Moon } from 'lucide-react';
+import { Calendar, Users, Heart, BookOpen, Clock, MapPin, GraduationCap, HandHeart, Briefcase, ArrowRight, Sparkles, TrendingUp, Award, Target } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
@@ -7,52 +7,11 @@ import { useState, useEffect } from 'react';
 
 export default function HomePage() {
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [timezone, setTimezone] = useState<'WIB' | 'WITA' | 'WIT'>('WIB');
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-    
-    // Deteksi timezone berdasarkan offset UTC
-    const offset = -new Date().getTimezoneOffset() / 60;
-    if (offset === 7) {
-      setTimezone('WIB'); // UTC+7
-    } else if (offset === 8) {
-      setTimezone('WITA'); // UTC+8
-    } else if (offset === 9) {
-      setTimezone('WIT'); // UTC+9
-    } else {
-      // Default WIB jika di luar Indonesia
-      setTimezone('WIB');
-    }
-    
     return () => clearInterval(timer);
   }, []);
-
-  // Jadwal sholat berdasarkan timezone (untuk Bukittinggi base WIB)
-  const getPrayerTimes = () => {
-    const baseTimesWIB = [
-      { name: 'Subuh', hour: 4, minute: 45, icon: Sunrise },
-      { name: 'Dzuhur', hour: 12, minute: 0, icon: Sun },
-      { name: 'Ashar', hour: 15, minute: 15, icon: Cloud },
-      { name: 'Maghrib', hour: 18, minute: 0, icon: Sunset },
-      { name: 'Isya', hour: 19, minute: 15, icon: Moon },
-    ];
-
-    // Konversi waktu berdasarkan timezone user
-    const offset = timezone === 'WITA' ? 1 : timezone === 'WIT' ? 2 : 0;
-    
-    return baseTimesWIB.map(prayer => {
-      let adjustedHour = prayer.hour + offset;
-      if (adjustedHour >= 24) adjustedHour -= 24;
-      
-      return {
-        ...prayer,
-        time: `${String(adjustedHour).padStart(2, '0')}:${String(prayer.minute).padStart(2, '0')}`
-      };
-    });
-  };
-
-  const prayerTimes = getPrayerTimes();
 
   const featuredPrograms = [
     {
@@ -142,7 +101,7 @@ export default function HomePage() {
             <div className="space-y-6 text-white">
               <Badge className="bg-accent/20 text-accent border-accent/30 hover:bg-accent/30">
                 <Sparkles className="w-3 h-3 mr-1" />
-                Sejak 2009 - Alumni SMA 1 Bukittinggi
+                Sejak 2009 - Ikatan Alumni SMA 1 Landbouw Bukittinggi
               </Badge>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
@@ -151,7 +110,7 @@ export default function HomePage() {
               </h1>
               
               <p className="text-lg md:text-xl text-white/90 leading-relaxed">
-                Yayasan YPTK Bukittinggi hadir sebagai wadah kepedulian alumni dalam 
+                Yayasan TPK Iasma 1 Landbouw Bukittinggi hadir sebagai wadah kepedulian alumni dalam 
                 memberdayakan masyarakat melalui pendidikan, sosial, dan ekonomi.
               </p>
 
@@ -186,45 +145,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right Content - Prayer Times */}
-            <div>
-              <Card className="bg-white shadow-2xl border-0 overflow-hidden">
-                <div className="bg-gradient-to-r from-primary to-secondary p-6 text-white">
-                  <div className="flex items-center justify-between mb-2">
-                    <div>
-                      <h3 className="text-2xl font-bold">Jadwal Sholat</h3>
-                      <p className="text-white/90 text-sm">Bukittinggi, Indonesia</p>
-                    </div>
-                    <Clock className="w-10 h-10 text-accent" />
-                  </div>
-                  <div className="text-sm text-white/80 mt-4">
-                    Waktu Sekarang: <span className="font-semibold text-accent">{currentTime.toLocaleTimeString('id-ID')}</span> {timezone}
-                  </div>
-                </div>
-                
-                <CardContent className="p-6">
-                  <div className="space-y-3">
-                    {prayerTimes.map((prayer) => {
-                      const Icon = prayer.icon;
-                      return (
-                        <div 
-                          key={prayer.name}
-                          className="flex items-center justify-between p-3 rounded-lg hover:bg-primary/5 transition-colors"
-                        >
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                              <Icon className="w-5 h-5 text-primary" />
-                            </div>
-                            <span className="font-semibold text-foreground">{prayer.name}</span>
-                          </div>
-                          <span className="text-xl font-bold text-primary">{prayer.time}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+            {/* Right Content - Removed Prayer Times */}
           </div>
         </div>
 

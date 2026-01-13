@@ -21,7 +21,7 @@ export function Footer() {
                 className="h-12 w-12 object-contain bg-white rounded-lg p-1"
               />
             </div>
-            <h3 className="mb-4 text-white">Yayasan YPTK</h3>
+            <h3 className="mb-4 text-white">Yayasan YTPK</h3>
             <p className="text-white/80 mb-4">
               Yayasan yang berkomitmen untuk menjadi pusat kegiatan pendidikan, 
               sosial, dan pemberdayaan masyarakat.
@@ -87,14 +87,14 @@ export function Footer() {
               </li>
               <li className="flex items-center space-x-2">
                 <Mail className="w-5 h-5 flex-shrink-0" />
-                <span className="text-white/80">info@yptk.id</span>
+                <span className="text-white/80">info@ytpk.id</span>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-white/20 mt-8 pt-8 text-center text-white/60">
-          <p>© {new Date().getFullYear()} Yayasan YPTK. Semua hak dilindungi.</p>
+          <p>© {new Date().getFullYear()} Yayasan YTPK. Semua hak dilindungi.</p>
         </div>
       </div>
     </footer>

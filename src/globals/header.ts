@@ -8,7 +8,7 @@ export const header: Header = {
     secondary: logoIASMA,
   },
   organizationName: {
-    main: 'YPTK',
+    main: 'YTPK',
     sub: 'Landbouw Bukittinggi',
   },
   navigation: [
@@ -19,7 +19,7 @@ export const header: Header = {
     {
       label: 'Profil',
       href: '/profil',
-      description: 'Tentang Yayasan YPTK',
+      description: 'Tentang Yayasan YTPK',
     },
     {
       label: 'Program',
