@@ -2,9 +2,9 @@ import { SiteSettings } from '../types/globals';
 
 // Site Settings Global Configuration
 export const siteSettings: SiteSettings = {
-  siteName: 'Yayasan YTPK Landbouw Bukittinggi',
+  siteName: 'YTPK Iasma I Landbouw Bukittinggi',
   siteDescription:
-    'Yayasan YTPK Landbouw Bukittinggi - Lembaga sosial dan pendidikan yang berkomitmen untuk pemberdayaan masyarakat melalui program pendidikan, sosial, dan ekonomi.',
+    'YTPK Iasma I Landbouw Bukittinggi - Lembaga sosial dan pendidikan yang berkomitmen untuk pemberdayaan masyarakat melalui program pendidikan, sosial, dan ekonomi.',
   siteUrl: 'https://ytpk.or.id',
   organizationInfo: {
     fullName: 'Yayasan Pendidikan dan Pemberdayaan Masyarakat YTPK Landbouw Bukittinggi',
@@ -19,7 +19,7 @@ export const siteSettings: SiteSettings = {
     accentColor: '#FACC15', // Emas
   },
   seo: {
-    defaultTitle: 'Yayasan YTPK Landbouw Bukittinggi',
+    defaultTitle: 'YTPK Iasma I Landbouw Bukittinggi',
     defaultDescription:
       'Lembaga sosial dan pendidikan Islam yang fokus pada pemberdayaan masyarakat melalui program pendidikan Al-Quran, bantuan sosial, dan pengembangan ekonomi.',
     defaultImage: '/og-image.jpg',

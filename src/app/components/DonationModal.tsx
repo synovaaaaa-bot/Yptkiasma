@@ -21,19 +21,22 @@ export function DonationModal({ isOpen, onClose, program, selectedAmount, custom
 
   const bankAccounts = [
     { 
+      logo: '🏦', 
       bank: 'Bank Syariah Indonesia', 
       account: '1234567890123', 
-      name: 'Yayasan YTPK',
+      name: 'YTPK Iasma I Landbouw Bukittinggi',
     },
     { 
-      bank: 'Bank Muamalat', 
+      logo: '🏦', 
+      bank: 'Bank Mandiri', 
       account: '0987654321098', 
-      name: 'Yayasan YTPK',
+      name: 'YTPK Iasma I Landbouw Bukittinggi',
     },
     { 
-      bank: 'Bank Mandiri Syariah', 
+      logo: '🏦', 
+      bank: 'Bank BNI', 
       account: '5555666677778', 
-      name: 'Yayasan YTPK',
+      name: 'YTPK Iasma I Landbouw Bukittinggi',
     },
   ];
 

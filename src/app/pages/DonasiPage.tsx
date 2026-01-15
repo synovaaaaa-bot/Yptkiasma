@@ -55,19 +55,19 @@ export default function DonasiPage() {
     { 
       bank: 'Bank Syariah Indonesia', 
       account: '1234 5678 9012', 
-      name: 'Yayasan TPK IASMA',
+      name: 'YTPK Iasma I Landbouw Bukittinggi',
       icon: '🏦',
     },
     { 
-      bank: 'Bank Muamalat', 
+      bank: 'Bank Mandiri', 
       account: '0987 6543 2109', 
-      name: 'Yayasan TPK IASMA',
+      name: 'YTPK Iasma I Landbouw Bukittinggi',
       icon: '🏦',
     },
     { 
-      bank: 'Bank Mandiri Syariah', 
+      bank: 'Bank BNI', 
       account: '5555 6666 7777', 
-      name: 'Yayasan TPK IASMA',
+      name: 'YTPK Iasma I Landbouw Bukittinggi',
       icon: '🏦',
     },
   ];

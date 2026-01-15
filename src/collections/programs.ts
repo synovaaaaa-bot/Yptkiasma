@@ -1,6 +1,6 @@
 import { Program } from '../types/collections';
 
-// Programs Collection - Program Yayasan YTPK
+// Programs Collection - Program YTPK Iasma I Landbouw Bukittinggi
 export const programs: Program[] = [
   {
     id: '1',

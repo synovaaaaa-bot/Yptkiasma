@@ -69,7 +69,7 @@ export default function HomePage() {
               </h1>
               
               <p className="text-lg md:text-xl text-white/90 leading-relaxed">
-                Yayasan YTPK IASMA 1 Landbouw Bukittinggi hadir sebagai wadah kepedulian alumni dalam 
+                YTPK Iasma I Landbouw Bukittinggi hadir sebagai wadah kepedulian alumni dalam 
                 memberdayakan masyarakat melalui pendidikan, sosial, dan ekonomi.
               </p>
 

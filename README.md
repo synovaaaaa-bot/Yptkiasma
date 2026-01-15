@@ -1,6 +1,6 @@
-# 🕌 Website Yayasan YTPK IASMA 1 Landbouw Bukittinggi
+# 🕌 Website YTPK Iasma I Landbouw Bukittinggi
 
-Website resmi **Yayasan YTPK (Yayasan TPK) Ikatan Alumni SMA 1 Landbouw Bukittinggi** - Sejak 2009, mewadahi kepedulian alumni dalam memberdayakan masyarakat melalui program pendidikan, sosial, dan kesehatan.
+Website resmi **YTPK Iasma I Landbouw Bukittinggi** - Sejak 2009, mewadahi kepedulian alumni dalam memberdayakan masyarakat melalui program pendidikan, sosial, dan kesehatan.
 
 [![Built with React](https://img.shields.io/badge/React-18-61dafb?logo=react)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript)](https://www.typescriptlang.org/)

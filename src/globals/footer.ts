@@ -59,7 +59,7 @@ export const footer: Footer = {
       href: '/kontak',
     },
   ],
-  copyright: `© ${new Date().getFullYear()} Yayasan YTPK Landbouw Bukittinggi. Semua hak dilindungi.`,
+  copyright: `© ${new Date().getFullYear()} YTPK Iasma I Landbouw Bukittinggi. Semua hak dilindungi.`,
   footerText: 'Peduli Sesama, Berbagi Kebahagiaan',
 };
 

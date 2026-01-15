@@ -58,7 +58,7 @@ export default function ProfilPage() {
   ];
 
   const timeline = [
-    { year: '2009', event: 'Pendirian Yayasan', desc: 'Yayasan TPK IASMA didirikan oleh alumni SMA 1 Bukittinggi' },
+    { year: '2009', event: 'Pendirian Yayasan', desc: 'YTPK Iasma I Landbouw Bukittinggi didirikan oleh alumni SMA 1 Bukittinggi' },
     { year: '2011', event: 'Program Tahfidz', desc: 'Dimulainya program Tahfidz Al-Quran pertama' },
     { year: '2015', event: 'Ekspansi Program', desc: 'Penambahan program pemberdayaan ekonomi dan sosial' },
     { year: '2020', event: 'Digitalisasi', desc: 'Transformasi digital layanan dan program yayasan' },
@@ -114,7 +114,7 @@ export default function ProfilPage() {
               <p className="text-accent font-medium">Sejak 2009</p>
             </div>
             <h1 className="text-4xl md:text-6xl text-white mb-6">
-              Yayasan YTPK<br />Landbouw Bukittinggi
+              YTPK Iasma I<br />Landbouw Bukittinggi
             </h1>
             <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
               Peduli Sesama, Berbagi Kebahagiaan

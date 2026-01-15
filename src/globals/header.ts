@@ -19,7 +19,7 @@ export const header: Header = {
     {
       label: 'Profil',
       href: '/profil',
-      description: 'Tentang Yayasan YTPK',
+      description: 'Tentang YTPK Iasma I Landbouw Bukittinggi',
     },
     {
       label: 'Program',
