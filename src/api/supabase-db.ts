@@ -1,10 +1,11 @@
 // Supabase Database API untuk CRUD operations
 import { supabase } from '@/lib/supabase';
 import { requireAuth } from '@/lib/auth-helpers';
+import type { NewProgram, Program, NewActivity, Activity, NewPost, Post, NewAlbum, Album } from '@/db/schema';
 
 // Programs API
 export const programsApi = {
-  getAll: async () => {
+  getAll: async (): Promise<Program[]> => {
     const { data, error } = await supabase
       .from('programs')
       .select('*')
@@ -14,7 +15,7 @@ export const programsApi = {
     return data || [];
   },
 
-  getById: async (id: number) => {
+  getById: async (id: number): Promise<Program> => {
     const { data, error } = await supabase
       .from('programs')
       .select('*')
@@ -25,7 +26,7 @@ export const programsApi = {
     return data;
   },
 
-  create: async (program: any) => {
+  create: async (program: Omit<NewProgram, 'id' | 'createdAt' | 'updatedAt'>): Promise<Program> => {
     await requireAuth(); // Require authentication
     
     const { data, error } = await supabase
@@ -38,7 +39,7 @@ export const programsApi = {
     return data;
   },
 
-  update: async (id: number, updates: any) => {
+  update: async (id: number, updates: Partial<Omit<Program, 'id' | 'createdAt'>>): Promise<Program> => {
     await requireAuth(); // Require authentication
     
     const { data, error } = await supabase
@@ -55,7 +56,7 @@ export const programsApi = {
     return data;
   },
 
-  delete: async (id: number) => {
+  delete: async (id: number): Promise<void> => {
     await requireAuth(); // Require authentication
     
     const { error } = await supabase
@@ -69,7 +70,7 @@ export const programsApi = {
 
 // Activities API
 export const activitiesApi = {
-  getAll: async () => {
+  getAll: async (): Promise<Activity[]> => {
     const { data, error } = await supabase
       .from('activities')
       .select('*')
@@ -79,7 +80,7 @@ export const activitiesApi = {
     return data || [];
   },
 
-  create: async (activity: any) => {
+  create: async (activity: Omit<NewActivity, 'id' | 'createdAt' | 'updatedAt'>): Promise<Activity> => {
     await requireAuth(); // Require authentication
     
     const { data, error } = await supabase
@@ -92,7 +93,7 @@ export const activitiesApi = {
     return data;
   },
 
-  update: async (id: number, updates: any) => {
+  update: async (id: number, updates: Partial<Omit<Activity, 'id' | 'createdAt'>>): Promise<Activity> => {
     await requireAuth(); // Require authentication
     
     const { data, error } = await supabase
@@ -109,7 +110,7 @@ export const activitiesApi = {
     return data;
   },
 
-  delete: async (id: number) => {
+  delete: async (id: number): Promise<void> => {
     await requireAuth(); // Require authentication
     
     const { error } = await supabase
@@ -123,7 +124,7 @@ export const activitiesApi = {
 
 // Posts API
 export const postsApi = {
-  getAll: async () => {
+  getAll: async (): Promise<Post[]> => {
     const { data, error } = await supabase
       .from('posts')
       .select('*')
@@ -133,7 +134,7 @@ export const postsApi = {
     return data || [];
   },
 
-  create: async (post: any) => {
+  create: async (post: Omit<NewPost, 'id' | 'createdAt' | 'updatedAt'>): Promise<Post> => {
     await requireAuth(); // Require authentication
     
     const { data, error } = await supabase
@@ -146,7 +147,7 @@ export const postsApi = {
     return data;
   },
 
-  update: async (id: number, updates: any) => {
+  update: async (id: number, updates: Partial<Omit<Post, 'id' | 'createdAt'>>): Promise<Post> => {
     await requireAuth(); // Require authentication
     
     const { data, error } = await supabase
@@ -163,7 +164,7 @@ export const postsApi = {
     return data;
   },
 
-  delete: async (id: number) => {
+  delete: async (id: number): Promise<void> => {
     await requireAuth(); // Require authentication
     
     const { error } = await supabase
@@ -177,7 +178,7 @@ export const postsApi = {
 
 // Albums API
 export const albumsApi = {
-  getAll: async () => {
+  getAll: async (): Promise<Album[]> => {
     const { data, error } = await supabase
       .from('albums')
       .select('*')
@@ -187,7 +188,7 @@ export const albumsApi = {
     return data || [];
   },
 
-  create: async (album: any) => {
+  create: async (album: Omit<NewAlbum, 'id' | 'createdAt' | 'updatedAt'>): Promise<Album> => {
     await requireAuth(); // Require authentication
     
     const { data, error } = await supabase
@@ -200,7 +201,7 @@ export const albumsApi = {
     return data;
   },
 
-  update: async (id: number, updates: any) => {
+  update: async (id: number, updates: Partial<Omit<Album, 'id' | 'createdAt'>>): Promise<Album> => {
     await requireAuth(); // Require authentication
     
     const { data, error } = await supabase
@@ -217,7 +218,7 @@ export const albumsApi = {
     return data;
   },
 
-  delete: async (id: number) => {
+  delete: async (id: number): Promise<void> => {
     await requireAuth(); // Require authentication
     
     const { error } = await supabase

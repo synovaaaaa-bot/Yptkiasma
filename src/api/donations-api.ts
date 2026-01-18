@@ -1,9 +1,18 @@
 import { supabase } from '@/lib/supabase';
 import { requireAuth, getCurrentUser } from '@/lib/auth-helpers';
+import type { Donation, NewDonation } from '@/db/schema';
+
+interface DonationStats {
+  total: number;
+  pending: number;
+  approved: number;
+  rejected: number;
+  totalAmount: number;
+}
 
 export const donationsApi = {
   // Get all donations
-  async getAll() {
+  async getAll(): Promise<Donation[]> {
     const { data, error } = await supabase
       .from('donations')
       .select('*')
@@ -14,11 +23,11 @@ export const donationsApi = {
   },
 
   // Get donations by status
-  async getByStatus(status: string) {
+  async getByStatus(status: string): Promise<Donation[]> {
     const { data, error } = await supabase
       .from('donations')
       .select('*')
-      .eq('payment_status', status) // Fixed: use payment_status
+      .eq('payment_status', status)
       .order('created_at', { ascending: false });
     
     if (error) throw error;
@@ -26,7 +35,7 @@ export const donationsApi = {
   },
 
   // Get donation by ID
-  async getById(id: number) {
+  async getById(id: number): Promise<Donation> {
     const { data, error } = await supabase
       .from('donations')
       .select('*')
@@ -38,7 +47,7 @@ export const donationsApi = {
   },
 
   // Create donation (from public form)
-  async create(donation: any) {
+  async create(donation: Omit<NewDonation, 'id' | 'createdAt' | 'paymentStatus'>): Promise<Donation> {
     // Ensure payment_status is set to pending for new donations
     const donationData = {
       ...donation,
@@ -56,7 +65,7 @@ export const donationsApi = {
   },
 
   // Approve donation
-  async approve(id: number, adminNotes?: string, verifiedBy?: string) {
+  async approve(id: number, adminNotes?: string, verifiedBy?: string): Promise<Donation> {
     await requireAuth(); // Require authentication
     
     // Get current user email if verifiedBy not provided
@@ -68,7 +77,7 @@ export const donationsApi = {
     const { data, error } = await supabase
       .from('donations')
       .update({
-        payment_status: 'approved', // Fixed: use payment_status instead of status
+        payment_status: 'approved',
         admin_notes: adminNotes,
         verified_by: verifiedBy,
         verified_at: new Date().toISOString(),
@@ -82,7 +91,7 @@ export const donationsApi = {
   },
 
   // Reject donation
-  async reject(id: number, adminNotes: string, verifiedBy?: string) {
+  async reject(id: number, adminNotes: string, verifiedBy?: string): Promise<Donation> {
     await requireAuth(); // Require authentication
     
     // Get current user email if verifiedBy not provided
@@ -94,7 +103,7 @@ export const donationsApi = {
     const { data, error } = await supabase
       .from('donations')
       .update({
-        payment_status: 'rejected', // Fixed: use payment_status instead of status
+        payment_status: 'rejected',
         admin_notes: adminNotes,
         verified_by: verifiedBy,
         verified_at: new Date().toISOString(),
@@ -108,7 +117,7 @@ export const donationsApi = {
   },
 
   // Delete donation
-  async delete(id: number) {
+  async delete(id: number): Promise<void> {
     await requireAuth(); // Require authentication
     
     const { error } = await supabase
@@ -120,14 +129,14 @@ export const donationsApi = {
   },
 
   // Get statistics
-  async getStats() {
+  async getStats(): Promise<DonationStats> {
     const { data, error } = await supabase
       .from('donations')
       .select('payment_status, amount');
     
     if (error) throw error;
 
-    const stats = {
+    const stats: DonationStats = {
       total: data?.length || 0,
       pending: data?.filter(d => d.payment_status === 'pending').length || 0,
       approved: data?.filter(d => d.payment_status === 'approved').length || 0,
