@@ -1,513 +1,317 @@
-# 🕌 Website YTPK Iasma I Landbouw Bukittinggi
+# 🌟 YTPK IASMA 1 Landbouw Bukittinggi
 
-Website resmi **YTPK Iasma I Landbouw Bukittinggi** - Sejak 2009, mewadahi kepedulian alumni dalam memberdayakan masyarakat melalui program pendidikan, sosial, dan kesehatan.
+Website resmi Yayasan TPK IASMA 1 Landbouw Bukittinggi - Platform modern untuk informasi yayasan, program sosial, dan sistem donasi online.
 
-[![Built with React](https://img.shields.io/badge/React-18-61dafb?logo=react)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38bdf8?logo=tailwind-css)](https://tailwindcss.com/)
-[![Vite](https://img.shields.io/badge/Vite-Latest-646cff?logo=vite)](https://vitejs.dev/)
+![React](https://img.shields.io/badge/React-18.3.1-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.5.3-blue)
+![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-green)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4.1-cyan)
 
----
+## 📖 Tentang Project
 
-## 🌟 Highlights
+Website ini dibangun untuk memfasilitasi kegiatan Yayasan TPK IASMA 1 Landbouw dalam:
+- 📢 Publikasi program dan kegiatan yayasan
+- 💰 Penerimaan donasi online dengan validasi manual
+- 📰 Berita dan artikel terkini
+- 🖼️ Galeri dokumentasi kegiatan
+- 📞 Sistem kontak dan pesan
+- 👨‍💼 Admin dashboard untuk manajemen konten
 
-- ✨ **Modern Islamic Design** - Tema Islamic yang tenang dengan primary color hijau tua (#0F766E), secondary tosca (#5EEAD4), accent emas (#FACC15)
-- 🎨 **Fully Responsive** - Optimal di semua devices (Mobile, Tablet, Desktop)
-- ⚡ **Blazing Fast** - Built with Vite & optimized performance
-- 📱 **CMS-Ready Structure** - Payload CMS compatible data models
-- 🔄 **Real Data Collections** - 7 Programs, 11 Activities, 11 News Articles, 6 Gallery Albums
-- 🔗 **Social Media Integration** - Direct links ke dokumentasi Instagram/Facebook/Threads
-- 🎯 **SEO Optimized** - Meta tags & semantic HTML
+## ✨ Fitur Utama
 
----
+### Public Website
+- ✅ **Landing Page** - Informasi lengkap tentang yayasan
+- ✅ **Program** - Daftar program sosial dan kemanusiaan
+- ✅ **Kegiatan** - Dokumentasi kegiatan yang telah dilaksanakan
+- ✅ **Berita** - Artikel dan berita terbaru
+- ✅ **Galeri** - Foto-foto kegiatan
+- ✅ **Donasi** - Form donasi online dengan upload bukti transfer
+- ✅ **Al-Quran** - Pembaca Al-Quran digital
+- ✅ **Kalkulator Zakat** - Hitung zakat fitrah dan maal
+- ✅ **Kalkulator Hewan Qurban** - Estimasi kebutuhan qurban
+
+### Admin Dashboard
+- ✅ **Dashboard** - Overview statistik
+- ✅ **Kelola Program** - CRUD program sosial
+- ✅ **Kelola Kegiatan** - CRUD kegiatan yayasan
+- ✅ **Kelola Berita** - CRUD berita dan artikel
+- ✅ **Validasi Donasi** - Review dan approve/reject donasi
+- ✅ **Kelola Galeri** - Upload dan manage foto
+- ✅ **Pesan Kontak** - View pesan dari pengunjung
+- ✅ **Upload Image** - Supabase Storage integration
+
+### Sistem Donasi
+- ✅ Upload bukti transfer
+- ✅ Validasi manual oleh admin
+- ✅ Status: Pending → Approved/Rejected
+- ✅ Notifikasi status
+- ✅ Rekening tujuan: **BSI - 7270313307** (a.n. Yayasan TPK Iasma satu Landbouw)
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **React 18.3.1** - UI library
+- **TypeScript 5.5.3** - Type safety
+- **Vite 6.3.5** - Build tool & dev server
+- **React Router DOM 7.1.3** - Routing
+- **Tailwind CSS 3.4.1** - Styling
+- **Lucide React** - Icons
+
+### Backend & Database
+- **Supabase** - Backend as a Service
+  - PostgreSQL database
+  - Storage for images
+  - Authentication (ready for future implementation)
+- **Drizzle ORM** - Type-safe database access
+- **Sonner** - Toast notifications
+
+### Development Tools
+- **ESLint** - Code linting
+- **PostCSS** - CSS processing
+- **TypeScript** - Type checking
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 - Node.js 18+ 
 - npm atau yarn
+- Akun Supabase (gratis)
 
-### Installation
-
+### 1. Clone Repository
 ```bash
-# Clone repository
-git clone https://github.com/yourusername/ytpk-website.git
-cd ytpk-website
+git clone <repository-url>
+cd Yptkiasma
+```
 
-# Install dependencies
+### 2. Install Dependencies
+```bash
 npm install
+```
 
-# Run development server
+### 3. Setup Environment Variables
+Buat file `.env` di root folder:
+```env
+DATABASE_URL=postgresql://postgres:[YOUR-PASSWORD]@db.[PROJECT-ID].supabase.co:5432/postgres
+
+VITE_SUPABASE_URL=https://[PROJECT-ID].supabase.co
+VITE_SUPABASE_ANON_KEY=[YOUR-ANON-KEY]
+```
+
+> ⚠️ Ganti `[YOUR-PASSWORD]`, `[PROJECT-ID]`, dan `[YOUR-ANON-KEY]` dengan credentials Supabase Anda
+
+### 4. Setup Database
+```bash
+# Push schema ke Supabase
+npx drizzle-kit push
+
+# (Optional) Seed data awal
+npm run db:seed
+```
+
+### 5. Setup Supabase Storage
+Jalankan SQL ini di **Supabase SQL Editor**:
+```sql
+-- Create images bucket (public)
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('images', 'images', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- Allow public to read images
+CREATE POLICY "Public Read Access"
+ON storage.objects FOR SELECT
+USING (bucket_id = 'images');
+
+-- Allow authenticated users to upload
+CREATE POLICY "Authenticated Upload"
+ON storage.objects FOR INSERT
+WITH CHECK (bucket_id = 'images');
+
+-- Allow authenticated users to update
+CREATE POLICY "Authenticated Update"  
+ON storage.objects FOR UPDATE
+USING (bucket_id = 'images');
+
+-- Allow authenticated users to delete
+CREATE POLICY "Authenticated Delete"
+ON storage.objects FOR DELETE
+USING (bucket_id = 'images');
+```
+
+### 6. Run Development Server
+```bash
 npm run dev
 ```
 
-Buka browser di **`http://localhost:5173`**
+Buka browser: **http://localhost:5173**
 
-### Build for Production
+## 👨‍💼 Admin Access
+
+### Default Credentials
+```
+URL: http://localhost:5173/admin/login
+Username: admin
+Password: admin123
+```
+
+> ⚠️ **PENTING**: Ganti password default setelah deployment!
+
+## 📝 Available Scripts
 
 ```bash
-# Build production bundle
-npm run build
+# Development
+npm run dev              # Start dev server
+npm run build            # Build for production
+npm run preview          # Preview production build
 
-# Preview production build locally
-npm run preview
+# Database
+npx drizzle-kit push     # Push schema to database
+npx drizzle-kit studio   # Open Drizzle Studio
+npm run db:seed          # Seed initial data
+
+# Code Quality
+npm run lint             # Run ESLint
 ```
 
----
-
-## 📁 Project Structure
+## 📂 Project Structure
 
 ```
-ytpk-website/
+Yptkiasma/
 ├── src/
 │   ├── app/
-│   │   ├── components/          # Reusable UI components
-│   │   │   ├── ui/              # Base UI components (shadcn-inspired)
-│   │   │   ├── Navbar.tsx
-│   │   │   ├── Footer.tsx
-│   │   │   ├── ArticleDetailModal.tsx
-│   │   │   └── ...
-│   │   └── pages/               # Page components
-│   │       ├── HomePage.tsx
-│   │       ├── ProfilPage.tsx
-│   │       ├── ProgramPage.tsx
-│   │       ├── KegiatanPage.tsx
-│   │       ├── BeritaPage.tsx
-│   │       ├── GaleriPage.tsx
-│   │       ├── DonasiPage.tsx
-│   │       └── KontakPage.tsx
-│   ├── collections/             # Data Collections (Payload CMS ready)
-│   │   ├── programs.ts          # 7 Programs YTPK
-│   │   ├── activities.ts        # 11 Real Activities
-│   │   ├── posts.ts             # 11 News Articles
-│   │   └── albums.ts            # 6 Gallery Albums
-│   ├── globals/                 # Global Configurations
-│   │   ├── header.ts
-│   │   ├── footer.ts
-│   │   └── site-settings.ts
-│   ├── types/                   # TypeScript Type Definitions
-│   │   └── collections.ts       # All collection types
-│   ├── styles/                  # Global Styles
-│   │   ├── globals.css
-│   │   ├── theme.css            # Design tokens & CSS variables
-│   │   └── fonts.css
-│   └── assets/
-│       └── logos.ts             # Logo configurations
-├── public/                      # Static assets
-├── package.json
-└── README.md
+│   │   ├── components/      # React components
+│   │   │   ├── admin/       # Admin-only components
+│   │   │   └── ui/          # Reusable UI components
+│   │   └── pages/           # Page components
+│   │       ├── admin/       # Admin pages
+│   │       └── *.tsx        # Public pages
+│   ├── api/                 # API layer (Supabase)
+│   │   ├── supabase-db.ts   # CRUD operations
+│   │   ├── donations-api.ts # Donation operations
+│   │   └── *.ts
+│   ├── db/                  # Database
+│   │   ├── schema.ts        # Drizzle schema
+│   │   ├── index.ts         # DB connection
+│   │   └── seed.ts          # Seed script
+│   ├── lib/                 # Utilities
+│   │   ├── supabase.ts      # Supabase client
+│   │   └── supabase-storage.ts # Storage helpers
+│   ├── contexts/            # React contexts
+│   ├── collections/         # Static data (fallback)
+│   ├── types/               # TypeScript types
+│   └── styles/              # CSS files
+├── drizzle/                 # Database migrations
+├── public/                  # Static assets
+├── .env                     # Environment variables
+├── drizzle.config.ts        # Drizzle configuration
+├── vite.config.ts           # Vite configuration
+├── tailwind.config.js       # Tailwind configuration
+└── package.json             # Dependencies
 ```
 
----
+## 🗄️ Database Schema
 
-## 🏠 Pages & Features
+### Tables
+- **admin_users** - Admin accounts
+- **programs** - Program sosial yayasan
+- **activities** - Kegiatan yang dilaksanakan
+- **posts** - Berita dan artikel
+- **donations** - Donasi dengan validasi
+- **albums** - Album galeri
+- **photos** - Foto dalam album
+- **contact_messages** - Pesan dari form kontak
 
-### Main Pages
+## 🎨 Customization
 
-| Page | Route | Description |
-|------|-------|-------------|
-| **Beranda** | `/` | Hero section, featured programs, statistics, upcoming events |
-| **Profil** | `/profil` | Tentang yayasan, visi misi, timeline sejak 2009, struktur organisasi |
-| **Program** | `/program` | 7 Program YTPK (Sosial, Kesehatan, Pendidikan) |
-| **Kegiatan** | `/kegiatan` | 11 Kegiatan riil dengan social media links |
-| **Berita** | `/berita` | 11 Artikel berita dengan source links ke sosmed |
-| **Galeri** | `/galeri` | 6 Album dokumentasi dengan lightbox viewer |
-| **Donasi** | `/donasi` | Informasi donasi dan rekening yayasan |
-| **Kontak** | `/kontak` | Form kontak, maps, dan info lokasi |
+### Logo & Branding
+Logo terletak di `src/assets/logos.ts`. Update dengan logo yayasan Anda.
 
-### Special Features
-
-- 🎯 **Featured Programs Carousel** - Auto-rotate showcase
-- 📅 **Activities Calendar** - Interactive calendar dengan filter kategori
-- 🖼️ **Gallery Lightbox** - Full-screen photo viewer
-- 🔍 **Search & Filter** - Di halaman Berita dan Kegiatan
-- 📱 **Social Media Links** - Direct links ke Instagram/Facebook/Threads di setiap berita
-- 🎨 **Smooth Animations** - Motion animations untuk better UX
-- 🌐 **Responsive Design** - Mobile-first approach
-
----
-
-## 📊 Data Collections
-
-### Programs (7 Programs)
-
-```typescript
-// /src/collections/programs.ts
-1. Sebar Qurban ke Daerah Terpencil
-2. Bantuan Bencana
-3. Operasi Bibir Sumbing Gratis
-4. Operasi Katarak Gratis
-5. Pembagian Takjil dan Sembako di Bulan Ramadhan
-6. Go Clean Mushalla dan Mesjid
-7. Waqaf Al-Qur'an
-```
-
-### Activities (11 Real Activities)
-
-```typescript
-// /src/collections/activities.ts
-- Bantuan Bencana: Malalo, #PrayforSumbar, Jorong Pauh
-- Bantuan Air Bersih: Filter Air Maninjau, Update Filter Air
-- Donasi & Santunan: Penyaluran Donasi, Donasi Uda Uni Bukittinggi
-- Program Pendidikan: Pendataan Siswa Kurang Mampu
-- Bantuan Material: BSPS Material untuk Masyarakat
-- Majelis Taklim: Undangan Majelis Taklim
-- Komunitas Alumni: Baksos & Pertemuan Alumni
-```
-
-### Posts/News (11 Articles)
-
-```typescript
-// /src/collections/posts.ts
-- Konten lengkap dengan paragraf 3-5
-- Source links ke Instagram/Facebook/Threads
-- Kategori: bantuan-bencana, bantuan-air-bersih, donasi-santunan, program-pendidikan, dll
-- Featured flag untuk highlight articles
-```
-
-### Albums (6 Gallery Albums)
-
-```typescript
-// /src/collections/albums.ts
-- Bantuan Bencana Alam Malalo
-- Program Bantuan Air Bersih
-- Penyaluran Donasi & Santunan
-- Pendataan Siswa Kurang Mampu
-- Bantuan Material & Infrastruktur
-- Kegiatan Majelis Taklim
-```
-
----
-
-## 🎨 Design System
-
-### Color Palette
-
-```css
-/* Islamic Theme Colors */
---primary: #0F766E;        /* Hijau Tua (Teal 700) */
---secondary: #5EEAD4;      /* Tosca (Teal 300) */
---accent: #FACC15;         /* Emas (Yellow 400) */
-
-/* Semantic Colors */
---background: #FFFFFF;
---foreground: #0A0A0A;
---muted: #F5F5F5;
---muted-foreground: #737373;
---border: #E5E5E5;
-```
-
-### Typography
-
-- **Font Family**: System fonts (sans-serif)
-- **Headings**: Bold, modern Islamic style
-- **Body**: Readable, clean sans-serif
-
-### Components
-
-Built with **shadcn/ui** inspired components:
-- `Button`, `Card`, `Badge`, `Dialog/Modal`
-- `Input`, `Select`, `Checkbox`
-- Custom components: `ArticleDetailModal`, `ProgramDetailModal`, `GalleryLightbox`
-
----
-
-## 🔗 Social Media Integration
-
-### Article Detail Modal dengan Source Links
-
-Setiap artikel berita di halaman **Berita** dilengkapi dengan button source yang langsung link ke sosmed:
-
-```typescript
-// Automatic platform detection
-- 🟣 Instagram button (pink)
-- 🔵 Facebook button (blue)  
-- ⚫ Threads button (gray)
-```
-
-**Features:**
-- Auto-extract links dari markdown content
-- Platform-specific icon & color
-- Open in new tab
-- ExternalLink indicator
-
-**Example:**
-```
-Sumber & Dokumentasi
-[📷 Instagram ↗] [📘 Facebook ↗]
-```
-
----
-
-## ⚙️ Configuration
-
-### Update Branding
-
-Edit `/src/globals/site-settings.ts`:
-
-```typescript
-export const siteSettings = {
-  name: 'YTPK IASMA 1 Landbouw',
-  description: 'Yayasan TPK Ikatan Alumni SMA 1 Landbouw Bukittinggi',
-  tagline: 'Sejak 2009 - Berbakti untuk Umat',
-  // ...
+### Colors
+Edit `tailwind.config.js` untuk mengubah color scheme:
+```js
+colors: {
+  primary: '#2d5a3d',    // Hijau utama
+  secondary: '#1e3a2b',  // Hijau gelap
+  accent: '#fbbf24',     // Kuning aksen
 }
 ```
 
-### Update Contact Info
-
-Edit `/src/globals/footer.ts`:
-
-```typescript
-contactInfo: {
-  address: 'Jl. Sudirman No. 123, Bukittinggi',
-  phone: '+62 812 3456 7890',
-  email: 'info@ytpk-iasma.or.id',
-  whatsapp: '+62 812 3456 7890',
-}
+### Bank Account
+Update nomor rekening di `src/app/pages/DonasiPage.tsx`:
+```tsx
+BSI - 7270313307
+a.n. Yayasan TPK Iasma satu Landbouw
 ```
 
-### Update Social Media
+## 🚀 Deployment
 
-Edit `/src/globals/footer.ts`:
+### Vercel (Recommended)
+1. Push code ke GitHub
+2. Import project di [Vercel](https://vercel.com)
+3. Set environment variables
+4. Deploy!
 
-```typescript
-socialLinks: [
-  { platform: 'facebook', url: 'https://facebook.com/ytpk.iasma' },
-  { platform: 'instagram', url: 'https://instagram.com/ytpk_iasma' },
-  { platform: 'youtube', url: 'https://youtube.com/@ytpk-iasma' },
-  { platform: 'whatsapp', url: 'https://wa.me/6281234567890' },
-]
+### Environment Variables di Vercel
+```
+DATABASE_URL=postgresql://...
+VITE_SUPABASE_URL=https://...
+VITE_SUPABASE_ANON_KEY=...
 ```
 
----
+## 🔒 Security Notes
 
-## 🌐 Deployment
+### Production Checklist
+- [ ] Ganti admin password default
+- [ ] Setup proper authentication (bukan client-side mock)
+- [ ] Enable RLS (Row Level Security) di Supabase
+- [ ] Secure environment variables
+- [ ] Setup CORS policy
+- [ ] Enable HTTPS
+- [ ] Regular database backups
 
-### Deploy ke Vercel (Recommended)
+## 📸 Screenshots
 
-1. **Push to GitHub:**
-```bash
-git add .
-git commit -m "Ready for deployment"
-git push origin main
-```
+### Public Website
+- Landing Page dengan hero section modern
+- Program cards dengan kategori
+- Kegiatan grid dengan filter
+- Form donasi dengan upload bukti
 
-2. **Deploy di Vercel:**
-   - Login ke [vercel.com](https://vercel.com)
-   - Click "New Project"
-   - Import GitHub repository
-   - Vercel auto-detect Vite config
-   - Click "Deploy"
-
-3. **Custom Domain:**
-   - Project Settings → Domains
-   - Add your domain (e.g., `ytpk-iasma.or.id`)
-   - Follow DNS configuration instructions
-
-### Environment Variables (if needed)
-
-Create `.env` file:
-
-```bash
-VITE_SITE_NAME=YTPK IASMA 1 Landbouw
-VITE_API_URL=https://api.example.com
-```
-
-Access in code:
-```typescript
-const siteName = import.meta.env.VITE_SITE_NAME;
-```
-
----
-
-## 📦 Tech Stack
-
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| **React** | 18.3.1 | UI Framework |
-| **TypeScript** | 5.x | Type Safety |
-| **Vite** | 6.x | Build Tool & Dev Server |
-| **Tailwind CSS** | 4.x | Utility-first CSS |
-| **React Router** | 7.x | Client-side Routing |
-| **Motion** | Latest | Smooth Animations |
-| **Lucide React** | Latest | Icon Library |
-| **Embla Carousel** | Latest | Carousel Component |
-| **Sonner** | Latest | Toast Notifications |
-
----
-
-## 🛠️ Development
-
-### Available Scripts
-
-```bash
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-
-# Type check
-npm run type-check
-
-# Lint code
-npm run lint
-```
-
-### Adding New Page
-
-1. Create page component:
-```typescript
-// /src/app/pages/NewPage.tsx
-export default function NewPage() {
-  return <div>New Page</div>;
-}
-```
-
-2. Add route in `/src/app/App.tsx`:
-```typescript
-import NewPage from './pages/NewPage';
-
-<Route path="/new-page" element={<NewPage />} />
-```
-
-3. Add navigation in `/src/app/components/Navbar.tsx`:
-```typescript
-{ to: '/new-page', label: 'New Page' }
-```
-
-### Adding New Collection
-
-1. Define type in `/src/types/collections.ts`:
-```typescript
-export interface NewCollection {
-  id: string;
-  title: string;
-  // ...
-}
-```
-
-2. Create collection file `/src/collections/new-collection.ts`:
-```typescript
-import { NewCollection } from '../types/collections';
-
-export const newCollection: NewCollection[] = [
-  // data...
-];
-```
-
-3. Import & use in pages:
-```typescript
-import { newCollection } from '@/collections/new-collection';
-```
-
----
-
-## 🐛 Troubleshooting
-
-### Build Errors
-
-**Issue: TypeScript errors**
-```bash
-npm run type-check
-```
-
-**Issue: Module not found**
-```bash
-rm -rf node_modules package-lock.json
-npm install
-```
-
-### Styling Issues
-
-**Issue: Tailwind classes not working**
-- Check `/src/styles/globals.css` imports
-- Verify Tailwind v4 setup
-- Clear browser cache
-
-### Performance
-
-**Issue: Slow page load**
-- Optimize images (use WebP format)
-- Lazy load components with `React.lazy()`
-- Check Network tab in DevTools
-
----
-
-## 📝 Checklist Before Launch
-
-- [ ] Update all placeholder text dengan data riil
-- [ ] Replace logo placeholders (jika ada)
-- [ ] Verify semua contact information
-- [ ] Test all social media links
-- [ ] Test forms (kontak, donasi)
-- [ ] Test di berbagai devices (mobile, tablet, desktop)
-- [ ] Test di berbagai browsers (Chrome, Firefox, Safari)
-- [ ] Optimize all images
-- [ ] Setup custom domain
-- [ ] Add Google Analytics (optional)
-- [ ] Setup SSL certificate
-- [ ] Test production build locally
-- [ ] Backup database collections
-
----
+### Admin Dashboard
+- Statistics dashboard
+- CRUD tables dengan search & filter
+- Image upload preview
+- Donation validation interface
 
 ## 🤝 Contributing
 
-Untuk update dan maintenance website:
-
+Kontribusi sangat diterima! Silakan:
 1. Fork repository
-2. Create feature branch: `git checkout -b feature/AmazingFeature`
-3. Commit changes: `git commit -m 'Add AmazingFeature'`
-4. Push to branch: `git push origin feature/AmazingFeature`
-5. Open Pull Request
-
----
-
-## 📞 Support & Contact
-
-**Yayasan YTPK IASMA 1 Landbouw Bukittinggi**
-
-- 📧 Email: info@ytpk-iasma.or.id
-- 📱 WhatsApp: +62 812 3456 7890
-- 📍 Alamat: Bukittinggi, Sumatera Barat
-- 🌐 Website: https://ytpk-iasma.or.id
-
-**Social Media:**
-- Instagram: [@ytpk_iasma](https://instagram.com/ytpk_iasma)
-- Facebook: [YTPK IASMA](https://facebook.com/ytpk.iasma)
-- YouTube: [@ytpk-iasma](https://youtube.com/@ytpk-iasma)
-
----
+2. Buat branch feature (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push ke branch (`git push origin feature/AmazingFeature`)
+5. Buat Pull Request
 
 ## 📄 License
 
-© 2025 Yayasan YTPK Ikatan Alumni SMA 1 Landbouw Bukittinggi. All rights reserved.
+Copyright © 2024 Yayasan TPK IASMA 1 Landbouw Bukittinggi
 
-**Sejak 2009** - Berbakti untuk Umat
+## 👥 Contact
 
----
+**Yayasan TPK IASMA 1 Landbouw**
+- 📍 Bukittinggi, Sumatera Barat
+- 📧 Email: (update dengan email yayasan)
+- 🌐 Website: (update setelah deploy)
+- 📱 Instagram: [@iasma1bukittinggi](https://www.instagram.com/iasma1bukittinggi/)
 
-## 🙏 Credits
+## 🙏 Acknowledgments
 
-Built with ❤️ by alumni SMA 1 Landbouw Bukittinggi for the community.
-
-**Powered by:**
-- React & TypeScript
-- Tailwind CSS v4
-- Vite
+- React Team
+- Supabase Team
 - Vercel
+- Tailwind CSS
+- Lucide Icons
+- Semua kontributor open source
 
 ---
 
-<div align="center">
-
-### ✨ Berkah untuk Umat, Manfaat untuk Sesama ✨
-
-**YTPK IASMA 1 Landbouw Bukittinggi** | Est. 2009
-
-</div>
+**Made with ❤️ for YTPK IASMA 1 Landbouw Bukittinggi**

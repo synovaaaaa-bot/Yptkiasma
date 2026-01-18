@@ -1,15 +1,34 @@
-import { Calendar, MapPin, Users, Search, ArrowRight, Sparkles, Instagram, Facebook, Youtube, ExternalLink, Filter, TrendingUp } from 'lucide-react';
+import { Calendar, MapPin, Users, Search, ArrowRight, Sparkles, Instagram, Facebook, Youtube, ExternalLink, Filter, TrendingUp, Loader2 } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { activities } from '../../collections/activities';
+import { activitiesApi } from '@/api/supabase-db';
 import { Activity } from '../../types/collections';
 
 export default function KegiatanPage() {
   const [selectedCategory, setSelectedCategory] = useState('semua');
   const [searchQuery, setSearchQuery] = useState('');
+  const [activities, setActivities] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Load activities from Supabase
+  useEffect(() => {
+    loadActivities();
+  }, []);
+
+  const loadActivities = async () => {
+    try {
+      setLoading(true);
+      const data = await activitiesApi.getAll();
+      setActivities(data);
+    } catch (error) {
+      console.error('Error loading activities:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const categories = [
     { value: 'semua', label: 'Semua Kegiatan', count: activities.length },
@@ -24,14 +43,25 @@ export default function KegiatanPage() {
 
   const filteredActivities = activities.filter(activity => {
     const matchesCategory = selectedCategory === 'semua' || activity.category === selectedCategory;
-    const matchesSearch = activity.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          activity.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          activity.location.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = activity.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          activity.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          activity.location?.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
   // Featured activities (with featured flag)
   const featuredActivities = activities.filter(a => a.featured).slice(0, 3);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-gray-600">Memuat kegiatan...</p>
+        </div>
+      </div>
+    );
+  }
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);

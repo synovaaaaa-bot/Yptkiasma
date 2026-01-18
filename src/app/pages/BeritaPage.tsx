@@ -1,11 +1,11 @@
-import { Calendar, Eye, Tag, Search, User, TrendingUp, Clock, ArrowRight, Sparkles, Newspaper, MessageCircle } from 'lucide-react';
+import { Calendar, Eye, Tag, Search, User, TrendingUp, Clock, ArrowRight, Sparkles, Newspaper, MessageCircle, Loader2 } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArticleDetailModal } from '../components/ArticleDetailModal';
-import { posts } from '@/collections/posts';
+import { postsApi } from '@/api/supabase-db';
 
 export default function BeritaPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -13,39 +13,61 @@ export default function BeritaPage() {
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState<any>(null);
   const [email, setEmail] = useState('');
+  const [posts, setPosts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Load posts from Supabase
+  useEffect(() => {
+    loadPosts();
+  }, []);
+
+  const loadPosts = async () => {
+    try {
+      setLoading(true);
+      const data = await postsApi.getAll();
+      setPosts(data);
+    } catch (error) {
+      console.error('Error loading posts:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Extract unique categories from posts
-  const allCategories = Array.from(new Set(posts.flatMap(post => post.categories)));
+  const allCategories = Array.from(new Set(posts.map(post => post.category).filter(Boolean)));
   const categories = ['Semua', ...allCategories];
 
   // Transform posts to match article format
   const articles = posts.map(post => ({
     id: post.id,
     title: post.title,
-    excerpt: post.excerpt,
-    date: new Date(post.publishedDate).toLocaleDateString('id-ID', { 
+    excerpt: post.excerpt || post.content?.substring(0, 150) + '...',
+    date: post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('id-ID', { 
       year: 'numeric', 
       month: 'long', 
       day: 'numeric' 
-    }),
-    category: post.categories[0],
-    image: post.featuredImage,
-    views: Math.floor(Math.random() * 2000) + 500, // Mock views
-    author: post.author,
-    readTime: `${Math.ceil(post.content.length / 1000)} min`,
-    featured: post.categories.includes('bantuan-bencana'),
-    gradient: post.categories.includes('bantuan-bencana') 
-      ? 'from-rose-500 to-pink-600' 
-      : post.categories.includes('bantuan-air-bersih')
-      ? 'from-blue-500 to-cyan-600'
-      : post.categories.includes('donasi-santunan')
-      ? 'from-emerald-500 to-teal-600'
-      : post.categories.includes('program-pendidikan')
-      ? 'from-purple-500 to-indigo-600'
-      : 'from-yellow-500 to-accent',
-    content: post.content,
-    tags: post.tags,
+    }) : new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }),
+    category: post.category || 'Umum',
+    image: post.image || 'https://images.unsplash.com/photo-1495020689067-958852a7765e?w=800',
+    views: Math.floor(Math.random() * 2000) + 500,
+    author: post.author || 'Admin',
+    readTime: `${Math.ceil((post.content?.length || 500) / 1000)} min`,
+    featured: false,
+    gradient: 'from-blue-500 to-cyan-600',
+    content: post.content || '',
+    tags: [],
   })).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-gray-600">Memuat berita...</p>
+        </div>
+      </div>
+    );
+  }
 
   const filteredArticles = articles.filter(article => {
     const matchesCategory = selectedCategory === 'Semua' || article.category === selectedCategory;
