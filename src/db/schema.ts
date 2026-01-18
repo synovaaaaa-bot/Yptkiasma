@@ -1,10 +1,11 @@
 import { pgTable, serial, text, timestamp, integer } from 'drizzle-orm/pg-core';
 
 // Admin Users Table
+// NOTE: Authentication is handled by Supabase Auth (no password storage here)
+// This table stores additional admin metadata only
 export const adminUsers = pgTable('admin_users', {
   id: serial('id').primaryKey(),
   username: text('username').notNull().unique(),
-  password: text('password').notNull(),
   email: text('email').notNull().unique(),
   fullName: text('full_name').notNull(),
   role: text('role').notNull().default('admin'),
@@ -105,6 +106,10 @@ export const contactMessages = pgTable('contact_messages', {
 
 export type AdminUser = typeof adminUsers.$inferSelect;
 export type NewAdminUser = typeof adminUsers.$inferInsert;
+
+// Note: For admin authentication, use Supabase Auth API:
+// supabase.auth.signInWithPassword({ email, password })
+// Passwords are securely hashed by Supabase Auth
 export type Program = typeof programs.$inferSelect;
 export type NewProgram = typeof programs.$inferInsert;
 export type Activity = typeof activities.$inferSelect;

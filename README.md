@@ -103,12 +103,36 @@ VITE_SUPABASE_ANON_KEY=[YOUR-ANON-KEY]
 ```bash
 # Push schema ke Supabase
 npx drizzle-kit push
-
-# (Optional) Seed data awal
-npm run db:seed
 ```
 
-### 5. Setup Supabase Storage
+### 5. Apply Row Level Security Policies (CRITICAL)
+**PENTING**: RLS policies wajib diterapkan untuk keamanan database!
+
+Di **Supabase SQL Editor**, jalankan file:
+```bash
+drizzle/0001_rls_policies.sql
+```
+
+Ini akan:
+- Enable RLS pada semua tables
+- Protect data dari unauthorized access
+- Public hanya bisa lihat published content
+- Admin operations require authentication
+
+### 6. Create Admin User
+Di **Supabase Dashboard** > **Authentication** > **Users**:
+1. Click "Add user"
+2. Email: `yptkiasma@admin.com`
+3. Password: `yptkiasma` (ganti setelah login)
+4. Enable "Auto Confirm User"
+5. Click "Create user"
+
+Atau jalankan SQL di **Supabase SQL Editor**:
+```bash
+drizzle/create-admin-user.sql
+```
+
+### 7. Setup Supabase Storage
 Jalankan SQL ini di **Supabase SQL Editor**:
 ```sql
 -- Create images bucket (public)
@@ -137,7 +161,7 @@ ON storage.objects FOR DELETE
 USING (bucket_id = 'images');
 ```
 
-### 6. Run Development Server
+### 8. Run Development Server
 ```bash
 npm run dev
 ```
@@ -146,14 +170,17 @@ Buka browser: **http://localhost:5173**
 
 ## 👨‍💼 Admin Access
 
-### Default Credentials
+### Login Credentials
 ```
 URL: http://localhost:5173/admin/login
-Username: admin
-Password: admin123
+Email: yptkiasma@admin.com
+Password: yptkiasma
 ```
 
-> ⚠️ **PENTING**: Ganti password default setelah deployment!
+> ⚠️ **PENTING**: 
+> - Authentication menggunakan Supabase Auth (secure & encrypted)
+> - Ganti password setelah login pertama
+> - Admin users dikelola di Supabase Dashboard > Authentication
 
 ## 📝 Available Scripts
 
@@ -211,7 +238,7 @@ Yptkiasma/
 ## 🗄️ Database Schema
 
 ### Tables
-- **admin_users** - Admin accounts
+- **admin_users** - Admin metadata (auth via Supabase Auth)
 - **programs** - Program sosial yayasan
 - **activities** - Kegiatan yang dilaksanakan
 - **posts** - Berita dan artikel
@@ -257,16 +284,24 @@ VITE_SUPABASE_URL=https://...
 VITE_SUPABASE_ANON_KEY=...
 ```
 
-## 🔒 Security Notes
+## 🔒 Security
 
-### Production Checklist
+### ✅ Security Features Implemented
+- ✅ **Supabase Auth** - JWT-based authentication
+- ✅ **Password Hashing** - Bcrypt via Supabase Auth
+- ✅ **RLS Policies** - Database-level access control (apply via SQL)
+- ✅ **Protected APIs** - All admin operations require auth
+- ✅ **Secure File Uploads** - Authentication + validation required
+- ✅ **Environment Variables** - No credentials in source code
+
+### Production Deployment Checklist
+- [ ] Apply RLS policies: `drizzle/0001_rls_policies.sql`
+- [ ] Create admin user via Supabase Auth
+- [ ] Set environment variables in hosting platform
 - [ ] Ganti admin password default
-- [ ] Setup proper authentication (bukan client-side mock)
-- [ ] Enable RLS (Row Level Security) di Supabase
-- [ ] Secure environment variables
-- [ ] Setup CORS policy
-- [ ] Enable HTTPS
-- [ ] Regular database backups
+- [ ] Enable HTTPS (auto di Vercel)
+- [ ] Setup database backups di Supabase
+- [ ] Monitor auth logs untuk suspicious activity
 
 ## 📸 Screenshots
 
