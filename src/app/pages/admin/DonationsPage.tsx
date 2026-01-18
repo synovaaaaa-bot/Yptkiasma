@@ -24,6 +24,7 @@ import {
 import { CheckCircle, XCircle, Eye, Loader2, DollarSign, Users, Clock, TrendingUp } from 'lucide-react';
 import { donationsApi } from '@/api/donations-api';
 import { toast } from 'sonner';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface Donation {
   id: number;
@@ -44,6 +45,7 @@ interface Donation {
 }
 
 export default function DonationsPage() {
+  const { user } = useAuth();
   const [donations, setDonations] = useState<Donation[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedDonation, setSelectedDonation] = useState<Donation | null>(null);
@@ -97,7 +99,7 @@ export default function DonationsPage() {
     
     setSubmitting(true);
     try {
-      await donationsApi.approve(selectedDonation.id, adminNotes, 'Admin');
+      await donationsApi.approve(selectedDonation.id, adminNotes, user?.email);
       toast.success('Donasi berhasil disetujui!');
       await loadDonations();
       await loadStats();
@@ -122,7 +124,7 @@ export default function DonationsPage() {
     
     setSubmitting(true);
     try {
-      await donationsApi.reject(selectedDonation.id, adminNotes, 'Admin');
+      await donationsApi.reject(selectedDonation.id, adminNotes, user?.email);
       toast.success('Donasi berhasil ditolak');
       await loadDonations();
       await loadStats();

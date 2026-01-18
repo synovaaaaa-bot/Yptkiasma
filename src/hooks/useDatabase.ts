@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
+import type { Program, Activity, Post, Album } from '@/db/schema';
 
 // Database API client
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 export function usePrograms() {
-  const [programs, setPrograms] = useState<any[]>([]);
+  const [programs, setPrograms] = useState<Program[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -30,7 +31,7 @@ export function usePrograms() {
 }
 
 export function useActivities() {
-  const [activities, setActivities] = useState<any[]>([]);
+  const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -56,7 +57,7 @@ export function useActivities() {
 }
 
 export function usePosts() {
-  const [posts, setPosts] = useState<any[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -82,7 +83,7 @@ export function usePosts() {
 }
 
 export function useAlbums() {
-  const [albums, setAlbums] = useState<any[]>([]);
+  const [albums, setAlbums] = useState<Album[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 

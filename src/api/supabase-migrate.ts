@@ -1,13 +1,43 @@
 // Migration script untuk migrate data dari collections ke Supabase
 import { supabase } from '@/lib/supabase';
-import { programs } from '@/collections/programs';
-import { activities } from '@/collections/activities';
-import { posts } from '@/collections/posts';
+
+// Safe dynamic imports
+async function loadCollections() {
+  let programs: any[] = [];
+  let activities: any[] = [];
+  let posts: any[] = [];
+
+  try {
+    const { programs: p } = await import('@/collections/programs');
+    programs = p || [];
+  } catch (e) {
+    console.warn('Programs collection not found');
+  }
+
+  try {
+    const { activities: a } = await import('@/collections/activities');
+    activities = a || [];
+  } catch (e) {
+    console.warn('Activities collection not found');
+  }
+
+  try {
+    const { posts: po } = await import('@/collections/posts');
+    posts = po || [];
+  } catch (e) {
+    console.warn('Posts collection not found');
+  }
+
+  return { programs, activities, posts };
+}
 
 export async function migrateToSupabase() {
   console.log('🚀 Starting Supabase migration...');
 
   try {
+    // Load collections dynamically
+    const { programs, activities, posts } = await loadCollections();
+
     // Check if data already exists
     const { data: existingPrograms } = await supabase
       .from('programs')
@@ -95,14 +125,5 @@ export async function migrateToSupabase() {
   }
 }
 
-// Auto-run migration on app start (only once)
-if (typeof window !== 'undefined') {
-  const migrated = localStorage.getItem('supabase_migrated');
-  if (!migrated) {
-    migrateToSupabase().then(result => {
-      if (result.success) {
-        localStorage.setItem('supabase_migrated', 'true');
-      }
-    });
-  }
-}
+// Note: Call migrateToSupabase() manually from admin dashboard when needed
+// Example: Add a "Migrate Data" button in admin settings

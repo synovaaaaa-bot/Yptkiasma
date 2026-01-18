@@ -64,7 +64,5 @@ export async function migrateData() {
   }
 }
 
-// Auto-run migration on app start
-if (typeof window !== 'undefined') {
-  migrateData();
-}
+// Note: Call migrateData() manually from admin dashboard when needed
+// Do not auto-execute to avoid performance issues and duplicate data
