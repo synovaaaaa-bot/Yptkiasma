@@ -4,27 +4,46 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { useState, useEffect } from 'react';
-import { programs } from '@/collections/programs';
-import { activities } from '@/collections/activities';
+import { programsApi, activitiesApi } from '@/api/supabase-db';
 
 export default function HomePage() {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [programs, setPrograms] = useState<any[]>([]);
+  const [activities, setActivities] = useState<any[]>([]);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
 
-  // Get 3 featured programs from collections
+  // Load data from database
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      const [programsData, activitiesData] = await Promise.all([
+        programsApi.getAll(),
+        activitiesApi.getAll(),
+      ]);
+      setPrograms(programsData);
+      setActivities(activitiesData);
+    } catch (error) {
+      console.error('Error loading data:', error);
+    }
+  };
+
+  // Get 3 featured programs from database
   const featuredPrograms = programs.slice(0, 3).map((program, index) => ({
     title: program.title,
     description: program.description,
-    image: program.image,
-    category: program.category === 'sosial' ? 'Sosial' : program.category === 'kesehatan' ? 'Kesehatan' : 'Pendidikan',
-    stats: `${program.participants}+ Penerima Manfaat`,
+    image: program.image || 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=800',
+    category: program.category || 'Sosial',
+    stats: '100+ Penerima Manfaat',
     color: index === 0 ? 'from-primary to-primary/70' : index === 1 ? 'from-secondary to-secondary/70' : 'from-accent to-accent/70',
     icon: index === 0 ? BookOpen : index === 1 ? HandHeart : Briefcase,
-    slug: program.slug,
+    slug: program.id,
   }));
 
   // Get recent activities as upcoming events
@@ -32,8 +51,8 @@ export default function HomePage() {
     title: activity.title,
     date: new Date(activity.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }),
     time: new Date(activity.date).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
-    category: activity.category,
-    venue: activity.location,
+    category: 'Kegiatan',
+    venue: activity.location || 'TBA',
     speaker: 'Tim YTPK IASMA 1',
   }));
 

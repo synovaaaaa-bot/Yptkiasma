@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
-import { BookOpen, Users, GraduationCap, Briefcase, HandHeart, Heart, Baby, Utensils, Home, ArrowRight, CheckCircle2, Clock, MapPin, Phone, Sparkles, TrendingUp } from 'lucide-react';
+import { BookOpen, Users, GraduationCap, Briefcase, HandHeart, Heart, Baby, Utensils, Home, ArrowRight, CheckCircle2, Clock, MapPin, Phone, Sparkles, TrendingUp, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ProgramDetailModal } from '../components/ProgramDetailModal';
 import { RegistrationModal } from '../components/RegistrationModal';
-import { programs as programsData } from '../../collections/programs';
+import { programsApi } from '@/api/supabase-db';
 
 export default function ProgramPage() {
   const [activeCategory, setActiveCategory] = useState('Semua');
@@ -15,22 +15,34 @@ export default function ProgramPage() {
   const [registrationModalOpen, setRegistrationModalOpen] = useState(false);
   const [programForDetail, setProgramForDetail] = useState<any>(null);
   const [programForRegistration, setProgramForRegistration] = useState<any>(null);
+  const [programsData, setProgramsData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const categories = [
-    { name: 'Semua', count: 7, icon: Heart },
-    { name: 'Sosial', count: 5, icon: HandHeart },
-    { name: 'Kesehatan', count: 2, icon: Heart },
-    { name: 'Pendidikan', count: 1, icon: BookOpen },
-  ];
+  // Load programs from database
+  useEffect(() => {
+    loadPrograms();
+  }, []);
 
-  // Map programs from collections to match display format
+  const loadPrograms = async () => {
+    try {
+      setLoading(true);
+      const data = await programsApi.getAll();
+      setProgramsData(data);
+    } catch (error) {
+      console.error('Error loading programs:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Map programs from database to match display format
   const programs = programsData.map((prog, index) => ({
-    id: parseInt(prog.id),
+    id: prog.id,
     title: prog.title,
-    category: prog.category.charAt(0).toUpperCase() + prog.category.slice(1),
+    category: prog.category?.charAt(0).toUpperCase() + prog.category?.slice(1) || 'Umum',
     description: prog.description,
-    image: prog.image,
-    icon: prog.category === 'sosial' ? HandHeart : prog.category === 'kesehatan' ? Heart : BookOpen,
+    image: prog.image || 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=800',
+    icon: prog.category === 'sosial' || prog.category === 'Sosial' ? HandHeart : prog.category === 'kesehatan' || prog.category === 'Kesehatan' ? Heart : BookOpen,
     gradient: index % 7 === 0 ? 'from-teal-500 to-green-600' : 
                index % 7 === 1 ? 'from-rose-500 to-red-600' :
                index % 7 === 2 ? 'from-pink-500 to-rose-600' :
@@ -38,12 +50,20 @@ export default function ProgramPage() {
                index % 7 === 4 ? 'from-amber-500 to-orange-600' :
                index % 7 === 5 ? 'from-emerald-500 to-teal-600' :
                'from-purple-500 to-indigo-600',
-    schedule: prog.category === 'sosial' ? 'Sepanjang Tahun' : 'Batch Berkala',
-    participants: `${prog.participants}+ Terbantu`,
-    location: prog.location,
-    benefits: prog.benefits || [],
+    schedule: prog.category === 'sosial' || prog.category === 'Sosial' ? 'Sepanjang Tahun' : 'Batch Berkala',
+    participants: '100+ Terbantu',
+    location: 'Berbagai Lokasi',
+    benefits: [],
     contact: '0812-3456-7890',
   }));
+
+  // Update categories count based on loaded data
+  const categories = [
+    { name: 'Semua', count: programs.length, icon: Heart },
+    { name: 'Sosial', count: programs.filter(p => p.category === 'Sosial').length, icon: HandHeart },
+    { name: 'Kesehatan', count: programs.filter(p => p.category === 'Kesehatan').length, icon: Heart },
+    { name: 'Pendidikan', count: programs.filter(p => p.category === 'Pendidikan').length, icon: BookOpen },
+  ];
 
   const filteredPrograms = activeCategory === 'Semua' 
     ? programs 
@@ -67,6 +87,17 @@ export default function ProgramPage() {
     setProgramForRegistration(program);
     setRegistrationModalOpen(true);
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-gray-600">Memuat program...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen overflow-x-hidden">

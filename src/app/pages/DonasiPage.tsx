@@ -1,4 +1,4 @@
-import { Heart, TrendingUp, Users, Building2, CheckCircle, BarChart3, HandHeart, Gift, Sparkles, ArrowRight, Target, Award, Shield, User, Mail, Phone, MapPin, FileText } from 'lucide-react';
+import { Heart, TrendingUp, Users, Building2, CheckCircle, BarChart3, HandHeart, Gift, Sparkles, ArrowRight, Target, Award, Shield, User, Mail, Phone, MapPin, FileText, Upload, CreditCard, Loader2 } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Progress } from '../components/ui/progress';
@@ -6,6 +6,9 @@ import { Badge } from '../components/ui/badge';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { programs as programsData } from '../../collections/programs';
+import { ImageUpload } from '../components/admin/ImageUpload';
+import { donationsApi } from '@/api/donations-api';
+import { toast } from 'sonner';
 
 export default function DonasiPage() {
   const location = useLocation();
@@ -22,7 +25,11 @@ export default function DonasiPage() {
     address: '',
     message: '',
     isAnonymous: false,
+    paymentMethod: 'BSI',
+    accountNumber: '',
+    paymentProof: '',
   });
+  const [submitting, setSubmitting] = useState(false);
 
   // Auto-select program from navigation state and scroll to form
   useEffect(() => {
@@ -93,25 +100,78 @@ export default function DonasiPage() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Validasi
     if (!formData.fullName || !formData.email || !formData.phone) {
-      alert('Mohon lengkapi data nama, email, dan nomor telepon');
+      toast.error('Mohon lengkapi data nama, email, dan nomor telepon');
       return;
     }
     
     if (!selectedAmount && !customAmount) {
-      alert('Mohon pilih atau masukkan jumlah donasi');
+      toast.error('Mohon pilih atau masukkan jumlah donasi');
+      return;
+    }
+
+    if (!formData.paymentMethod) {
+      toast.error('Mohon pilih metode pembayaran');
+      return;
+    }
+
+    if (!formData.accountNumber) {
+      toast.error('Mohon masukkan nomor rekening pengirim');
+      return;
+    }
+
+    if (!formData.paymentProof) {
+      toast.error('Mohon upload bukti transfer');
       return;
     }
     
-    // Simpan data (untuk saat ini hanya tampilkan konfirmasi)
-    setShowConfirmation(true);
+    setSubmitting(true);
     
-    // Scroll ke atas
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    try {
+      const amount = selectedAmount || parseInt(customAmount.replace(/\D/g, ''));
+      const program = fundPrograms.find(p => p.id.toString() === selectedProgram)?.title || 'Donasi Umum';
+      
+      await donationsApi.create({
+        donor_name: formData.fullName,
+        donor_email: formData.email,
+        donor_phone: formData.phone,
+        amount: amount,
+        program: program,
+        payment_method: formData.paymentMethod,
+        account_number: formData.accountNumber,
+        payment_proof: formData.paymentProof,
+        payment_status: 'pending',
+        message: formData.message,
+      });
+      
+      toast.success('Donasi berhasil dikirim! Menunggu validasi admin.');
+      setShowConfirmation(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      // Reset form
+      setFormData({
+        fullName: '',
+        email: '',
+        phone: '',
+        address: '',
+        message: '',
+        isAnonymous: false,
+        paymentMethod: 'BSI',
+        accountNumber: '',
+        paymentProof: '',
+      });
+      setSelectedAmount(null);
+      setCustomAmount('');
+    } catch (error) {
+      console.error('Error submitting donation:', error);
+      toast.error('Gagal mengirim donasi. Silakan coba lagi.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const resetForm = () => {
@@ -523,6 +583,76 @@ export default function DonasiPage() {
                     </div>
                   </div>
 
+                  {/* Payment Information */}
+                  <div className="border-t pt-8">
+                    <h3 className="font-semibold mb-4 flex items-center gap-2">
+                      <CreditCard className="w-4 h-4 text-primary" />
+                      Informasi Pembayaran
+                    </h3>
+
+                    <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
+                      <p className="text-sm text-blue-900 font-medium mb-2">📋 Rekening Tujuan Transfer:</p>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between items-center bg-white p-3 rounded-lg">
+                          <span className="font-medium">BSI - 7270313307</span>
+                          <span className="text-gray-600">a.n. Yayasan TPK Iasma satu Landbouw</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium mb-2">
+                        Metode Pembayaran
+                      </label>
+                      <div className="w-full px-4 py-3 border-2 border-primary bg-primary/5 rounded-xl">
+                        <div className="flex items-center gap-2">
+                          <CreditCard className="w-5 h-5 text-primary" />
+                          <span className="font-semibold text-primary">Transfer Bank BSI</span>
+                        </div>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-2">
+                        Donasi hanya dapat dilakukan melalui transfer Bank BSI
+                      </p>
+                    </div>
+
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium mb-2">
+                        Nomor Rekening Pengirim <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="accountNumber"
+                        value={formData.accountNumber}
+                        onChange={handleInputChange}
+                        placeholder="Nomor rekening BSI Anda"
+                        required
+                        className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                      />
+                    </div>
+
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium mb-2">
+                        Upload Bukti Transfer <span className="text-red-500">*</span>
+                      </label>
+                      <ImageUpload
+                        currentImage={formData.paymentProof}
+                        onImageChange={(url) => setFormData({ ...formData, paymentProof: url })}
+                        folder="donations"
+                        label=""
+                      />
+                      <p className="text-xs text-gray-500 mt-2">
+                        Upload screenshot atau foto bukti transfer Anda (Max 5MB)
+                      </p>
+                    </div>
+
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+                      <p className="text-sm text-yellow-900">
+                        ⚠️ <strong>Penting:</strong> Donasi Anda akan diverifikasi oleh admin dalam 1x24 jam. 
+                        Pastikan nominal transfer sesuai dengan nominal yang Anda pilih dan bukti transfer jelas terbaca.
+                      </p>
+                    </div>
+                  </div>
+
                   {/* Summary */}
                   <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl p-6">
                     <h4 className="font-semibold mb-4">Ringkasan Donasi:</h4>
@@ -566,6 +696,7 @@ export default function DonasiPage() {
                     <Button 
                       type="submit"
                       size="lg" 
+                      disabled={submitting}
                       className="flex-1 bg-primary hover:bg-primary/90 text-lg"
                     >
                       Kirim Data Donasi
