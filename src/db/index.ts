@@ -2,11 +2,14 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import * as schema from './schema';
 
-// Get database URL from environment variable
-const connectionString = import.meta.env.VITE_DATABASE_URL || process.env.DATABASE_URL;
+// NOTE: This file is for SERVER-SIDE operations only (migrations, seeding)
+// For client-side database access, use Supabase client in src/api/supabase-db.ts
+
+// Get database URL from environment variable (server-side only)
+const connectionString = process.env.DATABASE_URL;
 
 if (!connectionString) {
-  throw new Error('DATABASE_URL is not set in environment variables');
+  throw new Error('DATABASE_URL is not set. This file requires server-side Node.js environment.');
 }
 
 // Create postgres connection
