@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase';
+import { requireAuth, getCurrentUser } from '@/lib/auth-helpers';
 
 export const donationsApi = {
   // Get all donations
@@ -17,7 +18,7 @@ export const donationsApi = {
     const { data, error } = await supabase
       .from('donations')
       .select('*')
-      .eq('status', status)
+      .eq('payment_status', status) // Fixed: use payment_status
       .order('created_at', { ascending: false });
     
     if (error) throw error;
@@ -38,9 +39,15 @@ export const donationsApi = {
 
   // Create donation (from public form)
   async create(donation: any) {
+    // Ensure payment_status is set to pending for new donations
+    const donationData = {
+      ...donation,
+      payment_status: 'pending',
+    };
+    
     const { data, error } = await supabase
       .from('donations')
-      .insert([donation])
+      .insert([donationData])
       .select()
       .single();
     
@@ -50,10 +57,18 @@ export const donationsApi = {
 
   // Approve donation
   async approve(id: number, adminNotes?: string, verifiedBy?: string) {
+    await requireAuth(); // Require authentication
+    
+    // Get current user email if verifiedBy not provided
+    if (!verifiedBy) {
+      const user = await getCurrentUser();
+      verifiedBy = user?.email || 'admin';
+    }
+    
     const { data, error } = await supabase
       .from('donations')
       .update({
-        status: 'approved',
+        payment_status: 'approved', // Fixed: use payment_status instead of status
         admin_notes: adminNotes,
         verified_by: verifiedBy,
         verified_at: new Date().toISOString(),
@@ -68,10 +83,18 @@ export const donationsApi = {
 
   // Reject donation
   async reject(id: number, adminNotes: string, verifiedBy?: string) {
+    await requireAuth(); // Require authentication
+    
+    // Get current user email if verifiedBy not provided
+    if (!verifiedBy) {
+      const user = await getCurrentUser();
+      verifiedBy = user?.email || 'admin';
+    }
+    
     const { data, error } = await supabase
       .from('donations')
       .update({
-        status: 'rejected',
+        payment_status: 'rejected', // Fixed: use payment_status instead of status
         admin_notes: adminNotes,
         verified_by: verifiedBy,
         verified_at: new Date().toISOString(),
@@ -86,6 +109,8 @@ export const donationsApi = {
 
   // Delete donation
   async delete(id: number) {
+    await requireAuth(); // Require authentication
+    
     const { error } = await supabase
       .from('donations')
       .delete()
@@ -98,16 +123,16 @@ export const donationsApi = {
   async getStats() {
     const { data, error } = await supabase
       .from('donations')
-      .select('status, amount');
+      .select('payment_status, amount');
     
     if (error) throw error;
 
     const stats = {
       total: data?.length || 0,
-      pending: data?.filter(d => d.status === 'pending').length || 0,
-      approved: data?.filter(d => d.status === 'approved').length || 0,
-      rejected: data?.filter(d => d.status === 'rejected').length || 0,
-      totalAmount: data?.filter(d => d.status === 'approved').reduce((sum, d) => sum + (d.amount || 0), 0) || 0,
+      pending: data?.filter(d => d.payment_status === 'pending').length || 0,
+      approved: data?.filter(d => d.payment_status === 'approved').length || 0,
+      rejected: data?.filter(d => d.payment_status === 'rejected').length || 0,
+      totalAmount: data?.filter(d => d.payment_status === 'approved').reduce((sum, d) => sum + (d.amount || 0), 0) || 0,
     };
 
     return stats;

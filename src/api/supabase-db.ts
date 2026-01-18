@@ -1,5 +1,6 @@
 // Supabase Database API untuk CRUD operations
 import { supabase } from '@/lib/supabase';
+import { requireAuth } from '@/lib/auth-helpers';
 
 // Programs API
 export const programsApi = {
@@ -25,6 +26,8 @@ export const programsApi = {
   },
 
   create: async (program: any) => {
+    await requireAuth(); // Require authentication
+    
     const { data, error } = await supabase
       .from('programs')
       .insert([program])
@@ -36,6 +39,8 @@ export const programsApi = {
   },
 
   update: async (id: number, updates: any) => {
+    await requireAuth(); // Require authentication
+    
     const { data, error } = await supabase
       .from('programs')
       .update({
@@ -51,6 +56,8 @@ export const programsApi = {
   },
 
   delete: async (id: number) => {
+    await requireAuth(); // Require authentication
+    
     const { error } = await supabase
       .from('programs')
       .delete()
@@ -73,6 +80,8 @@ export const activitiesApi = {
   },
 
   create: async (activity: any) => {
+    await requireAuth(); // Require authentication
+    
     const { data, error } = await supabase
       .from('activities')
       .insert([activity])
@@ -84,6 +93,8 @@ export const activitiesApi = {
   },
 
   update: async (id: number, updates: any) => {
+    await requireAuth(); // Require authentication
+    
     const { data, error } = await supabase
       .from('activities')
       .update({
@@ -99,6 +110,8 @@ export const activitiesApi = {
   },
 
   delete: async (id: number) => {
+    await requireAuth(); // Require authentication
+    
     const { error } = await supabase
       .from('activities')
       .delete()
@@ -121,6 +134,8 @@ export const postsApi = {
   },
 
   create: async (post: any) => {
+    await requireAuth(); // Require authentication
+    
     const { data, error } = await supabase
       .from('posts')
       .insert([post])
@@ -132,6 +147,8 @@ export const postsApi = {
   },
 
   update: async (id: number, updates: any) => {
+    await requireAuth(); // Require authentication
+    
     const { data, error } = await supabase
       .from('posts')
       .update({
@@ -147,6 +164,8 @@ export const postsApi = {
   },
 
   delete: async (id: number) => {
+    await requireAuth(); // Require authentication
+    
     const { error } = await supabase
       .from('posts')
       .delete()
@@ -169,6 +188,8 @@ export const albumsApi = {
   },
 
   create: async (album: any) => {
+    await requireAuth(); // Require authentication
+    
     const { data, error } = await supabase
       .from('albums')
       .insert([album])
@@ -180,6 +201,8 @@ export const albumsApi = {
   },
 
   update: async (id: number, updates: any) => {
+    await requireAuth(); // Require authentication
+    
     const { data, error } = await supabase
       .from('albums')
       .update({
@@ -195,6 +218,8 @@ export const albumsApi = {
   },
 
   delete: async (id: number) => {
+    await requireAuth(); // Require authentication
+    
     const { error } = await supabase
       .from('albums')
       .delete()
