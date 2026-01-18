@@ -1,4 +1,4 @@
-import { X, Wallet, QrCode, CreditCard, Copy, CheckCircle } from 'lucide-react';
+import { X, Wallet, QrCode, Copy, CheckCircle } from 'lucide-react';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { useState } from 'react';
@@ -14,7 +14,7 @@ interface DonationModalProps {
 }
 
 export function DonationModal({ isOpen, onClose, program, selectedAmount, customAmount, setSelectedAmount, setCustomAmount }: DonationModalProps) {
-  const [selectedMethod, setSelectedMethod] = useState<'bank' | 'qris' | 'ewallet'>('bank');
+  const [selectedMethod, setSelectedMethod] = useState<'bank' | 'qris'>('bank');
   const [copiedAccount, setCopiedAccount] = useState<string | null>(null);
 
   if (!isOpen) return null;
@@ -85,7 +85,7 @@ export function DonationModal({ isOpen, onClose, program, selectedAmount, custom
           {/* Payment Method Selection */}
           <div className="mb-6">
             <label className="block text-sm font-semibold mb-4">Pilih Metode Pembayaran</label>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 gap-3">
               <button
                 onClick={() => setSelectedMethod('bank')}
                 className={`p-4 rounded-xl border-2 transition-all ${
@@ -107,17 +107,6 @@ export function DonationModal({ isOpen, onClose, program, selectedAmount, custom
               >
                 <QrCode className={`w-8 h-8 mx-auto mb-2 ${selectedMethod === 'qris' ? 'text-primary' : 'text-muted-foreground'}`} />
                 <div className="font-semibold text-sm">QRIS</div>
-              </button>
-              <button
-                onClick={() => setSelectedMethod('ewallet')}
-                className={`p-4 rounded-xl border-2 transition-all ${
-                  selectedMethod === 'ewallet'
-                    ? 'border-primary bg-primary/5 shadow-lg'
-                    : 'border-muted hover:border-primary/50'
-                }`}
-              >
-                <CreditCard className={`w-8 h-8 mx-auto mb-2 ${selectedMethod === 'ewallet' ? 'text-primary' : 'text-muted-foreground'}`} />
-                <div className="font-semibold text-sm">E-Wallet</div>
               </button>
             </div>
           </div>
@@ -169,22 +158,6 @@ export function DonationModal({ isOpen, onClose, program, selectedAmount, custom
                 <div className="inline-block p-8 bg-white rounded-2xl shadow-lg border-2 border-dashed border-primary">
                   <QrCode className="w-48 h-48 mx-auto text-primary mb-4" />
                   <p className="text-sm text-muted-foreground">Scan QR Code menggunakan aplikasi mobile banking</p>
-                </div>
-              </div>
-            )}
-
-            {selectedMethod === 'ewallet' && (
-              <div className="space-y-3">
-                <h3 className="font-semibold">E-Wallet Tersedia:</h3>
-                <div className="grid md:grid-cols-2 gap-3">
-                  {['GoPay', 'OVO', 'Dana', 'ShopeePay'].map((wallet) => (
-                    <div key={wallet} className="p-4 bg-muted/50 rounded-xl flex items-center justify-between">
-                      <div className="font-semibold">{wallet}</div>
-                      <Button size="sm" variant="outline">
-                        Pilih
-                      </Button>
-                    </div>
-                  ))}
                 </div>
               </div>
             )}

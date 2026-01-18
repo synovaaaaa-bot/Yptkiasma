@@ -18,15 +18,19 @@ export const footer: Footer = {
   socialMedia: [
     {
       platform: 'facebook',
-      url: 'https://facebook.com/ytpk',
+      url: 'https://www.facebook.com/share/17icRxHRrE/',
     },
     {
       platform: 'instagram',
-      url: 'https://instagram.com/ytpk',
+      url: 'https://www.instagram.com/ytpkiasma1.landbouw?igsh=MTN3bWNzNHZqajh3bQ==',
     },
     {
       platform: 'youtube',
-      url: 'https://youtube.com/@ytpk',
+      url: 'https://youtube.com/@yayasantimpedulikemanusiaan?si=FP620KTmv5K31Ed4',
+    },
+    {
+      platform: 'tiktok',
+      url: 'https://www.tiktok.com/@ytpk.iasma.1.land?_r=1&_t=ZS-939C6bBOSea',
     },
     {
       platform: 'whatsapp',

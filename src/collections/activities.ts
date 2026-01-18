@@ -31,7 +31,7 @@ export const activities: Activity[] = [
     title: 'Penyaluran Bantuan Nagari Guguak Malalo',
     slug: 'bantuan-guguak-malalo',
     description: 'YTPK IASMA 1 Landbouw menyalurkan bantuan untuk warga Nagari Guguak Malalo sebagai respon cepat terhadap kebutuhan lapangan pasca bencana.',
-    image: getImageUrl('2026-01-03_malalo_cover.jpg'),
+    image: getImageUrl('2026-01-03_malalo_cover.jpg', 'bantuan-bencana'),
     category: 'bantuan-bencana',
     date: '2026-01-03',
     location: 'Nagari Guguak Malalo, Batipuh Selatan',

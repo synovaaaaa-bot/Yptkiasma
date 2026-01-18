@@ -19,7 +19,6 @@ export default function GaleriPage() {
     { value: 'bantuan-air-bersih', label: 'Bantuan Air Bersih', count: albums.filter(a => a.category === 'bantuan-air-bersih').length },
     { value: 'donasi-santunan', label: 'Donasi & Santunan', count: albums.filter(a => a.category === 'donasi-santunan').length },
     { value: 'program-pendidikan', label: 'Program Pendidikan', count: albums.filter(a => a.category === 'program-pendidikan').length },
-    { value: 'bantuan-material', label: 'Bantuan Material', count: albums.filter(a => a.category === 'bantuan-material').length },
     { value: 'majelis-taklim', label: 'Majelis Taklim', count: albums.filter(a => a.category === 'majelis-taklim').length },
     { value: 'komunitas-alumni', label: 'Komunitas Alumni', count: albums.filter(a => a.category === 'komunitas-alumni').length },
   ];
@@ -34,7 +33,6 @@ export default function GaleriPage() {
       'bantuan-air-bersih': 'from-blue-500 to-cyan-600',
       'donasi-santunan': 'from-emerald-500 to-teal-600',
       'program-pendidikan': 'from-purple-500 to-indigo-600',
-      'bantuan-material': 'from-orange-500 to-amber-600',
       'majelis-taklim': 'from-cyan-500 to-blue-600',
       'komunitas-alumni': 'from-pink-500 to-rose-600',
     };
@@ -115,14 +113,14 @@ export default function GaleriPage() {
               <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-6 py-4 rounded-2xl border border-white/20">
                 <ImageIcon className="w-8 h-8 text-accent" />
                 <div className="text-left">
-                  <div className="text-3xl font-bold text-white">{albums.length}+</div>
-                  <div className="text-sm text-white/80">Dokumentasi</div>
+                  <div className="text-3xl font-bold text-white">{albums.length}</div>
+                  <div className="text-sm text-white/80">Album Dokumentasi</div>
                 </div>
               </div>
               <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-6 py-4 rounded-2xl border border-white/20">
                 <Tag className="w-8 h-8 text-accent" />
                 <div className="text-left">
-                  <div className="text-3xl font-bold text-white">7</div>
+                  <div className="text-3xl font-bold text-white">6</div>
                   <div className="text-sm text-white/80">Kategori</div>
                 </div>
               </div>
@@ -326,7 +324,7 @@ export default function GaleriPage() {
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
               <Tag className="w-12 h-12 mx-auto mb-4 text-accent" />
-              <div className="text-4xl font-bold mb-2">7</div>
+              <div className="text-4xl font-bold mb-2">6</div>
               <div className="text-white/90">Kategori Program</div>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">

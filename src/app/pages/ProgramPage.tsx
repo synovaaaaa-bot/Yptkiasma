@@ -6,6 +6,7 @@ import { BookOpen, Users, GraduationCap, Briefcase, HandHeart, Heart, Baby, Uten
 import { Link } from 'react-router-dom';
 import { ProgramDetailModal } from '../components/ProgramDetailModal';
 import { RegistrationModal } from '../components/RegistrationModal';
+import { programs as programsData } from '../../collections/programs';
 
 export default function ProgramPage() {
   const [activeCategory, setActiveCategory] = useState('Semua');
@@ -22,106 +23,27 @@ export default function ProgramPage() {
     { name: 'Pendidikan', count: 1, icon: BookOpen },
   ];
 
-  const programs = [
-    {
-      id: 1,
-      title: 'Sebar Qurban ke Daerah Terpencil',
-      category: 'Sosial',
-      description: 'Program penyaluran daging qurban khusus untuk masyarakat dhuafa di daerah-daerah terpencil yang jauh dari pusat kota.',
-      image: 'https://images.unsplash.com/photo-1583623025817-d180a2221d0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      icon: HandHeart,
-      gradient: 'from-teal-500 to-green-600',
-      schedule: 'Setiap Idul Adha',
-      participants: '500+ Penerima Manfaat',
-      location: 'Daerah Terpencil Sumbar',
-      benefits: ['Hewan qurban berkualitas', 'Distribusi ke pelosok', 'Menjangkau daerah terpencil', 'Laporan transparan'],
-      contact: '0812-3456-7890',
-    },
-    {
-      id: 2,
-      title: 'Bantuan Bencana',
-      category: 'Sosial',
-      description: 'Tim tanggap darurat YTPK siap membantu korban bencana dengan logistik dan kebutuhan mendesak 24 jam.',
-      image: 'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      icon: HandHeart,
-      gradient: 'from-rose-500 to-red-600',
-      schedule: 'Siaga 24 Jam',
-      participants: '1000+ Korban Terbantu',
-      location: 'Sumatera Barat & Sekitarnya',
-      benefits: ['Tim relawan terlatih', 'Respon cepat maksimal 24 jam', 'Logistik lengkap', 'Koordinasi BPBD'],
-      contact: '0812-3456-7891',
-    },
-    {
-      id: 3,
-      title: 'Operasi Bibir Sumbing Gratis',
-      category: 'Kesehatan',
-      description: 'Program operasi bibir sumbing gratis untuk anak-anak dari keluarga tidak mampu bekerja sama dengan rumah sakit.',
-      image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      icon: Heart,
-      gradient: 'from-pink-500 to-rose-600',
-      schedule: 'Batch setiap 6 bulan',
-      participants: '50+ Anak Terbantu',
-      location: 'RS Partner YTPK',
-      benefits: ['100% gratis', 'Dokter spesialis bedah plastik', 'Perawatan lengkap', 'Follow-up medis'],
-      contact: '0812-3456-7892',
-    },
-    {
-      id: 4,
-      title: 'Operasi Katarak Gratis',
-      category: 'Kesehatan',
-      description: 'Program operasi katarak gratis untuk lansia dan masyarakat kurang mampu agar dapat melihat kembali dengan jelas.',
-      image: 'https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      icon: Heart,
-      gradient: 'from-blue-500 to-cyan-600',
-      schedule: 'Batch setiap 3 bulan',
-      participants: '100+ Pasien Terbantu',
-      location: 'RS Partner YTPK',
-      benefits: ['Operasi gratis', 'Lensa IOL berkualitas', 'Obat lengkap', 'Kacamata gratis'],
-      contact: '0812-3456-7893',
-    },
-    {
-      id: 5,
-      title: 'Pembagian Takjil dan Sembako di Bulan Ramadhan',
-      category: 'Sosial',
-      description: 'Berbagi takjil gratis setiap sore dan paket sembako untuk keluarga dhuafa di bulan suci Ramadhan.',
-      image: 'https://images.unsplash.com/photo-1610399827100-02e3c525f144?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      icon: Utensils,
-      gradient: 'from-amber-500 to-orange-600',
-      schedule: 'Setiap Sore Ramadhan',
-      participants: '500+ Keluarga',
-      location: 'Beberapa Titik di Bukittinggi',
-      benefits: ['Takjil gratis harian', 'Paket sembako lengkap', 'Lokasi strategis', 'Berbagi kebahagiaan'],
-      contact: '0812-3456-7894',
-    },
-    {
-      id: 6,
-      title: 'Go Clean Mushalla dan Mesjid',
-      category: 'Sosial',
-      description: 'Kegiatan gotong royong membersihkan mushalla dan mesjid yang membutuhkan di sekitar Bukittinggi.',
-      image: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      icon: HandHeart,
-      gradient: 'from-emerald-500 to-teal-600',
-      schedule: 'Setiap Sabtu-Ahad',
-      participants: '50+ Relawan',
-      location: 'Mushalla & Mesjid se-Bukittinggi',
-      benefits: ['Gratis 100%', 'Gotong royong', 'Bersih menyeluruh', 'Pahala bersama'],
-      contact: '0812-3456-7895',
-    },
-    {
-      id: 7,
-      title: 'Waqaf Al-Qur\'an',
-      category: 'Pendidikan',
-      description: 'Program wakaf Al-Qur\'an berkualitas untuk mushalla, mesjid, pesantren, dan masyarakat yang membutuhkan.',
-      image: 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
-      icon: BookOpen,
-      gradient: 'from-purple-500 to-indigo-600',
-      schedule: 'Sepanjang Tahun',
-      participants: '500+ Al-Qur\'an Tersalurkan',
-      location: 'Sumatera Barat',
-      benefits: ['Al-Qur\'an berkualitas', '100% gratis', 'Berbagai ukuran', 'Pahala jariyah'],
-      contact: '0812-3456-7897',
-    },
-  ];
+  // Map programs from collections to match display format
+  const programs = programsData.map((prog, index) => ({
+    id: parseInt(prog.id),
+    title: prog.title,
+    category: prog.category.charAt(0).toUpperCase() + prog.category.slice(1),
+    description: prog.description,
+    image: prog.image,
+    icon: prog.category === 'sosial' ? HandHeart : prog.category === 'kesehatan' ? Heart : BookOpen,
+    gradient: index % 7 === 0 ? 'from-teal-500 to-green-600' : 
+               index % 7 === 1 ? 'from-rose-500 to-red-600' :
+               index % 7 === 2 ? 'from-pink-500 to-rose-600' :
+               index % 7 === 3 ? 'from-blue-500 to-cyan-600' :
+               index % 7 === 4 ? 'from-amber-500 to-orange-600' :
+               index % 7 === 5 ? 'from-emerald-500 to-teal-600' :
+               'from-purple-500 to-indigo-600',
+    schedule: prog.category === 'sosial' ? 'Sepanjang Tahun' : 'Batch Berkala',
+    participants: `${prog.participants}+ Terbantu`,
+    location: prog.location,
+    benefits: prog.benefits || [],
+    contact: '0812-3456-7890',
+  }));
 
   const filteredPrograms = activeCategory === 'Semua' 
     ? programs 
@@ -319,6 +241,16 @@ export default function ProgramPage() {
                   </div>
 
                   <div className="flex gap-2 pt-2">
+                    <Link 
+                      to="/donasi" 
+                      state={{ programId: program.id.toString() }}
+                      className="flex-1"
+                    >
+                      <Button className="w-full bg-secondary hover:bg-secondary/90">
+                        <Heart className="mr-2 w-4 h-4" />
+                        Donasi
+                      </Button>
+                    </Link>
                     <Button 
                       className="flex-1 bg-primary hover:bg-primary/90"
                       onClick={(e) => handleDirectRegister(program, e)}

@@ -1,8 +1,16 @@
-import { Mail, Phone, MapPin, Clock, Send, MessageCircle, Facebook, Instagram, Youtube, Twitter, ArrowRight, Sparkles } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send, MessageCircle, Facebook, Instagram, Youtube, ArrowRight, Sparkles } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { useState } from 'react';
+import { footer as footerData } from '../../globals/footer';
+
+// TikTok Icon Component
+const TikTokIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+  </svg>
+);
 
 export default function KontakPage() {
   const [formData, setFormData] = useState({
@@ -49,19 +57,19 @@ export default function KontakPage() {
     {
       icon: Phone,
       title: 'Telepon',
-      details: ['+62 752 123 4567', '+62 812 3456 7890'],
+      details: [footerData.contact.phone, footerData.contact.whatsapp],
       gradient: 'from-emerald-500 to-teal-600',
     },
     {
       icon: Mail,
       title: 'Email',
-      details: ['info@tpkiasma.org', 'admin@tpkiasma.org'],
+      details: [footerData.contact.email],
       gradient: 'from-blue-500 to-cyan-600',
     },
     {
       icon: MapPin,
       title: 'Alamat',
-      details: ['Jl. Landbouw No. 123', 'Bukittinggi, Sumatera Barat 26115'],
+      details: [footerData.contact.address],
       gradient: 'from-rose-500 to-pink-600',
     },
     {
@@ -72,12 +80,62 @@ export default function KontakPage() {
     },
   ];
 
-  const socialMedia = [
-    { name: 'Facebook', icon: Facebook, link: '#', color: 'hover:text-blue-600' },
-    { name: 'Instagram', icon: Instagram, link: '#', color: 'hover:text-pink-600' },
-    { name: 'Youtube', icon: Youtube, link: '#', color: 'hover:text-red-600' },
-    { name: 'Twitter', icon: Twitter, link: '#', color: 'hover:text-sky-600' },
-  ];
+  const getSocialIcon = (platform: string) => {
+    switch (platform.toLowerCase()) {
+      case 'facebook':
+        return Facebook;
+      case 'instagram':
+        return Instagram;
+      case 'youtube':
+        return Youtube;
+      case 'tiktok':
+        return TikTokIcon;
+      default:
+        return MessageCircle;
+    }
+  };
+
+  const getSocialColor = (platform: string) => {
+    switch (platform.toLowerCase()) {
+      case 'facebook':
+        return 'hover:text-blue-600';
+      case 'instagram':
+        return 'hover:text-pink-600';
+      case 'youtube':
+        return 'hover:text-red-600';
+      case 'tiktok':
+        return 'hover:text-black';
+      case 'whatsapp':
+        return 'hover:text-green-600';
+      default:
+        return 'hover:text-primary';
+    }
+  };
+
+  const getSocialHandle = (platform: string) => {
+    switch (platform.toLowerCase()) {
+      case 'facebook':
+        return '@ytpkiasma1.landbouw';
+      case 'instagram':
+        return '@ytpkiasma1.landbouw';
+      case 'youtube':
+        return '@yayasantimpedulikemanusiaan';
+      case 'tiktok':
+        return '@ytpk.iasma.1.land';
+      case 'whatsapp':
+        return 'WhatsApp';
+      default:
+        return '@ytpk';
+    }
+  };
+
+  const socialMedia = footerData.socialMedia.map(social => ({
+    name: social.platform.charAt(0).toUpperCase() + social.platform.slice(1),
+    icon: getSocialIcon(social.platform),
+    link: social.url,
+    color: getSocialColor(social.platform),
+    handle: getSocialHandle(social.platform),
+  }));
 
   const departments = [
     { name: 'Pendidikan', phone: '0812-3456-7890', email: 'pendidikan@tpkiasma.org' },
@@ -328,7 +386,7 @@ export default function KontakPage() {
                           </div>
                           <div className="text-left">
                             <div className="font-bold text-lg">{social.name}</div>
-                            <div className="text-sm text-muted-foreground">@tpkiasma</div>
+                            <div className="text-sm text-muted-foreground">{social.handle}</div>
                           </div>
                           <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:translate-x-2 transition-transform" />
                         </div>

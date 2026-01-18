@@ -103,13 +103,13 @@ export const programs: Program[] = [
     id: '3',
     title: 'Operasi Bibir Sumbing Gratis',
     slug: 'operasi-bibir-sumbing',
-    description: 'Program operasi bibir sumbing gratis untuk anak-anak dari keluarga tidak mampu',
+    description: 'Program operasi bibir sumbing gratis untuk semua usia dari keluarga tidak mampu',
     image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800',
     category: 'kesehatan',
     status: 'active',
     participants: 50,
     location: 'Rumah Sakit Partner YTPK',
-    content: `Program kesehatan YTPK bekerja sama dengan rumah sakit dan tim dokter bedah plastik untuk memberikan operasi bibir sumbing gratis bagi anak-anak dari keluarga kurang mampu, memberikan harapan baru dan masa depan yang lebih baik.
+    content: `Program kesehatan YTPK bekerja sama dengan rumah sakit dan tim dokter bedah plastik untuk memberikan operasi bibir sumbing gratis bagi semua kalangan usia dari keluarga kurang mampu, memberikan harapan baru dan masa depan yang lebih baik.
 
 **Layanan yang Diberikan:**
 - Pemeriksaan medis lengkap pra-operasi
@@ -119,7 +119,7 @@ export const programs: Program[] = [
 - Bantuan biaya transportasi dan akomodasi
 
 **Target Peserta:**
-- Anak usia 3 bulan - 17 tahun
+- Semua usia (bayi, anak-anak, remaja, dan dewasa)
 - Penderita bibir sumbing dari keluarga tidak mampu
 - Hasil screening medis memenuhi syarat operasi
 - Berdomisili di Sumatera Barat dan sekitarnya`,
@@ -133,13 +133,13 @@ export const programs: Program[] = [
     requirements: [
       'Surat keterangan tidak mampu dari kelurahan',
       'Hasil pemeriksaan kesehatan awal',
-      'Kelengkapan dokumen identitas anak dan orangtua',
+      'Kelengkapan dokumen identitas pasien dan keluarga',
       'Kesediaan mengikuti prosedur medis',
     ],
     _status: 'published',
     meta: {
       title: 'Program Operasi Bibir Sumbing Gratis - YTPK',
-      description: 'Operasi bibir sumbing gratis untuk anak dari keluarga tidak mampu',
+      description: 'Operasi bibir sumbing gratis untuk semua usia dari keluarga tidak mampu',
     },
     createdAt: '2024-01-10T08:00:00Z',
     updatedAt: '2024-09-15T10:00:00Z',

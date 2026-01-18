@@ -1,19 +1,41 @@
-import { Heart, TrendingUp, Users, Building2, CheckCircle, BarChart3, HandHeart, Gift, Sparkles, QrCode, CreditCard, Wallet, ArrowRight, Target, Award, Shield } from 'lucide-react';
+import { Heart, TrendingUp, Users, Building2, CheckCircle, BarChart3, HandHeart, Gift, Sparkles, ArrowRight, Target, Award, Shield, User, Mail, Phone, MapPin, FileText } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Progress } from '../components/ui/progress';
 import { Badge } from '../components/ui/badge';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { DonationModal } from '../components/DonationModal';
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { programs as programsData } from '../../collections/programs';
 
 export default function DonasiPage() {
+  const location = useLocation();
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [customAmount, setCustomAmount] = useState('');
-  const [donationModalOpen, setDonationModalOpen] = useState(false);
-  const [selectedProgram, setSelectedProgram] = useState<any>(null);
+  const [selectedProgram, setSelectedProgram] = useState<string>('umum');
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  
+  // Form data state
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    address: '',
+    message: '',
+    isAnonymous: false,
+  });
 
-  const programs = [
+  // Auto-select program from navigation state and scroll to form
+  useEffect(() => {
+    if (location.state?.programId) {
+      setSelectedProgram(location.state.programId);
+      // Delay scroll to ensure DOM is ready
+      setTimeout(() => {
+        document.getElementById('donation-form')?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }, [location.state]);
+
+  const fundPrograms = [
     {
       id: 1,
       title: 'Pembangunan Gedung Baru',
@@ -51,33 +73,6 @@ export default function DonasiPage() {
 
   const quickAmounts = [50000, 100000, 250000, 500000, 1000000, 2500000];
 
-  const bankAccounts = [
-    { 
-      bank: 'Bank Syariah Indonesia', 
-      account: '1234 5678 9012', 
-      name: 'YTPK Iasma I Landbouw Bukittinggi',
-      icon: '🏦',
-    },
-    { 
-      bank: 'Bank Mandiri', 
-      account: '0987 6543 2109', 
-      name: 'YTPK Iasma I Landbouw Bukittinggi',
-      icon: '🏦',
-    },
-    { 
-      bank: 'Bank BNI', 
-      account: '5555 6666 7777', 
-      name: 'YTPK Iasma I Landbouw Bukittinggi',
-      icon: '🏦',
-    },
-  ];
-
-  const paymentMethods = [
-    { name: 'Transfer Bank', icon: Wallet, description: 'Transfer ke rekening yayasan' },
-    { name: 'QRIS', icon: QrCode, description: 'Scan QR Code untuk bayar' },
-    { name: 'E-Wallet', icon: CreditCard, description: 'GoPay, OVO, Dana, dll' },
-  ];
-
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
@@ -90,8 +85,75 @@ export default function DonasiPage() {
     return Math.round((collected / target) * 100);
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validasi
+    if (!formData.fullName || !formData.email || !formData.phone) {
+      alert('Mohon lengkapi data nama, email, dan nomor telepon');
+      return;
+    }
+    
+    if (!selectedAmount && !customAmount) {
+      alert('Mohon pilih atau masukkan jumlah donasi');
+      return;
+    }
+    
+    // Simpan data (untuk saat ini hanya tampilkan konfirmasi)
+    setShowConfirmation(true);
+    
+    // Scroll ke atas
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const resetForm = () => {
+    setFormData({
+      fullName: '',
+      email: '',
+      phone: '',
+      address: '',
+      message: '',
+      isAnonymous: false,
+    });
+    setSelectedAmount(null);
+    setCustomAmount('');
+    setSelectedProgram('umum');
+    setShowConfirmation(false);
+  };
+
   return (
     <div className="min-h-screen overflow-x-hidden">
+      {/* Confirmation Message */}
+      {showConfirmation && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-top-5">
+          <Card className="border-0 shadow-2xl bg-secondary">
+            <CardContent className="p-6 flex items-center gap-4">
+              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                <CheckCircle className="w-7 h-7 text-secondary" />
+              </div>
+              <div className="text-white">
+                <h4 className="font-bold text-lg mb-1">Terima Kasih!</h4>
+                <p className="text-sm text-white/90">Data donasi Anda telah kami terima. Tim kami akan segera menghubungi Anda.</p>
+              </div>
+              <button 
+                onClick={() => setShowConfirmation(false)}
+                className="ml-4 text-white/80 hover:text-white"
+              >
+                ✕
+              </button>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       {/* Hero Section */}
       <section className="relative min-h-[600px] flex items-center overflow-hidden">
         <div 
@@ -163,7 +225,7 @@ export default function DonasiPage() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {programs.map((program) => {
+          {fundPrograms.map((program) => {
             const Icon = program.icon;
             const percentage = getPercentage(program.collected, program.target);
             
@@ -218,7 +280,13 @@ export default function DonasiPage() {
                     </div>
                   </div>
 
-                  <Button className="w-full bg-primary hover:bg-primary/90 group-hover:scale-105 transition-transform" onClick={() => { setDonationModalOpen(true); setSelectedProgram(program); }}>
+                  <Button 
+                    className="w-full bg-primary hover:bg-primary/90 group-hover:scale-105 transition-transform"
+                    onClick={() => {
+                      setSelectedProgram(program.id.toString());
+                      document.getElementById('donation-form')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                  >
                     Donasi Sekarang
                     <Heart className="ml-2 w-4 h-4" />
                   </Button>
@@ -229,167 +297,288 @@ export default function DonasiPage() {
         </div>
       </section>
 
-      {/* Quick Donation Section */}
-      <section className="bg-gradient-to-br from-primary/5 to-secondary/5 py-20">
+      {/* Donation Form Section */}
+      <section id="donation-form" className="bg-gradient-to-br from-primary/5 to-secondary/5 py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <Sparkles className="w-12 h-12 mx-auto mb-4 text-primary" />
-              <h2 className="text-4xl font-bold mb-4">Donasi Cepat</h2>
+              <h2 className="text-4xl font-bold mb-4">Form Donasi</h2>
               <p className="text-muted-foreground text-lg">
-                Pilih nominal atau masukkan jumlah donasi Anda
+                Silakan lengkapi data Anda untuk melanjutkan donasi
               </p>
             </div>
 
             <Card className="border-0 shadow-2xl">
-              <CardContent className="p-8 space-y-8">
-                {/* Quick Amount Selection */}
-                <div>
-                  <label className="block text-sm font-medium mb-4">Pilih Nominal</label>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {quickAmounts.map((amount) => (
-                      <button
-                        key={amount}
-                        onClick={() => {
-                          setSelectedAmount(amount);
-                          setCustomAmount('');
-                        }}
-                        className={`p-4 rounded-xl font-semibold transition-all ${
-                          selectedAmount === amount
-                            ? 'bg-primary text-white shadow-lg scale-105'
-                            : 'bg-muted hover:bg-muted/80'
+              <CardContent className="p-8">
+                <form onSubmit={handleSubmit} className="space-y-8">
+                  {/* Program Selection */}
+                  <div>
+                    <label className="block text-sm font-medium mb-4 flex items-center gap-2">
+                      <Target className="w-4 h-4 text-primary" />
+                      Pilih Program Donasi
+                    </label>
+                    <div className="space-y-3">
+                      {/* Donasi Umum */}
+                      <div 
+                        onClick={() => setSelectedProgram('umum')}
+                        className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                          selectedProgram === 'umum'
+                            ? 'border-primary bg-primary/5 shadow-lg'
+                            : 'border-muted hover:border-primary/50'
                         }`}
                       >
-                        {formatCurrency(amount)}
-                      </button>
-                    ))}
+                        <div className="flex items-center gap-3">
+                          <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                            selectedProgram === 'umum' ? 'border-primary' : 'border-muted-foreground'
+                          }`}>
+                            {selectedProgram === 'umum' && <div className="w-3 h-3 rounded-full bg-primary"></div>}
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-semibold">Donasi Umum</div>
+                            <div className="text-sm text-muted-foreground">Donasi untuk kebutuhan operasional yayasan</div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Program dari Collections */}
+                      {programsData.slice(0, 5).map((prog) => (
+                        <div 
+                          key={prog.id}
+                          onClick={() => setSelectedProgram(prog.id)}
+                          className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                            selectedProgram === prog.id
+                              ? 'border-primary bg-primary/5 shadow-lg'
+                              : 'border-muted hover:border-primary/50'
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                              selectedProgram === prog.id ? 'border-primary' : 'border-muted-foreground'
+                            }`}>
+                              {selectedProgram === prog.id && <div className="w-3 h-3 rounded-full bg-primary"></div>}
+                            </div>
+                            <div className="flex-1">
+                              <div className="font-semibold">{prog.title}</div>
+                              <div className="text-sm text-muted-foreground">{prog.description}</div>
+                            </div>
+                            <Badge variant="outline" className="text-xs">
+                              {prog.category}
+                            </Badge>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
 
-                {/* Custom Amount */}
-                <div>
-                  <label className="block text-sm font-medium mb-2">Atau Masukkan Nominal Lain</label>
-                  <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">Rp</span>
-                    <input
-                      type="text"
-                      placeholder="0"
-                      value={customAmount}
-                      onChange={(e) => {
-                        setCustomAmount(e.target.value);
-                        setSelectedAmount(null);
-                      }}
-                      className="w-full pl-12 pr-4 py-4 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary text-lg font-semibold"
-                    />
-                  </div>
-                </div>
-
-                {/* Donor Info */}
-                <div className="grid md:grid-cols-2 gap-4">
+                  {/* Amount Selection */}
                   <div>
-                    <label className="block text-sm font-medium mb-2">Nama Lengkap</label>
-                    <input
-                      type="text"
-                      placeholder="Nama Anda"
-                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
-                    />
+                    <label className="block text-sm font-medium mb-4">Pilih Nominal Donasi</label>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      {quickAmounts.map((amount) => (
+                        <button
+                          key={amount}
+                          type="button"
+                          onClick={() => {
+                            setSelectedAmount(amount);
+                            setCustomAmount('');
+                          }}
+                          className={`p-4 rounded-xl font-semibold transition-all ${
+                            selectedAmount === amount
+                              ? 'bg-primary text-white shadow-lg scale-105'
+                              : 'bg-muted hover:bg-muted/80'
+                          }`}
+                        >
+                          {formatCurrency(amount)}
+                        </button>
+                      ))}
+                    </div>
                   </div>
+
+                  {/* Custom Amount */}
                   <div>
-                    <label className="block text-sm font-medium mb-2">Email</label>
-                    <input
-                      type="email"
-                      placeholder="email@example.com"
-                      className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
-                    />
+                    <label className="block text-sm font-medium mb-2">Atau Masukkan Nominal Lain</label>
+                    <div className="relative">
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">Rp</span>
+                      <input
+                        type="number"
+                        placeholder="0"
+                        value={customAmount}
+                        onChange={(e) => {
+                          setCustomAmount(e.target.value);
+                          setSelectedAmount(null);
+                        }}
+                        className="w-full pl-12 pr-4 py-4 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary text-lg font-semibold"
+                      />
+                    </div>
                   </div>
-                </div>
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">Nomor WhatsApp</label>
-                  <input
-                    type="tel"
-                    placeholder="08xx xxxx xxxx"
-                    className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
-                  />
-                </div>
+                  <div className="border-t pt-8">
+                    <h3 className="font-semibold mb-4 flex items-center gap-2">
+                      <User className="w-4 h-4 text-primary" />
+                      Data Donatur
+                    </h3>
 
-                <div>
-                  <label className="block text-sm font-medium mb-2">Pesan (Opsional)</label>
-                  <textarea
-                    placeholder="Tulis pesan atau doa Anda..."
-                    rows={4}
-                    className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary resize-none"
-                  />
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <input type="checkbox" className="mt-1" id="anonim" />
-                  <label htmlFor="anonim" className="text-sm text-muted-foreground">
-                    Sembunyikan nama saya (donasi anonim)
-                  </label>
-                </div>
-
-                <Button size="lg" className="w-full bg-primary hover:bg-primary/90 text-lg">
-                  Lanjutkan ke Pembayaran
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Payment Methods */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4">Metode Pembayaran</h2>
-          <p className="text-muted-foreground text-lg">
-            Berbagai cara mudah untuk berdonasi
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
-          {paymentMethods.map((method, index) => {
-            const Icon = method.icon;
-            return (
-              <Card key={index} className="text-center hover:shadow-xl transition-all hover:-translate-y-2 border-0">
-                <CardContent className="p-8">
-                  <div className="w-20 h-20 mx-auto mb-4 bg-primary/10 rounded-2xl flex items-center justify-center">
-                    <Icon className="w-10 h-10 text-primary" />
-                  </div>
-                  <h3 className="font-bold text-lg mb-2">{method.name}</h3>
-                  <p className="text-muted-foreground text-sm">{method.description}</p>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-
-        {/* Bank Accounts */}
-        <div className="max-w-3xl mx-auto">
-          <h3 className="text-2xl font-bold mb-6 text-center">Rekening Donasi</h3>
-          <div className="space-y-4">
-            {bankAccounts.map((bank, index) => (
-              <Card key={index} className="border-0 shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center text-3xl">
-                        {bank.icon}
+                    {/* Personal Info */}
+                    <div className="grid md:grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-2">
+                          Nama Lengkap <span className="text-red-500">*</span>
+                        </label>
+                        <div className="relative">
+                          <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                          <input
+                            type="text"
+                            name="fullName"
+                            value={formData.fullName}
+                            onChange={handleInputChange}
+                            placeholder="Nama Lengkap Anda"
+                            required
+                            className="w-full pl-11 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                          />
+                        </div>
                       </div>
                       <div>
-                        <div className="font-bold text-lg mb-1">{bank.bank}</div>
-                        <div className="text-2xl font-bold text-primary tracking-wider">{bank.account}</div>
-                        <div className="text-sm text-muted-foreground">a.n. {bank.name}</div>
+                        <label className="block text-sm font-medium mb-2">
+                          Email <span className="text-red-500">*</span>
+                        </label>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                          <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            placeholder="email@example.com"
+                            required
+                            className="w-full pl-11 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                          />
+                        </div>
                       </div>
                     </div>
-                    <Button variant="outline" size="sm">
-                      Copy
+
+                    <div className="grid md:grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-2">
+                          Nomor Telepon/WhatsApp <span className="text-red-500">*</span>
+                        </label>
+                        <div className="relative">
+                          <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                          <input
+                            type="tel"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleInputChange}
+                            placeholder="08xx xxxx xxxx"
+                            required
+                            className="w-full pl-11 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-2">
+                          Alamat (Opsional)
+                        </label>
+                        <div className="relative">
+                          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                          <input
+                            type="text"
+                            name="address"
+                            value={formData.address}
+                            onChange={handleInputChange}
+                            placeholder="Kota/Kabupaten"
+                            className="w-full pl-11 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium mb-2 flex items-center gap-2">
+                        <FileText className="w-4 h-4 text-primary" />
+                        Pesan/Doa (Opsional)
+                      </label>
+                      <textarea
+                        name="message"
+                        value={formData.message}
+                        onChange={handleInputChange}
+                        placeholder="Tulis pesan atau doa Anda..."
+                        rows={4}
+                        className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+                      />
+                    </div>
+
+                    <div className="flex items-start gap-3 mt-4">
+                      <input 
+                        type="checkbox" 
+                        name="isAnonymous"
+                        checked={formData.isAnonymous}
+                        onChange={handleInputChange}
+                        className="mt-1" 
+                        id="anonim" 
+                      />
+                      <label htmlFor="anonim" className="text-sm text-muted-foreground">
+                        Sembunyikan nama saya (donasi anonim)
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Summary */}
+                  <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl p-6">
+                    <h4 className="font-semibold mb-4">Ringkasan Donasi:</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Program:</span>
+                        <span className="font-medium">
+                          {selectedProgram === 'umum' 
+                            ? 'Donasi Umum' 
+                            : programsData.find(p => p.id === selectedProgram)?.title || 'Belum dipilih'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Jumlah Donasi:</span>
+                        <span className="font-bold text-primary text-lg">
+                          {selectedAmount 
+                            ? formatCurrency(selectedAmount) 
+                            : customAmount 
+                            ? formatCurrency(parseFloat(customAmount)) 
+                            : 'Rp 0'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Nama Donatur:</span>
+                        <span className="font-medium">
+                          {formData.isAnonymous ? 'Hamba Allah (Anonim)' : formData.fullName || '-'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <Button 
+                      type="button"
+                      variant="outline" 
+                      onClick={resetForm}
+                      className="flex-1"
+                    >
+                      Reset Form
+                    </Button>
+                    <Button 
+                      type="submit"
+                      size="lg" 
+                      className="flex-1 bg-primary hover:bg-primary/90 text-lg"
+                    >
+                      Kirim Data Donasi
+                      <ArrowRight className="ml-2 w-5 h-5" />
                     </Button>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
+
+                  <p className="text-xs text-center text-muted-foreground">
+                    * Setelah mengirim data, tim kami akan menghubungi Anda untuk proses pembayaran selanjutnya
+                  </p>
+                </form>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
@@ -447,17 +636,6 @@ export default function DonasiPage() {
           </div>
         </div>
       </section>
-
-      {/* Donation Modal */}
-      <DonationModal
-        isOpen={donationModalOpen}
-        onClose={() => setDonationModalOpen(false)}
-        program={selectedProgram}
-        selectedAmount={selectedAmount}
-        customAmount={customAmount}
-        setSelectedAmount={setSelectedAmount}
-        setCustomAmount={setCustomAmount}
-      />
     </div>
   );
 }

@@ -1,7 +1,8 @@
-import { X, Clock, MapPin, Phone, CheckCircle2, Users, Calendar } from 'lucide-react';
+import { X, Clock, MapPin, Phone, CheckCircle2, Users, Calendar, Heart } from 'lucide-react';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 interface Program {
   id: number;
@@ -129,12 +130,22 @@ export function ProgramDetailModal({ program, isOpen, onClose, onRegister }: Pro
           <Button variant="outline" onClick={onClose} className="flex-1">
             Tutup
           </Button>
+          <Link 
+            to="/donasi" 
+            state={{ programId: program.id.toString() }}
+            className="flex-1"
+          >
+            <Button className="w-full bg-secondary hover:bg-secondary/90">
+              <Heart className="mr-2 w-4 h-4" />
+              Donasi Program
+            </Button>
+          </Link>
           <Button 
             onClick={() => onRegister(program)} 
             className="flex-1 bg-primary hover:bg-primary/90"
           >
             <Calendar className="mr-2 w-4 h-4" />
-            Daftar Sekarang
+            Daftar
           </Button>
         </div>
       </div>
