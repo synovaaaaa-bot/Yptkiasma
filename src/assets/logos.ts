@@ -1,9 +1,8 @@
 // Logo files for TPK and IASMA
-// Place your logo files in: public/assets/logos/
-// - logo-iasma-1.png (or .jpg, .svg) - Logo dengan "IASMA 1 LANDBOUW" dan "BUKITTINGGI"
-// - logo-ytpk.png (or .jpg, .svg) - Logo circular dengan "YAYASAN TIM PEDULI KEMANUSIAAN"
+// Logo files are located in: public/assets/logos/
+// - logo-iasma-1.png - Logo dengan "IASMA 1 LANDBOUW" dan "BUKITTINGGI"
+// - logo-ytpk.png - Logo circular dengan "YAYASAN TIM PEDULI KEMANUSIAAN"
 
-// Import logo files (fallback to placeholder if files don't exist)
 // Logo 1: IASMA 1 LANDBOUW BUKITTINGGI (dengan graphic biru dan green arcs)
 export const logoIASMA = "/assets/logos/logo-iasma-1.png";
 

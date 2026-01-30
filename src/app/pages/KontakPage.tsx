@@ -1,9 +1,11 @@
-import { Mail, Phone, MapPin, Clock, Send, MessageCircle, Facebook, Instagram, Youtube, ArrowRight, Sparkles } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send, MessageCircle, Facebook, Instagram, Youtube, ArrowRight, Sparkles, Loader2 } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { useState } from 'react';
 import { footer as footerData } from '../../globals/footer';
+import { contactMessagesApi } from '@/api/supabase-db';
+import { toast } from 'sonner';
 
 // TikTok Icon Component
 const TikTokIcon = ({ className }: { className?: string }) => (
@@ -25,17 +27,28 @@ export default function KontakPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validasi
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+      toast.error('Mohon lengkapi semua field yang wajib diisi');
+      return;
+    }
+
     setIsSubmitting(true);
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+      await contactMessagesApi.create({
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone?.trim() || null,
+        subject: formData.subject.trim(),
+        message: formData.message.trim(),
+      });
 
-    setIsSubmitting(false);
-    setIsSuccess(true);
+      toast.success('Pesan berhasil dikirim! Kami akan segera merespons.');
+      setIsSuccess(true);
 
-    // Reset after 3 seconds
-    setTimeout(() => {
-      setIsSuccess(false);
+      // Reset form
       setFormData({
         name: '',
         email: '',
@@ -43,7 +56,17 @@ export default function KontakPage() {
         subject: '',
         message: '',
       });
-    }, 3000);
+
+      // Reset success message after 5 seconds
+      setTimeout(() => {
+        setIsSuccess(false);
+      }, 5000);
+    } catch (error: any) {
+      console.error('Error submitting message:', error);
+      toast.error(error.message || 'Gagal mengirim pesan. Silakan coba lagi.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -290,20 +313,29 @@ export default function KontakPage() {
                   />
                 </div>
 
-                {isSubmitting ? (
-                  <Button size="lg" className="w-full bg-primary hover:bg-primary/90" disabled>
-                    Mengirim...
-                  </Button>
-                ) : (
-                  <Button size="lg" className="w-full bg-primary hover:bg-primary/90" onClick={handleSubmit}>
-                    Kirim Pesan
-                    <Send className="ml-2 w-5 h-5" />
-                  </Button>
-                )}
+                <Button 
+                  type="submit"
+                  size="lg" 
+                  className="w-full bg-primary hover:bg-primary/90" 
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 w-5 h-5 animate-spin" />
+                      Mengirim...
+                    </>
+                  ) : (
+                    <>
+                      Kirim Pesan
+                      <Send className="ml-2 w-5 h-5" />
+                    </>
+                  )}
+                </Button>
 
                 {isSuccess && (
-                  <div className="mt-4 text-sm text-green-500">
-                    Pesan Anda telah terkirim!
+                  <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-xl text-sm text-green-700">
+                    ✓ Pesan Anda telah terkirim! Kami akan segera merespons.
                   </div>
                 )}
               </CardContent>

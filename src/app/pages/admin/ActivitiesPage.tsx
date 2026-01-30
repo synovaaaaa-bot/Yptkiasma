@@ -77,20 +77,36 @@ export default function ActivitiesPage() {
     setSubmitting(true);
 
     try {
+      // Prepare data for API - ensure all fields are properly formatted
+      const activityData = {
+        title: formData.title.trim(),
+        description: formData.description.trim(),
+        date: formData.date, // Already in correct format from date input
+        location: formData.location?.trim() || null,
+        status: formData.status,
+        image: formData.image?.trim() || null,
+        category: formData.category?.trim() || null,
+      };
+
       if (editingActivity) {
-        await activitiesApi.update(editingActivity.id, formData);
+        const updated = await activitiesApi.update(editingActivity.id, activityData);
+        console.log('Activity updated:', updated);
         toast.success('Kegiatan berhasil diupdate!');
       } else {
-        await activitiesApi.create(formData);
+        const created = await activitiesApi.create(activityData);
+        console.log('Activity created:', created);
         toast.success('Kegiatan berhasil ditambahkan!');
       }
       
+      // Refresh data after successful save
       await loadActivities();
+      
+      // Close dialog and reset form
       setIsDialogOpen(false);
       resetForm();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving activity:', error);
-      toast.error('Gagal menyimpan kegiatan');
+      toast.error(error.message || 'Gagal menyimpan kegiatan');
     } finally {
       setSubmitting(false);
     }
@@ -111,7 +127,34 @@ export default function ActivitiesPage() {
 
   const handleEdit = (activity: Activity) => {
     setEditingActivity(activity);
-    setFormData(activity);
+    
+    // Format date untuk input type="date" (YYYY-MM-DD)
+    let formattedDate = '';
+    if (activity.date) {
+      try {
+        // Handle different date formats
+        const dateObj = new Date(activity.date);
+        if (!isNaN(dateObj.getTime())) {
+          formattedDate = dateObj.toISOString().split('T')[0];
+        } else {
+          // If date is already in YYYY-MM-DD format
+          formattedDate = activity.date;
+        }
+      } catch (error) {
+        console.error('Error formatting date:', error);
+        formattedDate = activity.date;
+      }
+    }
+    
+    setFormData({
+      title: activity.title || '',
+      description: activity.description || '',
+      date: formattedDate,
+      location: activity.location || '',
+      status: activity.status || 'upcoming',
+      image: activity.image || '',
+      category: activity.category || '',
+    });
     setIsDialogOpen(true);
   };
 
@@ -145,7 +188,12 @@ export default function ActivitiesPage() {
           <h1 className="text-3xl font-bold text-gray-900">Kelola Kegiatan</h1>
           <p className="text-gray-600 mt-2">Tambah, edit, atau hapus kegiatan yayasan</p>
         </div>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <Dialog open={isDialogOpen} onOpenChange={(open) => {
+          setIsDialogOpen(open);
+          if (!open) {
+            resetForm();
+          }
+        }}>
           <DialogTrigger asChild>
             <Button onClick={resetForm}>
               <Plus className="w-4 h-4 mr-2" />
@@ -235,8 +283,26 @@ export default function ActivitiesPage() {
                 </div>
               </div>
               <DialogFooter>
-                <Button type="submit">
-                  {editingActivity ? 'Simpan Perubahan' : 'Tambah Kegiatan'}
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => {
+                    setIsDialogOpen(false);
+                    resetForm();
+                  }}
+                  disabled={submitting}
+                >
+                  Batal
+                </Button>
+                <Button type="submit" disabled={submitting}>
+                  {submitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Menyimpan...
+                    </>
+                  ) : (
+                    editingActivity ? 'Simpan Perubahan' : 'Tambah Kegiatan'
+                  )}
                 </Button>
               </DialogFooter>
             </form>
@@ -249,18 +315,27 @@ export default function ActivitiesPage() {
           <CardTitle>Daftar Kegiatan</CardTitle>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Judul</TableHead>
-                <TableHead>Tanggal</TableHead>
-                <TableHead>Lokasi</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Aksi</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {activities.map((activity) => (
+          {loading ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            </div>
+          ) : activities.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">Belum ada kegiatan. Tambah kegiatan pertama Anda.</p>
+            </div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Judul</TableHead>
+                  <TableHead>Tanggal</TableHead>
+                  <TableHead>Lokasi</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="text-right">Aksi</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {activities.map((activity) => (
                 <TableRow key={activity.id}>
                   <TableCell className="font-medium">{activity.title}</TableCell>
                   <TableCell>{activity.date}</TableCell>
@@ -301,9 +376,10 @@ export default function ActivitiesPage() {
                     </div>
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
     </div>

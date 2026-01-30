@@ -1,51 +1,77 @@
-import { Image as ImageIcon, Play, Download, Eye, Heart, Calendar, Tag, Sparkles, Filter, Grid3x3, Rows, ExternalLink, Instagram, Facebook } from 'lucide-react';
+import { Image as ImageIcon, Play, Download, Eye, Heart, Calendar, Tag, Sparkles, Filter, Grid3x3, Rows, ExternalLink, Instagram, Facebook, Loader2 } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { GalleryLightbox } from '../components/GalleryLightbox';
-import { albums } from '../../collections/albums';
+import { albumsApi, photosApi } from '@/api/supabase-db';
+import type { Album, Photo } from '@/db/schema';
 
 export default function GaleriPage() {
+  const [albums, setAlbums] = useState<Album[]>([]);
+  const [albumPhotos, setAlbumPhotos] = useState<Record<number, Photo[]>>({});
+  const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('semua');
   const [viewMode, setViewMode] = useState<'grid' | 'masonry'>('masonry');
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedGallery, setSelectedGallery] = useState<any>(null);
 
+  // Load albums and photos from database
+  useEffect(() => {
+    loadAlbums();
+  }, []);
+
+  const loadAlbums = async () => {
+    try {
+      setLoading(true);
+      const albumsData = await albumsApi.getAll();
+      setAlbums(albumsData);
+      
+      // Load photos for each album
+      const photosMap: Record<number, Photo[]> = {};
+      for (const album of albumsData) {
+        try {
+          const photos = await photosApi.getByAlbumId(album.id);
+          photosMap[album.id] = photos;
+        } catch (error) {
+          console.error(`Error loading photos for album ${album.id}:`, error);
+          photosMap[album.id] = [];
+        }
+      }
+      setAlbumPhotos(photosMap);
+    } catch (error) {
+      console.error('Error loading albums:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Categories - simplified since database doesn't have category field yet
+  // You can add category field to schema later if needed
   const categories = [
     { value: 'semua', label: 'Semua Album', count: albums.length },
-    { value: 'bantuan-bencana', label: 'Bantuan Bencana', count: albums.filter(a => a.category === 'bantuan-bencana').length },
-    { value: 'bantuan-air-bersih', label: 'Bantuan Air Bersih', count: albums.filter(a => a.category === 'bantuan-air-bersih').length },
-    { value: 'donasi-santunan', label: 'Donasi & Santunan', count: albums.filter(a => a.category === 'donasi-santunan').length },
-    { value: 'program-pendidikan', label: 'Program Pendidikan', count: albums.filter(a => a.category === 'program-pendidikan').length },
-    { value: 'majelis-taklim', label: 'Majelis Taklim', count: albums.filter(a => a.category === 'majelis-taklim').length },
-    { value: 'komunitas-alumni', label: 'Komunitas Alumni', count: albums.filter(a => a.category === 'komunitas-alumni').length },
   ];
 
-  const filteredAlbums = selectedCategory === 'semua' 
-    ? albums 
-    : albums.filter(a => a.category === selectedCategory);
+  const filteredAlbums = albums;
 
-  const getCategoryColor = (category: string) => {
-    const colors: Record<string, string> = {
-      'bantuan-bencana': 'from-rose-500 to-pink-600',
-      'bantuan-air-bersih': 'from-blue-500 to-cyan-600',
-      'donasi-santunan': 'from-emerald-500 to-teal-600',
-      'program-pendidikan': 'from-purple-500 to-indigo-600',
-      'majelis-taklim': 'from-cyan-500 to-blue-600',
-      'komunitas-alumni': 'from-pink-500 to-rose-600',
-    };
-    return colors[category] || 'from-gray-500 to-gray-600';
+  const getCategoryColor = () => {
+    return 'from-primary to-secondary';
   };
 
-  const getCategoryLabel = (category: string) => {
-    return categories.find(c => c.value === category)?.label || category;
+  const getCategoryLabel = () => {
+    return 'Semua Album';
   };
 
-  const handleViewAlbum = (album: any) => {
-    // Use album images from the album data
-    setSelectedGallery({ ...album, images: album.images });
+  const handleViewAlbum = (album: Album) => {
+    // Get photos for this album
+    const photos = albumPhotos[album.id] || [];
+    const images = photos.map(photo => ({
+      url: photo.url,
+      caption: photo.caption || album.title,
+    }));
+    
+    setSelectedGallery({ ...album, images });
     setCurrentImageIndex(0);
     setLightboxOpen(true);
   };
@@ -73,6 +99,17 @@ export default function GaleriPage() {
       default: return ExternalLink;
     }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-gray-600">Memuat galeri...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen overflow-x-hidden">
@@ -118,10 +155,12 @@ export default function GaleriPage() {
                 </div>
               </div>
               <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-6 py-4 rounded-2xl border border-white/20">
-                <Tag className="w-8 h-8 text-accent" />
+                <ImageIcon className="w-8 h-8 text-accent" />
                 <div className="text-left">
-                  <div className="text-3xl font-bold text-white">6</div>
-                  <div className="text-sm text-white/80">Kategori</div>
+                  <div className="text-3xl font-bold text-white">
+                    {Object.values(albumPhotos).reduce((total, photos) => total + photos.length, 0)}
+                  </div>
+                  <div className="text-sm text-white/80">Total Foto</div>
                 </div>
               </div>
             </div>
@@ -140,11 +179,11 @@ export default function GaleriPage() {
         <Card className="shadow-2xl border-2">
           <CardContent className="p-6">
             <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-              {/* Category Filter */}
+              {/* Category Filter - Simplified for now */}
               <div className="flex-1 w-full">
                 <div className="flex items-center gap-2 mb-3 text-sm text-muted-foreground">
                   <Filter className="w-4 h-4" />
-                  <span className="font-semibold">Filter Kategori:</span>
+                  <span className="font-semibold">Filter:</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {categories.map((category) => (
@@ -200,10 +239,10 @@ export default function GaleriPage() {
       <section className="container mx-auto px-4 pb-20">
         <div className="mb-8">
           <h2 className="text-3xl font-bold mb-2">
-            {selectedCategory === 'semua' ? 'Semua Dokumentasi' : getCategoryLabel(selectedCategory)}
+            Semua Dokumentasi
           </h2>
           <p className="text-muted-foreground">
-            {filteredAlbums.length} dokumentasi tersedia
+            {filteredAlbums.length} album tersedia
           </p>
         </div>
 
@@ -211,84 +250,83 @@ export default function GaleriPage() {
           ? 'columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6'
           : 'grid md:grid-cols-2 lg:grid-cols-3 gap-6'
         }>
-          {filteredAlbums.map((album) => (
-            <Card 
-              key={album.id}
-              className={`group overflow-hidden hover:shadow-2xl transition-all duration-500 border-0 shadow-lg break-inside-avoid ${
-                viewMode === 'grid' ? '' : 'mb-6'
-              }`}
-            >
-              <div className={`relative ${viewMode === 'grid' ? 'h-80' : 'h-96'} overflow-hidden`}>
-                <img
-                  src={album.coverImage as string}
-                  alt={album.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className={`absolute inset-0 bg-gradient-to-t ${getCategoryColor(album.category)} opacity-60 group-hover:opacity-80 transition-opacity`}></div>
-                
-                {/* Top Info */}
-                <div className="absolute top-4 left-4 right-4 flex items-start justify-between">
-                  <Badge className="bg-white text-primary shadow-lg">
-                    {getCategoryLabel(album.category)}
-                  </Badge>
-                  <div className="flex items-center gap-1 bg-white/20 backdrop-blur-sm px-2 py-1 rounded-lg">
-                    <Calendar className="w-3 h-3 text-white" />
-                    <span className="text-white text-xs font-medium">{album.date}</span>
-                  </div>
-                </div>
-
-                {/* Bottom Info */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <h3 className="text-xl font-bold mb-3 line-clamp-2">
-                    {album.title}
-                  </h3>
-                  <p className="text-sm text-white/90 line-clamp-2 mb-3">
-                    {album.description}
-                  </p>
-                  
-                  <div className="flex items-center justify-between text-sm mb-3">
-                    <div className="flex items-center gap-2 text-white/90">
-                      <Tag className="w-4 h-4" />
-                      <span className="line-clamp-1">{album.location}</span>
-                    </div>
-                  </div>
-
-                  {/* Social Links */}
-                  {album.socialLinks && album.socialLinks.length > 0 && (
-                    <div className="flex gap-2">
-                      {album.socialLinks.map((link: any, idx: number) => {
-                        const Icon = getSocialIcon(link.platform);
-                        return (
-                          <a
-                            key={idx}
-                            href={link.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                            className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-colors text-xs"
-                          >
-                            <Icon className="w-3 h-3" />
-                            <span className="capitalize">{link.platform}</span>
-                          </a>
-                        );
-                      })}
+          {filteredAlbums.map((album) => {
+            const photos = albumPhotos[album.id] || [];
+            const coverImage = album.coverImage || (photos.length > 0 ? photos[0].url : null);
+            const photoCount = photos.length;
+            
+            return (
+              <Card 
+                key={album.id}
+                className={`group overflow-hidden hover:shadow-2xl transition-all duration-500 border-0 shadow-lg break-inside-avoid ${
+                  viewMode === 'grid' ? '' : 'mb-6'
+                }`}
+              >
+                <div className={`relative ${viewMode === 'grid' ? 'h-80' : 'h-96'} overflow-hidden`}>
+                  {coverImage ? (
+                    <img
+                      src={coverImage}
+                      alt={album.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                      <ImageIcon className="w-16 h-16 text-white/50" />
                     </div>
                   )}
-                </div>
+                  <div className={`absolute inset-0 bg-gradient-to-t ${getCategoryColor()} opacity-60 group-hover:opacity-80 transition-opacity`}></div>
+                  
+                  {/* Top Info */}
+                  <div className="absolute top-4 left-4 right-4 flex items-start justify-between">
+                    <Badge className="bg-white text-primary shadow-lg">
+                      Album
+                    </Badge>
+                    <div className="flex items-center gap-1 bg-white/20 backdrop-blur-sm px-2 py-1 rounded-lg">
+                      <ImageIcon className="w-3 h-3 text-white" />
+                      <span className="text-white text-xs font-medium">{photoCount} foto</span>
+                    </div>
+                  </div>
 
-                {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <Button 
-                    className="bg-white text-primary hover:bg-white/90 shadow-xl" 
-                    onClick={() => handleViewAlbum(album)}
-                  >
-                    <Eye className="w-4 h-4 mr-2" />
-                    Lihat Detail
-                  </Button>
+                  {/* Bottom Info */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <h3 className="text-xl font-bold mb-3 line-clamp-2">
+                      {album.title}
+                    </h3>
+                    {album.description && (
+                      <p className="text-sm text-white/90 line-clamp-2 mb-3">
+                        {album.description}
+                      </p>
+                    )}
+                    
+                    <div className="flex items-center justify-between text-sm mb-3">
+                      <div className="flex items-center gap-2 text-white/90">
+                        <Calendar className="w-4 h-4" />
+                        <span className="line-clamp-1">
+                          {new Date(album.createdAt).toLocaleDateString('id-ID', { 
+                            day: 'numeric', 
+                            month: 'long', 
+                            year: 'numeric' 
+                          })}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Hover Overlay */}
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <Button 
+                      className="bg-white text-primary hover:bg-white/90 shadow-xl" 
+                      onClick={() => handleViewAlbum(album)}
+                      disabled={photoCount === 0}
+                    >
+                      <Eye className="w-4 h-4 mr-2" />
+                      {photoCount > 0 ? 'Lihat Detail' : 'Belum Ada Foto'}
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            </Card>
-          ))}
+              </Card>
+            );
+          })}
         </div>
 
         {filteredAlbums.length === 0 && (
@@ -319,17 +357,19 @@ export default function GaleriPage() {
           <div className="grid md:grid-cols-4 gap-8 text-center text-white">
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
               <ImageIcon className="w-12 h-12 mx-auto mb-4 text-accent" />
-              <div className="text-4xl font-bold mb-2">{albums.length}+</div>
-              <div className="text-white/90">Total Dokumentasi</div>
+              <div className="text-4xl font-bold mb-2">{albums.length}</div>
+              <div className="text-white/90">Total Album</div>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-              <Tag className="w-12 h-12 mx-auto mb-4 text-accent" />
-              <div className="text-4xl font-bold mb-2">6</div>
-              <div className="text-white/90">Kategori Program</div>
+              <ImageIcon className="w-12 h-12 mx-auto mb-4 text-accent" />
+              <div className="text-4xl font-bold mb-2">
+                {Object.values(albumPhotos).reduce((total, photos) => total + photos.length, 0)}
+              </div>
+              <div className="text-white/90">Total Foto</div>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
               <Calendar className="w-12 h-12 mx-auto mb-4 text-accent" />
-              <div className="text-4xl font-bold mb-2">2026</div>
+              <div className="text-4xl font-bold mb-2">{new Date().getFullYear()}</div>
               <div className="text-white/90">Tahun Aktif</div>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">

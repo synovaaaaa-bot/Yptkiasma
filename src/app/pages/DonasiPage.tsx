@@ -5,7 +5,7 @@ import { Progress } from '../components/ui/progress';
 import { Badge } from '../components/ui/badge';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { programs as programsData } from '../../collections/programs';
+import { programsApi } from '@/api/supabase-db';
 import { ImageUpload } from '../components/admin/ImageUpload';
 import { donationsApi } from '@/api/donations-api';
 import { toast } from 'sonner';
@@ -16,6 +16,8 @@ export default function DonasiPage() {
   const [customAmount, setCustomAmount] = useState('');
   const [selectedProgram, setSelectedProgram] = useState<string>('umum');
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [programsData, setProgramsData] = useState<any[]>([]);
+  const [loadingPrograms, setLoadingPrograms] = useState(true);
   
   // Form data state
   const [formData, setFormData] = useState({
@@ -30,6 +32,23 @@ export default function DonasiPage() {
     paymentProof: '',
   });
   const [submitting, setSubmitting] = useState(false);
+
+  // Load programs from database
+  useEffect(() => {
+    loadPrograms();
+  }, []);
+
+  const loadPrograms = async () => {
+    try {
+      setLoadingPrograms(true);
+      const data = await programsApi.getAll();
+      setProgramsData(data);
+    } catch (error) {
+      console.error('Error loading programs:', error);
+    } finally {
+      setLoadingPrograms(false);
+    }
+  };
 
   // Auto-select program from navigation state and scroll to form
   useEffect(() => {
@@ -136,16 +155,15 @@ export default function DonasiPage() {
       const program = fundPrograms.find(p => p.id.toString() === selectedProgram)?.title || 'Donasi Umum';
       
       await donationsApi.create({
-        donor_name: formData.fullName,
-        donor_email: formData.email,
-        donor_phone: formData.phone,
+        donorName: formData.fullName,
+        donorEmail: formData.email,
+        donorPhone: formData.phone,
         amount: amount,
-        program: program,
-        payment_method: formData.paymentMethod,
-        account_number: formData.accountNumber,
-        payment_proof: formData.paymentProof,
-        payment_status: 'pending',
-        message: formData.message,
+        program: selectedProgram === 'umum' ? null : program,
+        paymentMethod: formData.paymentMethod,
+        accountNumber: formData.accountNumber,
+        paymentProof: formData.paymentProof,
+        message: formData.message || null,
       });
       
       toast.success('Donasi berhasil dikirim! Menunggu validasi admin.');
@@ -166,9 +184,9 @@ export default function DonasiPage() {
       });
       setSelectedAmount(null);
       setCustomAmount('');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error submitting donation:', error);
-      toast.error('Gagal mengirim donasi. Silakan coba lagi.');
+      toast.error(error.message || 'Gagal mengirim donasi. Silakan coba lagi.');
     } finally {
       setSubmitting(false);
     }
@@ -401,33 +419,39 @@ export default function DonasiPage() {
                         </div>
                       </div>
                       
-                      {/* Program dari Collections */}
-                      {programsData.slice(0, 5).map((prog) => (
-                        <div 
-                          key={prog.id}
-                          onClick={() => setSelectedProgram(prog.id)}
-                          className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
-                            selectedProgram === prog.id
-                              ? 'border-primary bg-primary/5 shadow-lg'
-                              : 'border-muted hover:border-primary/50'
-                          }`}
-                        >
-                          <div className="flex items-center gap-3">
-                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                              selectedProgram === prog.id ? 'border-primary' : 'border-muted-foreground'
-                            }`}>
-                              {selectedProgram === prog.id && <div className="w-3 h-3 rounded-full bg-primary"></div>}
-                            </div>
-                            <div className="flex-1">
-                              <div className="font-semibold">{prog.title}</div>
-                              <div className="text-sm text-muted-foreground">{prog.description}</div>
-                            </div>
-                            <Badge variant="outline" className="text-xs">
-                              {prog.category}
-                            </Badge>
-                          </div>
+                      {/* Program dari Database */}
+                      {loadingPrograms ? (
+                        <div className="flex items-center justify-center py-8">
+                          <Loader2 className="w-6 h-6 animate-spin text-primary" />
                         </div>
-                      ))}
+                      ) : (
+                        programsData.slice(0, 5).map((prog) => (
+                          <div 
+                            key={prog.id}
+                            onClick={() => setSelectedProgram(String(prog.id))}
+                            className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                              selectedProgram === String(prog.id)
+                                ? 'border-primary bg-primary/5 shadow-lg'
+                                : 'border-muted hover:border-primary/50'
+                            }`}
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                                selectedProgram === String(prog.id) ? 'border-primary' : 'border-muted-foreground'
+                              }`}>
+                                {selectedProgram === String(prog.id) && <div className="w-3 h-3 rounded-full bg-primary"></div>}
+                              </div>
+                              <div className="flex-1">
+                                <div className="font-semibold">{prog.title}</div>
+                                <div className="text-sm text-muted-foreground">{prog.description || 'Program YTPK'}</div>
+                              </div>
+                              <Badge variant="outline" className="text-xs">
+                                {prog.category || 'Umum'}
+                              </Badge>
+                            </div>
+                          </div>
+                        ))
+                      )}
                     </div>
                   </div>
 
@@ -662,7 +686,7 @@ export default function DonasiPage() {
                         <span className="font-medium">
                           {selectedProgram === 'umum' 
                             ? 'Donasi Umum' 
-                            : programsData.find(p => p.id === selectedProgram)?.title || 'Belum dipilih'}
+                            : programsData.find(p => String(p.id) === selectedProgram)?.title || 'Belum dipilih'}
                         </span>
                       </div>
                       <div className="flex justify-between">
