@@ -104,8 +104,24 @@ export const contactMessages = pgTable('contact_messages', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
 });
 
+// Fundraising Programs Table (Program Donasi)
+export const fundraisingPrograms = pgTable('fundraising_programs', {
+  id: serial('id').primaryKey(),
+  title: text('title').notNull(),
+  description: text('description'),
+  target: integer('target').notNull(), // Target donasi
+  collected: integer('collected').default(0), // Total terkumpul (calculated from approved donations)
+  image: text('image'), // Cover image
+  status: text('status').notNull().default('active'), // active, completed, paused
+  urgent: boolean('urgent').default(false),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
+
 export type AdminUser = typeof adminUsers.$inferSelect;
 export type NewAdminUser = typeof adminUsers.$inferInsert;
+export type FundraisingProgram = typeof fundraisingPrograms.$inferSelect;
+export type NewFundraisingProgram = typeof fundraisingPrograms.$inferInsert;
 
 // Note: For admin authentication, use Supabase Auth API:
 // supabase.auth.signInWithPassword({ email, password })

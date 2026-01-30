@@ -5,7 +5,7 @@ import { Progress } from '../components/ui/progress';
 import { Badge } from '../components/ui/badge';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { programsApi } from '@/api/supabase-db';
+import { fundraisingProgramsApi } from '@/api/supabase-db';
 import { ImageUpload } from '../components/admin/ImageUpload';
 import { donationsApi } from '@/api/donations-api';
 import { toast } from 'sonner';
@@ -16,7 +16,7 @@ export default function DonasiPage() {
   const [customAmount, setCustomAmount] = useState('');
   const [selectedProgram, setSelectedProgram] = useState<string>('umum');
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [programsData, setProgramsData] = useState<any[]>([]);
+  const [fundraisingPrograms, setFundraisingPrograms] = useState<any[]>([]);
   const [loadingPrograms, setLoadingPrograms] = useState(true);
   
   // Form data state
@@ -33,18 +33,20 @@ export default function DonasiPage() {
   });
   const [submitting, setSubmitting] = useState(false);
 
-  // Load programs from database
+  // Load fundraising programs from database
   useEffect(() => {
-    loadPrograms();
+    loadFundraisingPrograms();
   }, []);
 
-  const loadPrograms = async () => {
+  const loadFundraisingPrograms = async () => {
     try {
       setLoadingPrograms(true);
-      const data = await programsApi.getAll();
-      setProgramsData(data);
+      const data = await fundraisingProgramsApi.getAll();
+      // Filter only active programs
+      const activePrograms = data.filter(p => p.status === 'active');
+      setFundraisingPrograms(activePrograms);
     } catch (error) {
-      console.error('Error loading programs:', error);
+      console.error('Error loading fundraising programs:', error);
     } finally {
       setLoadingPrograms(false);
     }
@@ -61,41 +63,29 @@ export default function DonasiPage() {
     }
   }, [location.state]);
 
-  const fundPrograms = [
-    {
-      id: 1,
-      title: 'Pembangunan Gedung Baru',
-      target: 500000000,
-      collected: 350000000,
-      donors: 450,
-      icon: Building2,
-      description: 'Pembangunan gedung baru berlantai 3 untuk menampung lebih banyak program pendidikan dan kegiatan yayasan',
-      gradient: 'from-emerald-500 to-teal-600',
-      urgent: true,
-    },
-    {
-      id: 2,
-      title: 'Santunan Yatim Piatu',
-      target: 100000000,
-      collected: 75000000,
-      donors: 320,
-      icon: Heart,
-      description: 'Program santunan rutin bulanan untuk 150 anak yatim dan dhuafa di wilayah Bukittinggi',
-      gradient: 'from-rose-500 to-pink-600',
-      urgent: false,
-    },
-    {
-      id: 3,
-      title: 'Beasiswa Tahfidz 2026',
-      target: 200000000,
-      collected: 120000000,
-      donors: 180,
-      icon: TrendingUp,
-      description: 'Beasiswa penuh untuk 50 santri penghafal Al-Quran termasuk biaya pendidikan dan asrama',
-      gradient: 'from-blue-500 to-cyan-600',
-      urgent: false,
-    },
-  ];
+  // Map fundraising programs to display format
+  const fundPrograms = fundraisingPrograms.map((program, index) => {
+    const icons = [Building2, Heart, TrendingUp, Gift, Users];
+    const gradients = [
+      'from-emerald-500 to-teal-600',
+      'from-rose-500 to-pink-600',
+      'from-blue-500 to-cyan-600',
+      'from-amber-500 to-orange-600',
+      'from-purple-500 to-pink-600',
+    ];
+    
+    return {
+      id: program.id,
+      title: program.title,
+      target: program.target,
+      collected: program.collected || 0,
+      donors: 0, // Will be calculated from donations
+      icon: icons[index % icons.length],
+      description: program.description || '',
+      gradient: gradients[index % gradients.length],
+      urgent: program.urgent || false,
+    };
+  });
 
   const quickAmounts = [50000, 100000, 250000, 500000, 1000000, 2500000];
 
@@ -152,18 +142,27 @@ export default function DonasiPage() {
     
     try {
       const amount = selectedAmount || parseInt(customAmount.replace(/\D/g, ''));
-      const program = fundPrograms.find(p => p.id.toString() === selectedProgram)?.title || 'Donasi Umum';
+      if (isNaN(amount) || amount <= 0) {
+        toast.error('Jumlah donasi tidak valid');
+        setSubmitting(false);
+        return;
+      }
+      
+      // Store program ID for better tracking
+      const programId = selectedProgram === 'umum' 
+        ? null 
+        : selectedProgram;
       
       await donationsApi.create({
-        donorName: formData.fullName,
-        donorEmail: formData.email,
-        donorPhone: formData.phone,
+        donorName: formData.fullName.trim(),
+        donorEmail: formData.email.trim(),
+        donorPhone: formData.phone.trim(),
         amount: amount,
-        program: selectedProgram === 'umum' ? null : program,
+        program: programId,
         paymentMethod: formData.paymentMethod,
-        accountNumber: formData.accountNumber,
+        accountNumber: formData.accountNumber.trim(),
         paymentProof: formData.paymentProof,
-        message: formData.message || null,
+        message: formData.message?.trim() || null,
       });
       
       toast.success('Donasi berhasil dikirim! Menunggu validasi admin.');
@@ -186,7 +185,9 @@ export default function DonasiPage() {
       setCustomAmount('');
     } catch (error: any) {
       console.error('Error submitting donation:', error);
-      toast.error(error.message || 'Gagal mengirim donasi. Silakan coba lagi.');
+      const errorMessage = error?.message || error?.error?.message || 'Gagal mengirim donasi. Silakan coba lagi.';
+      console.error('Full error details:', error);
+      toast.error(errorMessage);
     } finally {
       setSubmitting(false);
     }
@@ -445,9 +446,11 @@ export default function DonasiPage() {
                                 <div className="font-semibold">{prog.title}</div>
                                 <div className="text-sm text-muted-foreground">{prog.description || 'Program YTPK'}</div>
                               </div>
-                              <Badge variant="outline" className="text-xs">
-                                {prog.category || 'Umum'}
-                              </Badge>
+                              {prog.urgent && (
+                                <Badge variant="destructive" className="text-xs">
+                                  Urgent
+                                </Badge>
+                              )}
                             </div>
                           </div>
                         ))
@@ -686,7 +689,7 @@ export default function DonasiPage() {
                         <span className="font-medium">
                           {selectedProgram === 'umum' 
                             ? 'Donasi Umum' 
-                            : programsData.find(p => String(p.id) === selectedProgram)?.title || 'Belum dipilih'}
+                            : fundraisingPrograms.find(p => String(p.id) === selectedProgram)?.title || 'Belum dipilih'}
                         </span>
                       </div>
                       <div className="flex justify-between">

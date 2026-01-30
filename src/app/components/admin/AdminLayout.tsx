@@ -14,6 +14,7 @@ import {
   Menu,
   X,
   Newspaper,
+  Target,
 } from 'lucide-react';
 
 interface NavItem {
@@ -47,6 +48,11 @@ const navItems: NavItem[] = [
     title: 'Galeri',
     href: '/admin/gallery',
     icon: <Image className="w-5 h-5" />,
+  },
+  {
+    title: 'Program Donasi',
+    href: '/admin/fundraising-programs',
+    icon: <Target className="w-5 h-5" />,
   },
   {
     title: 'Donasi',

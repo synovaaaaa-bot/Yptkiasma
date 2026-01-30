@@ -78,6 +78,7 @@ export default function ActivitiesPage() {
 
     try {
       // Prepare data for API - ensure all fields are properly formatted
+      // Note: category is not in database schema, so we exclude it
       const activityData = {
         title: formData.title.trim(),
         description: formData.description.trim(),
@@ -85,7 +86,7 @@ export default function ActivitiesPage() {
         location: formData.location?.trim() || null,
         status: formData.status,
         image: formData.image?.trim() || null,
-        category: formData.category?.trim() || null,
+        // category field removed - not in database schema
       };
 
       if (editingActivity) {
@@ -106,7 +107,9 @@ export default function ActivitiesPage() {
       resetForm();
     } catch (error: any) {
       console.error('Error saving activity:', error);
-      toast.error(error.message || 'Gagal menyimpan kegiatan');
+      const errorMessage = error?.message || error?.error?.message || 'Gagal menyimpan kegiatan';
+      console.error('Full error:', error);
+      toast.error(errorMessage);
     } finally {
       setSubmitting(false);
     }

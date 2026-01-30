@@ -1,7 +1,7 @@
 // Supabase Database API untuk CRUD operations
 import { supabase } from '@/lib/supabase';
 import { requireAuth } from '@/lib/auth-helpers';
-import type { NewProgram, Program, NewActivity, Activity, NewPost, Post, NewAlbum, Album, NewPhoto, Photo, ContactMessage, NewContactMessage } from '@/db/schema';
+import type { NewProgram, Program, NewActivity, Activity, NewPost, Post, NewAlbum, Album, NewPhoto, Photo, ContactMessage, NewContactMessage, FundraisingProgram, NewFundraisingProgram } from '@/db/schema';
 
 // Programs API
 export const programsApi = {
@@ -83,30 +83,42 @@ export const activitiesApi = {
   create: async (activity: Omit<NewActivity, 'id' | 'createdAt' | 'updatedAt'>): Promise<Activity> => {
     await requireAuth(); // Require authentication
     
+    // Remove category if it exists (not in schema)
+    const { category, ...activityData } = activity as any;
+    
     const { data, error } = await supabase
       .from('activities')
-      .insert([activity])
+      .insert([activityData])
       .select()
       .single();
     
-    if (error) throw error;
+    if (error) {
+      console.error('Error creating activity:', error);
+      throw new Error(error.message || 'Gagal membuat kegiatan');
+    }
     return data;
   },
 
   update: async (id: number, updates: Partial<Omit<Activity, 'id' | 'createdAt'>>): Promise<Activity> => {
     await requireAuth(); // Require authentication
     
+    // Remove category if it exists (not in schema)
+    const { category, ...updateData } = updates as any;
+    
     const { data, error } = await supabase
       .from('activities')
       .update({
-        ...updates,
+        ...updateData,
         updated_at: new Date().toISOString(),
       })
       .eq('id', id)
       .select()
       .single();
     
-    if (error) throw error;
+    if (error) {
+      console.error('Error updating activity:', error);
+      throw new Error(error.message || 'Gagal mengupdate kegiatan');
+    }
     return data;
   },
 
@@ -539,5 +551,185 @@ export const contactMessagesApi = {
       console.error('Error deleting contact message:', error);
       throw error;
     }
+  },
+};
+
+// Fundraising Programs API
+export const fundraisingProgramsApi = {
+  getAll: async (): Promise<FundraisingProgram[]> => {
+    const { data, error } = await supabase
+      .from('fundraising_programs')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (error) {
+      console.error('Error fetching fundraising programs:', error);
+      throw error;
+    }
+    
+    return (data || []).map((program: any) => ({
+      id: program.id,
+      title: program.title,
+      description: program.description || null,
+      target: program.target,
+      collected: program.collected || 0,
+      image: program.image || null,
+      status: program.status || 'active',
+      urgent: program.urgent || false,
+      createdAt: program.created_at || program.createdAt,
+      updatedAt: program.updated_at || program.updatedAt,
+    }));
+  },
+
+  getById: async (id: number): Promise<FundraisingProgram> => {
+    const { data, error } = await supabase
+      .from('fundraising_programs')
+      .select('*')
+      .eq('id', id)
+      .single();
+    
+    if (error) {
+      console.error('Error fetching fundraising program:', error);
+      throw error;
+    }
+    
+    return {
+      id: data.id,
+      title: data.title,
+      description: data.description || null,
+      target: data.target,
+      collected: data.collected || 0,
+      image: data.image || null,
+      status: data.status || 'active',
+      urgent: data.urgent || false,
+      createdAt: data.created_at || data.createdAt,
+      updatedAt: data.updated_at || data.updatedAt,
+    };
+  },
+
+  create: async (program: Omit<NewFundraisingProgram, 'id' | 'createdAt' | 'updatedAt' | 'collected'>): Promise<FundraisingProgram> => {
+    await requireAuth();
+    
+    const programData: any = {
+      title: program.title,
+      description: program.description || null,
+      target: program.target,
+      collected: 0,
+      image: program.image || null,
+      status: program.status || 'active',
+      urgent: program.urgent || false,
+    };
+    
+    const { data, error } = await supabase
+      .from('fundraising_programs')
+      .insert([programData])
+      .select()
+      .single();
+    
+    if (error) {
+      console.error('Error creating fundraising program:', error);
+      throw error;
+    }
+    
+    return {
+      id: data.id,
+      title: data.title,
+      description: data.description || null,
+      target: data.target,
+      collected: data.collected || 0,
+      image: data.image || null,
+      status: data.status || 'active',
+      urgent: data.urgent || false,
+      createdAt: data.created_at || data.createdAt,
+      updatedAt: data.updated_at || data.updatedAt,
+    };
+  },
+
+  update: async (id: number, updates: Partial<Omit<FundraisingProgram, 'id' | 'createdAt' | 'collected'>>): Promise<FundraisingProgram> => {
+    await requireAuth();
+    
+    const updateData: any = {
+      updated_at: new Date().toISOString(),
+    };
+    if (updates.title !== undefined) updateData.title = updates.title;
+    if (updates.description !== undefined) updateData.description = updates.description;
+    if (updates.target !== undefined) updateData.target = updates.target;
+    if (updates.image !== undefined) updateData.image = updates.image;
+    if (updates.status !== undefined) updateData.status = updates.status;
+    if (updates.urgent !== undefined) updateData.urgent = updates.urgent;
+    
+    const { data, error } = await supabase
+      .from('fundraising_programs')
+      .update(updateData)
+      .eq('id', id)
+      .select()
+      .single();
+    
+    if (error) {
+      console.error('Error updating fundraising program:', error);
+      throw error;
+    }
+    
+    return {
+      id: data.id,
+      title: data.title,
+      description: data.description || null,
+      target: data.target,
+      collected: data.collected || 0,
+      image: data.image || null,
+      status: data.status || 'active',
+      urgent: data.urgent || false,
+      createdAt: data.created_at || data.createdAt,
+      updatedAt: data.updated_at || data.updatedAt,
+    };
+  },
+
+  delete: async (id: number): Promise<void> => {
+    await requireAuth();
+    
+    const { error } = await supabase
+      .from('fundraising_programs')
+      .delete()
+      .eq('id', id);
+    
+    if (error) {
+      console.error('Error deleting fundraising program:', error);
+      throw error;
+    }
+  },
+
+  // Update collected amount from approved donations
+  updateCollected: async (id: number): Promise<number> => {
+    await requireAuth();
+    
+    // Get program title for backward compatibility
+    const program = await fundraisingProgramsApi.getById(id);
+    
+    // Get all approved donations for this program (by ID or title for backward compatibility)
+    const { data: donations, error: donationsError } = await supabase
+      .from('donations')
+      .select('amount')
+      .eq('payment_status', 'approved')
+      .or(`program.eq.${id},program.eq.${program.title}`);
+    
+    if (donationsError) {
+      console.error('Error calculating collected amount:', donationsError);
+      throw donationsError;
+    }
+    
+    const collected = donations?.reduce((sum, d) => sum + (d.amount || 0), 0) || 0;
+    
+    // Update the collected amount
+    const { error } = await supabase
+      .from('fundraising_programs')
+      .update({ collected })
+      .eq('id', id);
+    
+    if (error) {
+      console.error('Error updating collected amount:', error);
+      throw error;
+    }
+    
+    return collected;
   },
 };
