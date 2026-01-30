@@ -123,13 +123,10 @@ export async function deleteImage(imageUrl: string): Promise<void> {
       throw error;
     }
   } catch (error: any) {
-    // Handle bucket not found errors gracefully
-    if (error?.message?.includes('Bucket not found') || 
-        error?.message?.includes('bucket not found') ||
-        error?.message?.includes('not found')) {
-      console.warn('Bucket not found, skipping deletion:', error.message);
-      return;
-    }
+  } catch (error: any) {
+    console.error('Delete error:', error);
+    throw error;
+  }
     console.error('Delete error:', error);
     throw error;
   }
