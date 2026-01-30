@@ -114,19 +114,27 @@ export async function deleteImage(imageUrl: string): Promise<void> {
       .from(BUCKET_NAME)
       .remove([filePath]);
 
-      if (error.message?.includes('Bucket not found') || 
-          error.message?.includes('bucket not found')) {
-        console.warn('Bucket not found, skipping deletion:', error.message);
+    if (error) {
+      // Handle bucket not found or file not found errors gracefully
+      const errorMessage = error.message || '';
+      if (errorMessage.includes('Bucket not found') || 
+          errorMessage.includes('bucket not found') ||
+          errorMessage.includes('not found')) {
+        console.warn('Bucket or file not found, skipping deletion:', errorMessage);
         return;
       }
       console.error('Delete error:', error);
       throw error;
     }
   } catch (error: any) {
-  } catch (error: any) {
-    console.error('Delete error:', error);
-    throw error;
-  }
+    // Handle bucket not found errors gracefully
+    const errorMessage = error?.message || '';
+    if (errorMessage.includes('Bucket not found') || 
+        errorMessage.includes('bucket not found') ||
+        errorMessage.includes('not found')) {
+      console.warn('Bucket not found, skipping deletion:', errorMessage);
+      return;
+    }
     console.error('Delete error:', error);
     throw error;
   }
