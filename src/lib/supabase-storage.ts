@@ -14,6 +14,50 @@ const ALLOWED_IMAGE_TYPES = [
 ];
 
 /**
+ * Check if the storage bucket exists
+ * @returns true if bucket exists, false otherwise
+ */
+export async function checkBucketExists(): Promise<boolean> {
+  try {
+    const { data, error } = await supabase.storage.listBuckets();
+    if (error) {
+      console.error('Error checking buckets:', error);
+      return false;
+    }
+    return data?.some(bucket => bucket.id === BUCKET_NAME) ?? false;
+  } catch (error) {
+    console.error('Error checking bucket existence:', error);
+    return false;
+  }
+}
+
+/**
+ * Get setup instructions for creating the bucket
+ */
+function getBucketSetupInstructions(): string {
+  return `
+🚨 BUCKET TIDAK DITEMUKAN!
+
+Bucket '${BUCKET_NAME}' belum dibuat di Supabase Storage.
+
+CARA SETUP:
+1. Buka Supabase Dashboard: https://supabase.com/dashboard
+2. Pilih project Anda
+3. Pergi ke Storage > Buckets
+4. Klik "New bucket"
+5. Isi:
+   - Name: ${BUCKET_NAME}
+   - Public bucket: ✅ (centang)
+6. Klik "Create bucket"
+
+ATAU jalankan SQL di Supabase SQL Editor:
+File: drizzle/0002_storage_bucket.sql
+
+Setelah bucket dibuat, coba upload lagi.
+  `.trim();
+}
+
+/**
  * Upload image to Supabase Storage
  * @param file - File object dari input
  * @param folder - Folder name (programs, activities, posts, etc)
@@ -65,7 +109,9 @@ export async function uploadImage(file: File, folder: string): Promise<string> {
       // Provide more helpful error message for bucket not found
       if (error.message?.includes('Bucket not found') || 
           error.message?.includes('bucket not found')) {
-        throw new Error(`Bucket '${BUCKET_NAME}' tidak ditemukan. Pastikan bucket sudah dibuat di Supabase Storage.`);
+        const setupInstructions = getBucketSetupInstructions();
+        console.error(setupInstructions);
+        throw new Error(`Bucket '${BUCKET_NAME}' tidak ditemukan.\n\n${setupInstructions}`);
       }
       throw error;
     }
@@ -133,6 +179,7 @@ export async function deleteImage(imageUrl: string): Promise<void> {
         errorMessage.includes('bucket not found') ||
         errorMessage.includes('not found')) {
       console.warn('Bucket not found, skipping deletion:', errorMessage);
+      console.warn(getBucketSetupInstructions());
       return;
     }
     console.error('Delete error:', error);

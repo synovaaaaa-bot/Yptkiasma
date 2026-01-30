@@ -133,33 +133,29 @@ drizzle/create-admin-user.sql
 ```
 
 ### 7. Setup Supabase Storage
-Jalankan SQL ini di **Supabase SQL Editor**:
-```sql
--- Create images bucket (public)
-INSERT INTO storage.buckets (id, name, public)
-VALUES ('images', 'images', true)
-ON CONFLICT (id) DO NOTHING;
 
--- Allow public to read images
-CREATE POLICY "Public Read Access"
-ON storage.objects FOR SELECT
-USING (bucket_id = 'images');
+**PENTING**: Bucket 'images' harus dibuat sebelum bisa upload gambar!
 
--- Allow authenticated users to upload
-CREATE POLICY "Authenticated Upload"
-ON storage.objects FOR INSERT
-WITH CHECK (bucket_id = 'images');
+**Cara 1: Via Supabase Dashboard (Recommended)**
+1. Buka Supabase Dashboard: https://supabase.com/dashboard
+2. Pilih project Anda
+3. Pergi ke **Storage** → **Buckets**
+4. Klik **"New bucket"**
+5. Isi:
+   - **Name**: `images`
+   - **Public bucket**: ✅ (centang untuk akses public)
+6. Klik **"Create bucket"**
+7. Setelah bucket dibuat, buat policies:
+   - Pergi ke **Storage** → **Policies**
+   - Tambahkan policies untuk bucket 'images' (lihat file SQL di bawah)
 
--- Allow authenticated users to update
-CREATE POLICY "Authenticated Update"  
-ON storage.objects FOR UPDATE
-USING (bucket_id = 'images');
-
--- Allow authenticated users to delete
-CREATE POLICY "Authenticated Delete"
-ON storage.objects FOR DELETE
-USING (bucket_id = 'images');
+**Cara 2: Via SQL (Lebih Cepat)**
+Jalankan file SQL ini di **Supabase SQL Editor**:
 ```
+drizzle/0002_storage_bucket.sql
+```
+
+File ini akan membuat bucket dan semua policies yang diperlukan secara otomatis.
 
 ### 8. Run Development Server
 ```bash
