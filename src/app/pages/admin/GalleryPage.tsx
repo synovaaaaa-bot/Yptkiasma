@@ -102,12 +102,17 @@ export default function GalleryPage() {
       return;
     }
 
+    // Upload image to storage
     let imageUrl: string | null = null;
-
     try {
-      // Upload image to storage first
       imageUrl = await uploadImage(photoFile, 'albums');
-      
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      toast.error('Gagal upload foto ke storage');
+      return;
+    }
+    
+    try {
       // Get current max order for this album
       const existingPhotos = albumPhotos[selectedAlbum] || [];
       const maxOrder = existingPhotos.length > 0 
@@ -164,6 +169,16 @@ export default function GalleryPage() {
 
     try {
       await photosApi.delete(photoId);
+      // Get photo URL before deletion to clean up storage
+      const photos = albumPhotos[albumId] || [];
+      const photo = photos.find(p => p.id === photoId);
+      if (photo?.url) {
+        try {
+          await deleteImage(photo.url);
+        } catch (error) {
+          console.warn('Failed to delete image from storage:', error);
+        }
+      }
       toast.success('Foto berhasil dihapus!');
       loadAlbums();
     } catch (error: any) {
