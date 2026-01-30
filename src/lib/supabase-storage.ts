@@ -97,6 +97,12 @@ export async function uploadImage(file: File, folder: string): Promise<string> {
     const fileName = `${timestamp}-${randomStr}.${fileExt}`;
     const filePath = `${folder}/${fileName}`;
 
+    // Check if bucket exists first (optional check, but helpful for debugging)
+    const bucketExists = await checkBucketExists();
+    if (!bucketExists) {
+      console.warn(`Bucket '${BUCKET_NAME}' tidak ditemukan saat pengecekan. Mencoba upload anyway...`);
+    }
+
     // Upload to Supabase Storage
     const { data, error } = await supabase.storage
       .from(BUCKET_NAME)
@@ -106,14 +112,34 @@ export async function uploadImage(file: File, folder: string): Promise<string> {
       });
 
     if (error) {
-      // Provide more helpful error message for bucket not found
-      if (error.message?.includes('Bucket not found') || 
-          error.message?.includes('bucket not found')) {
+      // Log full error for debugging
+      console.error('Supabase Storage Error:', {
+        message: error.message,
+        error: error,
+      });
+
+      // Check for various bucket-related errors
+      const errorMessage = (error.message || '').toLowerCase();
+      
+      if (errorMessage.includes('bucket not found') || 
+          errorMessage.includes('does not exist') ||
+          errorMessage.includes('not found')) {
         const setupInstructions = getBucketSetupInstructions();
         console.error(setupInstructions);
-        throw new Error(`Bucket '${BUCKET_NAME}' tidak ditemukan.\n\n${setupInstructions}`);
+        throw new Error(`Bucket '${BUCKET_NAME}' tidak ditemukan atau tidak dapat diakses.\n\nError detail: ${error.message}\n\n${setupInstructions}`);
       }
-      throw error;
+
+      // Check for permission errors
+      if (errorMessage.includes('permission') || 
+          errorMessage.includes('policy') ||
+          errorMessage.includes('unauthorized') ||
+          errorMessage.includes('forbidden') ||
+          errorMessage.includes('access denied')) {
+        throw new Error(`Tidak memiliki izin untuk upload ke bucket '${BUCKET_NAME}'.\n\nPastikan:\n1. Anda sudah login sebagai admin\n2. Storage policies sudah diatur dengan benar\n3. Jalankan SQL: drizzle/0002_storage_bucket.sql\n\nError: ${error.message}`);
+      }
+
+      // Generic error - show actual error message
+      throw new Error(`Gagal upload image: ${error.message || 'Unknown error'}`);
     }
 
     // Get public URL

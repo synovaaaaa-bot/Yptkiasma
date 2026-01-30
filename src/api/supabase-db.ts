@@ -1,7 +1,7 @@
 // Supabase Database API untuk CRUD operations
 import { supabase } from '@/lib/supabase';
 import { requireAuth } from '@/lib/auth-helpers';
-import type { NewProgram, Program, NewActivity, Activity, NewPost, Post, NewAlbum, Album } from '@/db/schema';
+import type { NewProgram, Program, NewActivity, Activity, NewPost, Post, NewAlbum, Album, NewPhoto, Photo } from '@/db/schema';
 
 // Programs API
 export const programsApi = {
@@ -223,6 +223,59 @@ export const albumsApi = {
     
     const { error } = await supabase
       .from('albums')
+      .delete()
+      .eq('id', id);
+    
+    if (error) throw error;
+  },
+};
+
+// Photos API
+export const photosApi = {
+  getByAlbumId: async (albumId: number): Promise<Photo[]> => {
+    const { data, error } = await supabase
+      .from('photos')
+      .select('*')
+      .eq('album_id', albumId)
+      .order('order', { ascending: true })
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    return data || [];
+  },
+
+  create: async (photo: Omit<NewPhoto, 'id' | 'createdAt'>): Promise<Photo> => {
+    await requireAuth(); // Require authentication
+    
+    const { data, error } = await supabase
+      .from('photos')
+      .insert([photo])
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
+  },
+
+  update: async (id: number, updates: Partial<Omit<Photo, 'id' | 'createdAt'>>): Promise<Photo> => {
+    await requireAuth(); // Require authentication
+    
+    const { data, error } = await supabase
+      .from('photos')
+      .update(updates)
+      .eq('id', id)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return data;
+  },
+
+  delete: async (id: number): Promise<void> => {
+    await requireAuth(); // Require authentication
+    
+    const { error } = await supabase
+      .from('photos')
       .delete()
       .eq('id', id);
     
