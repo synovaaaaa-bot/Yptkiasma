@@ -161,6 +161,16 @@ export default function GalleryPage() {
 
     try {
       await photosApi.delete(photoId);
+      // Get photo URL before deletion to clean up storage
+      const photos = albumPhotos[albumId] || [];
+      const photo = photos.find(p => p.id === photoId);
+      if (photo?.url) {
+        try {
+          await deleteImage(photo.url);
+        } catch (error) {
+          console.warn('Failed to delete image from storage:', error);
+        }
+      }
       toast.success('Foto berhasil dihapus!');
       loadAlbums();
     } catch (error: any) {
