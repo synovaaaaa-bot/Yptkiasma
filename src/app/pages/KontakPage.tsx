@@ -2,9 +2,9 @@ import { Mail, Phone, MapPin, Clock, Send, MessageCircle, Facebook, Instagram, Y
 import { Card, CardContent } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { footer as footerData } from '../../globals/footer';
-import { contactMessagesApi } from '@/api/supabase-db';
+import { contactMessagesApi, contactInfoApi, contactDepartmentsApi } from '@/api/supabase-db';
 import { toast } from 'sonner';
 
 // TikTok Icon Component
@@ -24,6 +24,49 @@ export default function KontakPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [contactInfo, setContactInfo] = useState<any>(null);
+  const [departments, setDepartments] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Load contact info and departments from database
+  useEffect(() => {
+    loadContactData();
+  }, []);
+
+  const loadContactData = async () => {
+    try {
+      setLoading(true);
+      const [info, depts] = await Promise.all([
+        contactInfoApi.get(),
+        contactDepartmentsApi.getAll(),
+      ]);
+      setContactInfo(info);
+      setDepartments(depts);
+    } catch (error) {
+      console.error('Error loading contact data:', error);
+      // Use fallback data from footer
+      setContactInfo({
+        phone: footerData.contact.phone,
+        phone2: footerData.contact.whatsapp,
+        email: footerData.contact.email,
+        address: footerData.contact.address,
+        operationalHours: 'Senin - Jumat: 08:00 - 17:00',
+        operationalHours2: 'Sabtu: 08:00 - 12:00',
+        heroTitle: 'Ada yang Bisa Kami Bantu?',
+        heroSubtitle: 'Tim kami siap melayani dan menjawab setiap pertanyaan Anda',
+        whatsapp: footerData.contact.whatsapp,
+        mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15958.234567890123!2d100.3693!3d-0.3055!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2fd54b5c0000000%3A0x0!2sBukittinggi!5e0!3m2!1sen!2sid!4v1234567890123!5m2!1sen!2sid',
+      });
+      setDepartments([
+        { name: 'Pendidikan', phone: '0812-3456-7890', email: 'pendidikan@tpkiasma.org' },
+        { name: 'Sosial', phone: '0812-3456-7891', email: 'sosial@tpkiasma.org' },
+        { name: 'Ekonomi', phone: '0812-3456-7892', email: 'ekonomi@tpkiasma.org' },
+        { name: 'Donasi', phone: '0812-3456-7893', email: 'donasi@tpkiasma.org' },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,32 +119,33 @@ export default function KontakPage() {
     });
   };
 
-  const contactInfo = [
+  // Build contact info cards from database data
+  const contactInfoCards = contactInfo ? [
     {
       icon: Phone,
       title: 'Telepon',
-      details: [footerData.contact.phone, footerData.contact.whatsapp],
+      details: [contactInfo.phone, contactInfo.phone2].filter(Boolean),
       gradient: 'from-emerald-500 to-teal-600',
     },
     {
       icon: Mail,
       title: 'Email',
-      details: [footerData.contact.email],
+      details: [contactInfo.email].filter(Boolean),
       gradient: 'from-blue-500 to-cyan-600',
     },
     {
       icon: MapPin,
       title: 'Alamat',
-      details: [footerData.contact.address],
+      details: [contactInfo.address].filter(Boolean),
       gradient: 'from-rose-500 to-pink-600',
     },
     {
       icon: Clock,
       title: 'Jam Operasional',
-      details: ['Senin - Jumat: 08:00 - 17:00', 'Sabtu: 08:00 - 12:00'],
+      details: [contactInfo.operationalHours, contactInfo.operationalHours2].filter(Boolean),
       gradient: 'from-yellow-500 to-accent',
     },
-  ];
+  ] : [];
 
   const getSocialIcon = (platform: string) => {
     switch (platform.toLowerCase()) {
@@ -160,7 +204,8 @@ export default function KontakPage() {
     handle: getSocialHandle(social.platform),
   }));
 
-  const departments = [
+  // Use departments from database or fallback
+  const displayDepartments = departments.length > 0 ? departments : [
     { name: 'Pendidikan', phone: '0812-3456-7890', email: 'pendidikan@tpkiasma.org' },
     { name: 'Sosial', phone: '0812-3456-7891', email: 'sosial@tpkiasma.org' },
     { name: 'Ekonomi', phone: '0812-3456-7892', email: 'ekonomi@tpkiasma.org' },
@@ -193,11 +238,11 @@ export default function KontakPage() {
             </div>
             
             <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight">
-              Ada yang Bisa <span className="text-accent">Kami Bantu?</span>
+              {contactInfo?.heroTitle || 'Ada yang Bisa Kami Bantu?'}
             </h1>
             
             <p className="text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
-              Tim kami siap melayani dan menjawab setiap pertanyaan Anda
+              {contactInfo?.heroSubtitle || 'Tim kami siap melayani dan menjawab setiap pertanyaan Anda'}
             </p>
           </div>
         </div>
@@ -212,7 +257,7 @@ export default function KontakPage() {
       {/* Contact Info Cards */}
       <section className="container mx-auto px-4 -mt-20 relative z-10">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {contactInfo.map((info, index) => {
+          {contactInfoCards.map((info, index) => {
             const Icon = info.icon;
             return (
               <Card key={index} className="group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-0 overflow-hidden">
@@ -348,7 +393,7 @@ export default function KontakPage() {
             <Card className="border-0 shadow-xl overflow-hidden">
               <div className="relative h-[400px] bg-muted">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15958.234567890123!2d100.3693!3d-0.3055!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2fd54b5c0000000%3A0x0!2sBukittinggi!5e0!3m2!1sen!2sid!4v1234567890123!5m2!1sen!2sid"
+                  src={contactInfo?.mapEmbedUrl || 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15958.234567890123!2d100.3693!3d-0.3055!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2fd54b5c0000000%3A0x0!2sBukittinggi!5e0!3m2!1sen!2sid!4v1234567890123!5m2!1sen!2sid'}
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
@@ -365,7 +410,7 @@ export default function KontakPage() {
               <CardContent className="p-8">
                 <h3 className="text-2xl font-bold mb-6">Kontak Departemen</h3>
                 <div className="space-y-4">
-                  {departments.map((dept, index) => (
+                  {displayDepartments.map((dept, index) => (
                     <div key={index} className="flex items-start gap-4 p-4 rounded-xl hover:bg-primary/5 transition-colors">
                       <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
                         <Phone className="w-6 h-6 text-primary" />
@@ -476,7 +521,7 @@ export default function KontakPage() {
 
             <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-xl">
               <Phone className="mr-2 w-5 h-5" />
-              WhatsApp: +62 812 3456 7890
+              WhatsApp: {contactInfo?.whatsapp || '+62 812 3456 7890'}
             </Button>
           </div>
         </div>

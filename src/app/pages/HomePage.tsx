@@ -5,11 +5,18 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge';
 import { useState, useEffect } from 'react';
 import { programsApi, activitiesApi } from '@/api/supabase-db';
+import { statsApi } from '@/api/stats-api';
 
 export default function HomePage() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [programs, setPrograms] = useState<any[]>([]);
   const [activities, setActivities] = useState<any[]>([]);
+  const [stats, setStats] = useState({
+    penerimaManfaat: '5000+',
+    programAktif: 23,
+    tahunBerdedikasi: '15+',
+    amanahTransparan: '100%',
+  });
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -23,12 +30,14 @@ export default function HomePage() {
 
   const loadData = async () => {
     try {
-      const [programsData, activitiesData] = await Promise.all([
+      const [programsData, activitiesData, statsData] = await Promise.all([
         programsApi.getAll(),
         activitiesApi.getAll(),
+        statsApi.getPublicStats(),
       ]);
       setPrograms(programsData);
       setActivities(activitiesData);
+      setStats(statsData);
     } catch (error) {
       console.error('Error loading data:', error);
     }
@@ -57,10 +66,10 @@ export default function HomePage() {
   }));
 
   const impactStats = [
-    { value: '5000+', label: 'Penerima Manfaat', icon: Users, color: 'text-primary', bg: 'bg-primary/10' },
-    { value: '23', label: 'Program Aktif', icon: Target, color: 'text-secondary', bg: 'bg-secondary/10' },
-    { value: '15+', label: 'Tahun Berdedikasi', icon: Award, color: 'text-accent', bg: 'bg-accent/10' },
-    { value: '100%', label: 'Amanah & Transparan', icon: TrendingUp, color: 'text-primary', bg: 'bg-primary/10' },
+    { value: stats.penerimaManfaat, label: 'Penerima Manfaat', icon: Users, color: 'text-primary', bg: 'bg-primary/10' },
+    { value: stats.programAktif.toString(), label: 'Program Aktif', icon: Target, color: 'text-secondary', bg: 'bg-secondary/10' },
+    { value: stats.tahunBerdedikasi, label: 'Tahun Berdedikasi', icon: Award, color: 'text-accent', bg: 'bg-accent/10' },
+    { value: stats.amanahTransparan, label: 'Amanah & Transparan', icon: TrendingUp, color: 'text-primary', bg: 'bg-primary/10' },
   ];
 
   return (
@@ -109,15 +118,15 @@ export default function HomePage() {
               {/* Stats */}
               <div className="grid grid-cols-3 gap-4 pt-6">
                 <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                  <div className="text-2xl md:text-3xl font-bold text-accent">5000+</div>
+                  <div className="text-2xl md:text-3xl font-bold text-accent">{stats.penerimaManfaat}</div>
                   <div className="text-xs md:text-sm text-white/80">Terbantu</div>
                 </div>
                 <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                  <div className="text-2xl md:text-3xl font-bold text-accent">23</div>
+                  <div className="text-2xl md:text-3xl font-bold text-accent">{stats.programAktif}</div>
                   <div className="text-xs md:text-sm text-white/80">Program</div>
                 </div>
                 <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                  <div className="text-2xl md:text-3xl font-bold text-accent">15+</div>
+                  <div className="text-2xl md:text-3xl font-bold text-accent">{stats.tahunBerdedikasi}</div>
                   <div className="text-xs md:text-sm text-white/80">Tahun</div>
                 </div>
               </div>

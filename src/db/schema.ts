@@ -21,6 +21,11 @@ export const programs = pgTable('programs', {
   image: text('image'),
   category: text('category').notNull(),
   status: text('status').notNull().default('active'),
+  schedule: text('schedule'), // Jadwal program (e.g., "Sepanjang Tahun")
+  location: text('location'), // Lokasi program (e.g., "Berbagai Lokasi")
+  participants: text('participants'), // Jumlah peserta (e.g., "100+ Terbantu")
+  contact: text('contact'), // Kontak informasi (e.g., "0812-3456-7890")
+  benefits: text('benefits'), // Manfaat program (JSON array atau comma-separated)
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });
@@ -48,6 +53,8 @@ export const posts = pgTable('posts', {
   author: text('author').notNull(),
   category: text('category').notNull(),
   status: text('status').notNull().default('draft'),
+  sourceUrl: text('source_url'), // URL sumber artikel (e.g., Instagram, Facebook)
+  documentationUrl: text('documentation_url'), // URL dokumentasi (e.g., Instagram post)
   publishedAt: timestamp('published_at'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
@@ -140,3 +147,53 @@ export type Donation = typeof donations.$inferSelect;
 export type NewDonation = typeof donations.$inferInsert;
 export type ContactMessage = typeof contactMessages.$inferSelect;
 export type NewContactMessage = typeof contactMessages.$inferInsert;
+
+// Contact Info Table (General contact information)
+export const contactInfo = pgTable('contact_info', {
+  id: serial('id').primaryKey(),
+  phone: text('phone'),
+  phone2: text('phone2'), // Second phone number
+  email: text('email'),
+  address: text('address'),
+  operationalHours: text('operational_hours'), // First line of hours
+  operationalHours2: text('operational_hours2'), // Second line of hours
+  mapEmbedUrl: text('map_embed_url'), // Google Maps embed URL
+  heroTitle: text('hero_title'), // Hero section title
+  heroSubtitle: text('hero_subtitle'), // Hero section subtitle
+  whatsapp: text('whatsapp'), // WhatsApp number
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
+
+// Contact Departments Table
+export const contactDepartments = pgTable('contact_departments', {
+  id: serial('id').primaryKey(),
+  name: text('name').notNull(),
+  phone: text('phone'),
+  email: text('email'),
+  order: integer('order').default(0), // For sorting
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
+
+export type NewContactInfo = typeof contactInfo.$inferInsert;
+export type ContactInfo = typeof contactInfo.$inferSelect;
+export type NewContactDepartment = typeof contactDepartments.$inferInsert;
+export type ContactDepartment = typeof contactDepartments.$inferSelect;
+
+// Management Team (Pengurus) Table
+export const managementTeam = pgTable('management_team', {
+  id: serial('id').primaryKey(),
+  name: text('name').notNull(),
+  position: text('position').notNull(),
+  image: text('image'), // Profile image URL
+  bio: text('bio'), // Short biography
+  email: text('email'),
+  phone: text('phone'),
+  order: integer('order').default(0), // For sorting/display order
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
+
+export type NewManagementTeam = typeof managementTeam.$inferInsert;
+export type ManagementTeam = typeof managementTeam.$inferSelect;

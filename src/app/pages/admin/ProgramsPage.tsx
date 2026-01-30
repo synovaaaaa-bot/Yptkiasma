@@ -34,6 +34,11 @@ interface Program {
   category: string;
   status: string;
   image?: string;
+  schedule?: string;
+  location?: string;
+  participants?: string;
+  contact?: string;
+  benefits?: string;
   createdAt: string;
 }
 
@@ -49,6 +54,11 @@ export default function ProgramsPage() {
     category: '',
     status: 'active',
     image: '',
+    schedule: '',
+    location: '',
+    participants: '',
+    contact: '',
+    benefits: '',
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -109,6 +119,11 @@ export default function ProgramsPage() {
       category: program.category,
       status: program.status,
       image: program.image || '',
+      schedule: program.schedule || '',
+      location: program.location || '',
+      participants: program.participants || '',
+      contact: program.contact || '',
+      benefits: program.benefits || '',
     });
     setIsDialogOpen(true);
   };
@@ -202,6 +217,67 @@ export default function ProgramsPage() {
                   folder="programs"
                   label="Gambar Program"
                 />
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="schedule">Jadwal</Label>
+                    <Input
+                      id="schedule"
+                      value={formData.schedule}
+                      onChange={(e) =>
+                        setFormData({ ...formData, schedule: e.target.value })
+                      }
+                      placeholder="Contoh: Sepanjang Tahun"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="location">Lokasi</Label>
+                    <Input
+                      id="location"
+                      value={formData.location}
+                      onChange={(e) =>
+                        setFormData({ ...formData, location: e.target.value })
+                      }
+                      placeholder="Contoh: Berbagai Lokasi"
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="participants">Peserta</Label>
+                    <Input
+                      id="participants"
+                      value={formData.participants}
+                      onChange={(e) =>
+                        setFormData({ ...formData, participants: e.target.value })
+                      }
+                      placeholder="Contoh: 100+ Terbantu"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="contact">Kontak</Label>
+                    <Input
+                      id="contact"
+                      value={formData.contact}
+                      onChange={(e) =>
+                        setFormData({ ...formData, contact: e.target.value })
+                      }
+                      placeholder="Contoh: 0812-3456-7890"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="benefits">Manfaat Program (pisahkan dengan koma)</Label>
+                  <Textarea
+                    id="benefits"
+                    rows={3}
+                    value={formData.benefits}
+                    onChange={(e) =>
+                      setFormData({ ...formData, benefits: e.target.value })
+                    }
+                    placeholder="Contoh: Bantuan pendidikan, Bantuan kesehatan, Bantuan ekonomi"
+                  />
+                  <p className="text-xs text-gray-500">Pisahkan setiap manfaat dengan koma</p>
+                </div>
                 <div className="space-y-2">
                   <Label htmlFor="status">Status</Label>
                   <select

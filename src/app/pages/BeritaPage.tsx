@@ -52,6 +52,8 @@ export default function BeritaPage() {
     views: Math.floor(Math.random() * 2000) + 500,
     author: post.author || 'Admin',
     readTime: `${Math.ceil((post.content?.length || 500) / 1000)} min`,
+    sourceUrl: post.sourceUrl || null,
+    documentationUrl: post.documentationUrl || null,
     featured: false,
     gradient: 'from-blue-500 to-cyan-600',
     content: post.content || '',

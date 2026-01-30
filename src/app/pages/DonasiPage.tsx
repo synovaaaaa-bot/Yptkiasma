@@ -27,7 +27,7 @@ export default function DonasiPage() {
     address: '',
     message: '',
     isAnonymous: false,
-    paymentMethod: 'BSI',
+    paymentMethod: '',
     accountNumber: '',
     paymentProof: '',
   });
@@ -45,8 +45,13 @@ export default function DonasiPage() {
       // Filter only active programs
       const activePrograms = data.filter(p => p.status === 'active');
       setFundraisingPrograms(activePrograms);
-    } catch (error) {
+      console.log('Fundraising programs loaded:', activePrograms.length);
+    } catch (error: any) {
       console.error('Error loading fundraising programs:', error);
+      console.error('Error details:', error?.message || error);
+      // Set empty array to prevent crash
+      setFundraisingPrograms([]);
+      toast.error('Gagal memuat program donasi. Silakan refresh halaman.');
     } finally {
       setLoadingPrograms(false);
     }
@@ -64,7 +69,8 @@ export default function DonasiPage() {
   }, [location.state]);
 
   // Map fundraising programs to display format
-  const fundPrograms = fundraisingPrograms.map((program, index) => {
+  // Safely handle empty or undefined arrays
+  const fundPrograms = (fundraisingPrograms || []).map((program, index) => {
     const icons = [Building2, Heart, TrendingUp, Gift, Users];
     const gradients = [
       'from-emerald-500 to-teal-600',
@@ -101,7 +107,7 @@ export default function DonasiPage() {
     return Math.round((collected / target) * 100);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -177,7 +183,7 @@ export default function DonasiPage() {
         address: '',
         message: '',
         isAnonymous: false,
-        paymentMethod: 'BSI',
+        paymentMethod: '',
         accountNumber: '',
         paymentProof: '',
       });
@@ -185,8 +191,18 @@ export default function DonasiPage() {
       setCustomAmount('');
     } catch (error: any) {
       console.error('Error submitting donation:', error);
-      const errorMessage = error?.message || error?.error?.message || 'Gagal mengirim donasi. Silakan coba lagi.';
-      console.error('Full error details:', error);
+      console.error('Full error details:', JSON.stringify(error, null, 2));
+      
+      // Extract error message from various possible error formats
+      let errorMessage = 'Gagal mengirim donasi. Silakan coba lagi.';
+      if (error?.message) {
+        errorMessage = error.message;
+      } else if (error?.error?.message) {
+        errorMessage = error.error.message;
+      } else if (typeof error === 'string') {
+        errorMessage = error;
+      }
+      
       toast.error(errorMessage);
     } finally {
       setSubmitting(false);
@@ -303,8 +319,20 @@ export default function DonasiPage() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {fundPrograms.map((program) => {
+        {loadingPrograms ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            <span className="ml-3 text-muted-foreground">Memuat program donasi...</span>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-3 gap-8">
+            {fundPrograms.length === 0 ? (
+              <div className="col-span-3 text-center py-12">
+                <Target className="w-16 h-16 mx-auto mb-4 text-muted-foreground/50" />
+                <p className="text-muted-foreground">Belum ada program donasi yang tersedia</p>
+              </div>
+            ) : (
+              fundPrograms.map((program) => {
             const Icon = program.icon;
             const percentage = getPercentage(program.collected, program.target);
             
@@ -372,8 +400,10 @@ export default function DonasiPage() {
                 </CardContent>
               </Card>
             );
-          })}
-        </div>
+          })
+            )}
+          </div>
+        )}
       </section>
 
       {/* Donation Form Section */}
@@ -426,7 +456,7 @@ export default function DonasiPage() {
                           <Loader2 className="w-6 h-6 animate-spin text-primary" />
                         </div>
                       ) : (
-                        programsData.slice(0, 5).map((prog) => (
+                        fundPrograms.slice(0, 5).map((prog) => (
                           <div 
                             key={prog.id}
                             onClick={() => setSelectedProgram(String(prog.id))}
@@ -629,16 +659,25 @@ export default function DonasiPage() {
 
                     <div className="mb-4">
                       <label className="block text-sm font-medium mb-2">
-                        Metode Pembayaran
+                        Metode Pembayaran <span className="text-red-500">*</span>
                       </label>
-                      <div className="w-full px-4 py-3 border-2 border-primary bg-primary/5 rounded-xl">
-                        <div className="flex items-center gap-2">
-                          <CreditCard className="w-5 h-5 text-primary" />
-                          <span className="font-semibold text-primary">Transfer Bank BSI</span>
-                        </div>
-                      </div>
+                      <select
+                        name="paymentMethod"
+                        value={formData.paymentMethod}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary bg-white"
+                      >
+                        <option value="">-- Pilih Metode Pembayaran --</option>
+                        <option value="BSI">Transfer Bank BSI</option>
+                        <option value="BRI">Transfer Bank BRI</option>
+                        <option value="BCA">Transfer Bank BCA</option>
+                        <option value="Mandiri">Transfer Bank Mandiri</option>
+                        <option value="BNI">Transfer Bank BNI</option>
+                        <option value="Bank Lain">Transfer Bank Lain</option>
+                      </select>
                       <p className="text-xs text-gray-500 mt-2">
-                        Donasi hanya dapat dilakukan melalui transfer Bank BSI
+                        Pilih metode pembayaran yang Anda gunakan untuk transfer
                       </p>
                     </div>
 
@@ -651,10 +690,15 @@ export default function DonasiPage() {
                         name="accountNumber"
                         value={formData.accountNumber}
                         onChange={handleInputChange}
-                        placeholder="Nomor rekening BSI Anda"
+                        placeholder={formData.paymentMethod 
+                          ? `Nomor rekening ${formData.paymentMethod} Anda` 
+                          : "Nomor rekening Anda"}
                         required
                         className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
                       />
+                      <p className="text-xs text-gray-500 mt-2">
+                        Masukkan nomor rekening yang Anda gunakan untuk transfer
+                      </p>
                     </div>
 
                     <div className="mb-4">
