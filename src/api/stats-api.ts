@@ -27,7 +27,7 @@ export const statsApi = {
       // Option 1: Use approved donations count (each donation = 1 beneficiary)
       // Option 2: Use activities count (each activity = multiple beneficiaries)
       // We'll use a combination: approved donations + activities count
-      const penerimaManfaatCount = donationStats.approved + activities.length * 10; // Estimate 10 beneficiaries per activity
+      const penerimaManfaatCount = donationStats.approved + activities.length * 50; // Adjust multiplier based on actual data
       const penerimaManfaat = penerimaManfaatCount >= 1000 
         ? `${Math.floor(penerimaManfaatCount / 1000)}K+`
         : penerimaManfaatCount >= 100
