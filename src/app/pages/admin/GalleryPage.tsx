@@ -102,9 +102,16 @@ export default function GalleryPage() {
       return;
     }
 
-    try {
       // Upload image to storage
-      const imageUrl = await uploadImage(photoFile, 'albums');
+      let imageUrl: string;
+      try {
+        imageUrl = await uploadImage(photoFile, 'albums');
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        throw error; // Let outer catch handle the toast
+      }
+      
+      try {
       
       // Get current max order for this album
       const existingPhotos = albumPhotos[selectedAlbum] || [];
