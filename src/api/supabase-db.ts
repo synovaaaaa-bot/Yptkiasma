@@ -86,16 +86,36 @@ export const activitiesApi = {
     // Remove category if it exists (not in schema)
     const { category, ...activityData } = activity as any;
     
+    // Ensure required fields are present
+    if (!activityData.title || !activityData.description || !activityData.date) {
+      throw new Error('Judul, deskripsi, dan tanggal wajib diisi');
+    }
+    
+    // Transform camelCase to snake_case for Supabase
+    const insertData: any = {
+      title: activityData.title,
+      description: activityData.description,
+      date: activityData.date,
+      location: activityData.location || null,
+      status: activityData.status || 'upcoming',
+      image: activityData.image || null,
+    };
+    
+    console.log('Creating activity with data:', insertData);
+    
     const { data, error } = await supabase
       .from('activities')
-      .insert([activityData])
+      .insert([insertData])
       .select()
       .single();
     
     if (error) {
       console.error('Error creating activity:', error);
+      console.error('Error details:', JSON.stringify(error, null, 2));
       throw new Error(error.message || 'Gagal membuat kegiatan');
     }
+    
+    console.log('Activity created successfully:', data);
     return data;
   },
 
@@ -105,20 +125,34 @@ export const activitiesApi = {
     // Remove category if it exists (not in schema)
     const { category, ...updateData } = updates as any;
     
+    // Transform camelCase to snake_case for Supabase
+    const updatePayload: any = {
+      updated_at: new Date().toISOString(),
+    };
+    
+    if (updateData.title !== undefined) updatePayload.title = updateData.title;
+    if (updateData.description !== undefined) updatePayload.description = updateData.description;
+    if (updateData.date !== undefined) updatePayload.date = updateData.date;
+    if (updateData.location !== undefined) updatePayload.location = updateData.location || null;
+    if (updateData.status !== undefined) updatePayload.status = updateData.status;
+    if (updateData.image !== undefined) updatePayload.image = updateData.image || null;
+    
+    console.log('Updating activity with data:', updatePayload);
+    
     const { data, error } = await supabase
       .from('activities')
-      .update({
-        ...updateData,
-        updated_at: new Date().toISOString(),
-      })
+      .update(updatePayload)
       .eq('id', id)
       .select()
       .single();
     
     if (error) {
       console.error('Error updating activity:', error);
+      console.error('Error details:', JSON.stringify(error, null, 2));
       throw new Error(error.message || 'Gagal mengupdate kegiatan');
     }
+    
+    console.log('Activity updated successfully:', data);
     return data;
   },
 
@@ -300,23 +334,40 @@ export const albumsApi = {
 // Photos API
 export const photosApi = {
   getByAlbumId: async (albumId: number): Promise<Photo[]> => {
-    const { data, error } = await supabase
-      .from('photos')
-      .select('*')
-      .eq('album_id', albumId)
-      .order('order', { ascending: true })
-      .order('created_at', { ascending: false });
-    
-    if (error) throw error;
-    // Transform snake_case to camelCase
-    return (data || []).map(photo => ({
-      id: photo.id,
-      albumId: photo.album_id,
-      url: photo.url,
-      caption: photo.caption,
-      order: photo.order,
-      createdAt: photo.created_at,
-    }));
+    try {
+      const { data, error } = await supabase
+        .from('photos')
+        .select('*')
+        .eq('album_id', albumId)
+        .order('order', { ascending: true });
+      
+      if (error) {
+        console.error('Error fetching photos for album:', albumId, error);
+        console.error('Error code:', error.code, 'Error message:', error.message);
+        throw error;
+      }
+      
+      if (!data) {
+        console.log(`No photos found for album ${albumId}`);
+        return [];
+      }
+      
+      // Transform snake_case to camelCase
+      const photos = data.map((photo: any) => ({
+        id: photo.id,
+        albumId: photo.album_id || photo.albumId,
+        url: photo.url,
+        caption: photo.caption || null,
+        order: photo.order || 0,
+        createdAt: photo.created_at || photo.createdAt,
+      }));
+      
+      console.log(`Loaded ${photos.length} photos for album ${albumId}`);
+      return photos;
+    } catch (error: any) {
+      console.error(`Failed to load photos for album ${albumId}:`, error);
+      throw error;
+    }
   },
 
   create: async (photo: Omit<NewPhoto, 'id' | 'createdAt'>): Promise<Photo> => {

@@ -5,6 +5,7 @@ import { Button } from '../components/ui/button';
 import { useState, useEffect } from 'react';
 import { GalleryLightbox } from '../components/GalleryLightbox';
 import { albumsApi, photosApi } from '@/api/supabase-db';
+import { toast } from 'sonner';
 import type { Album, Photo } from '@/db/schema';
 
 export default function GaleriPage() {
@@ -25,23 +26,31 @@ export default function GaleriPage() {
   const loadAlbums = async () => {
     try {
       setLoading(true);
+      console.log('Loading albums...');
       const albumsData = await albumsApi.getAll();
+      console.log('Albums loaded:', albumsData.length, albumsData);
       setAlbums(albumsData);
       
       // Load photos for each album
       const photosMap: Record<number, Photo[]> = {};
       for (const album of albumsData) {
         try {
+          console.log(`Loading photos for album ${album.id} (${album.title})...`);
           const photos = await photosApi.getByAlbumId(album.id);
+          console.log(`Loaded ${photos.length} photos for album ${album.id}`);
           photosMap[album.id] = photos;
-        } catch (error) {
+        } catch (error: any) {
           console.error(`Error loading photos for album ${album.id}:`, error);
+          console.error('Error details:', error?.message || error);
           photosMap[album.id] = [];
         }
       }
+      console.log('Photos map:', photosMap);
       setAlbumPhotos(photosMap);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error loading albums:', error);
+      console.error('Error details:', error?.message || error);
+      toast.error('Gagal memuat galeri: ' + (error?.message || 'Unknown error'));
     } finally {
       setLoading(false);
     }

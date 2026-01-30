@@ -77,6 +77,23 @@ export default function ActivitiesPage() {
     setSubmitting(true);
 
     try {
+      // Validate required fields
+      if (!formData.title.trim()) {
+        toast.error('Judul kegiatan wajib diisi');
+        setSubmitting(false);
+        return;
+      }
+      if (!formData.description.trim()) {
+        toast.error('Deskripsi kegiatan wajib diisi');
+        setSubmitting(false);
+        return;
+      }
+      if (!formData.date) {
+        toast.error('Tanggal kegiatan wajib diisi');
+        setSubmitting(false);
+        return;
+      }
+      
       // Prepare data for API - ensure all fields are properly formatted
       // Note: category is not in database schema, so we exclude it
       const activityData = {
@@ -88,6 +105,8 @@ export default function ActivitiesPage() {
         image: formData.image?.trim() || null,
         // category field removed - not in database schema
       };
+      
+      console.log('Submitting activity data:', activityData);
 
       if (editingActivity) {
         const updated = await activitiesApi.update(editingActivity.id, activityData);
