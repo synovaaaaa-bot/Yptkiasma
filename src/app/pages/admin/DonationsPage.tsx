@@ -101,14 +101,16 @@ export default function DonationsPage() {
     try {
       await donationsApi.approve(selectedDonation.id, adminNotes, user?.email);
       toast.success('Donasi berhasil disetujui!');
-      await loadDonations();
-      await loadStats();
+      
+      // Refresh data
+      await Promise.all([loadDonations(), loadStats()]);
+      
       setIsReviewOpen(false);
       setSelectedDonation(null);
       setAdminNotes('');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error approving donation:', error);
-      toast.error('Gagal menyetujui donasi');
+      toast.error(error.message || 'Gagal menyetujui donasi');
     } finally {
       setSubmitting(false);
     }
@@ -126,14 +128,16 @@ export default function DonationsPage() {
     try {
       await donationsApi.reject(selectedDonation.id, adminNotes, user?.email);
       toast.success('Donasi berhasil ditolak');
-      await loadDonations();
-      await loadStats();
+      
+      // Refresh data
+      await Promise.all([loadDonations(), loadStats()]);
+      
       setIsReviewOpen(false);
       setSelectedDonation(null);
       setAdminNotes('');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error rejecting donation:', error);
-      toast.error('Gagal menolak donasi');
+      toast.error(error.message || 'Gagal menolak donasi');
     } finally {
       setSubmitting(false);
     }

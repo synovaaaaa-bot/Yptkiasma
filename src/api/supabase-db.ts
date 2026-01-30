@@ -1,7 +1,7 @@
 // Supabase Database API untuk CRUD operations
 import { supabase } from '@/lib/supabase';
 import { requireAuth } from '@/lib/auth-helpers';
-import type { NewProgram, Program, NewActivity, Activity, NewPost, Post, NewAlbum, Album, NewPhoto, Photo } from '@/db/schema';
+import type { NewProgram, Program, NewActivity, Activity, NewPost, Post, NewAlbum, Album, NewPhoto, Photo, ContactMessage, NewContactMessage } from '@/db/schema';
 
 // Programs API
 export const programsApi = {
@@ -374,5 +374,170 @@ export const photosApi = {
       .eq('id', id);
     
     if (error) throw error;
+  },
+};
+
+// Contact Messages API
+export const contactMessagesApi = {
+  getAll: async (): Promise<ContactMessage[]> => {
+    const { data, error } = await supabase
+      .from('contact_messages')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (error) {
+      console.error('Error fetching contact messages:', error);
+      throw error;
+    }
+    
+    // Transform snake_case to camelCase
+    return (data || []).map((msg: any) => ({
+      id: msg.id,
+      name: msg.name,
+      email: msg.email,
+      phone: msg.phone || null,
+      subject: msg.subject,
+      message: msg.message,
+      status: msg.status || 'unread',
+      createdAt: msg.created_at || msg.createdAt,
+    }));
+  },
+
+  getById: async (id: number): Promise<ContactMessage> => {
+    const { data, error } = await supabase
+      .from('contact_messages')
+      .select('*')
+      .eq('id', id)
+      .single();
+    
+    if (error) {
+      console.error('Error fetching contact message:', error);
+      throw error;
+    }
+    
+    // Transform snake_case to camelCase
+    return {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      phone: data.phone || null,
+      subject: data.subject,
+      message: data.message,
+      status: data.status || 'unread',
+      createdAt: data.created_at || data.createdAt,
+    };
+  },
+
+  create: async (message: Omit<NewContactMessage, 'id' | 'createdAt' | 'status'>): Promise<ContactMessage> => {
+    // Transform camelCase to snake_case for Supabase
+    const messageData: any = {
+      name: message.name,
+      email: message.email,
+      phone: message.phone || null,
+      subject: message.subject,
+      message: message.message,
+      status: 'unread',
+    };
+    
+    const { data, error } = await supabase
+      .from('contact_messages')
+      .insert([messageData])
+      .select()
+      .single();
+    
+    if (error) {
+      console.error('Error creating contact message:', error);
+      throw error;
+    }
+    
+    // Transform snake_case to camelCase
+    return {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      phone: data.phone || null,
+      subject: data.subject,
+      message: data.message,
+      status: data.status || 'unread',
+      createdAt: data.created_at || data.createdAt,
+    };
+  },
+
+  update: async (id: number, updates: Partial<Omit<ContactMessage, 'id' | 'createdAt'>>): Promise<ContactMessage> => {
+    await requireAuth(); // Require authentication
+    
+    const updateData: any = {};
+    if (updates.name !== undefined) updateData.name = updates.name;
+    if (updates.email !== undefined) updateData.email = updates.email;
+    if (updates.phone !== undefined) updateData.phone = updates.phone;
+    if (updates.subject !== undefined) updateData.subject = updates.subject;
+    if (updates.message !== undefined) updateData.message = updates.message;
+    if (updates.status !== undefined) updateData.status = updates.status;
+    
+    const { data, error } = await supabase
+      .from('contact_messages')
+      .update(updateData)
+      .eq('id', id)
+      .select()
+      .single();
+    
+    if (error) {
+      console.error('Error updating contact message:', error);
+      throw error;
+    }
+    
+    // Transform snake_case to camelCase
+    return {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      phone: data.phone || null,
+      subject: data.subject,
+      message: data.message,
+      status: data.status || 'unread',
+      createdAt: data.created_at || data.createdAt,
+    };
+  },
+
+  markAsRead: async (id: number): Promise<ContactMessage> => {
+    await requireAuth(); // Require authentication
+    
+    const { data, error } = await supabase
+      .from('contact_messages')
+      .update({ status: 'read' })
+      .eq('id', id)
+      .select()
+      .single();
+    
+    if (error) {
+      console.error('Error marking message as read:', error);
+      throw error;
+    }
+    
+    // Transform snake_case to camelCase
+    return {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      phone: data.phone || null,
+      subject: data.subject,
+      message: data.message,
+      status: data.status || 'unread',
+      createdAt: data.created_at || data.createdAt,
+    };
+  },
+
+  delete: async (id: number): Promise<void> => {
+    await requireAuth(); // Require authentication
+    
+    const { error } = await supabase
+      .from('contact_messages')
+      .delete()
+      .eq('id', id);
+    
+    if (error) {
+      console.error('Error deleting contact message:', error);
+      throw error;
+    }
   },
 };

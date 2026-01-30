@@ -5,7 +5,6 @@ import { Button } from '../components/ui/button';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { activitiesApi } from '@/api/supabase-db';
-import { Activity } from '../../types/collections';
 
 export default function KegiatanPage() {
   const [selectedCategory, setSelectedCategory] = useState('semua');
