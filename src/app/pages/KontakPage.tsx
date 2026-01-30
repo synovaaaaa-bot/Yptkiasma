@@ -238,7 +238,7 @@ export default function KontakPage() {
             </div>
             
             <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight">
-              {contactInfo?.heroTitle || 'Ada yang Bisa'} <span className="text-accent">{contactInfo?.heroTitle ? contactInfo.heroTitle.split(' ').slice(-2).join(' ') : 'Kami Bantu?'}</span>
+              {contactInfo?.heroTitle || 'Ada yang Bisa Kami Bantu?'}
             </h1>
             
             <p className="text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
