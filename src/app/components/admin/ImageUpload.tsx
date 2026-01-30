@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { Button } from '../ui/button';
 import { Upload, X, Loader2, Image as ImageIcon } from 'lucide-react';
-import { uploadImage } from '@/lib/supabase-storage';
+import { uploadImage, updateImage } from '@/lib/supabase-storage';
 import { toast } from 'sonner';
 
 interface ImageUploadProps {
@@ -48,8 +48,11 @@ export function ImageUpload({
       };
       reader.readAsDataURL(file);
 
-      // Upload to Supabase Storage
-      const imageUrl = await uploadImage(file, folder);
+      // Upload or update image in Supabase Storage
+      // If currentImage exists, use updateImage to delete old image first
+      const imageUrl = currentImage 
+        ? await updateImage(currentImage, file, folder)
+        : await uploadImage(file, folder);
       
       // Update parent component
       onImageChange(imageUrl);

@@ -62,6 +62,11 @@ export async function uploadImage(file: File, folder: string): Promise<string> {
       });
 
     if (error) {
+      // Provide more helpful error message for bucket not found
+      if (error.message?.includes('Bucket not found') || 
+          error.message?.includes('bucket not found')) {
+        throw new Error(`Bucket '${BUCKET_NAME}' tidak ditemukan. Pastikan bucket sudah dibuat di Supabase Storage.`);
+      }
       throw error;
     }
 
@@ -89,7 +94,10 @@ export async function deleteImage(imageUrl: string): Promise<void> {
     // Extract file path from URL
     const urlParts = imageUrl.split('/');
     const bucketIndex = urlParts.indexOf(BUCKET_NAME);
-    if (bucketIndex === -1) return;
+    if (bucketIndex === -1) {
+      console.warn('Bucket name not found in URL, skipping deletion');
+      return;
+    }
 
     const filePath = urlParts.slice(bucketIndex + 1).join('/');
 
@@ -97,7 +105,8 @@ export async function deleteImage(imageUrl: string): Promise<void> {
     const allowedFolders = ['programs', 'activities', 'posts', 'albums', 'donations'];
     const folder = filePath.split('/')[0];
     if (!allowedFolders.includes(folder)) {
-      throw new Error('Invalid file path');
+      console.warn('Invalid file path, skipping deletion');
+      return;
     }
 
     // Delete from storage
@@ -106,10 +115,24 @@ export async function deleteImage(imageUrl: string): Promise<void> {
       .remove([filePath]);
 
     if (error) {
+      // Handle bucket not found or file not found errors gracefully
+      if (error.message?.includes('Bucket not found') || 
+          error.message?.includes('bucket not found') ||
+          error.message?.includes('not found')) {
+        console.warn('Bucket or file not found, skipping deletion:', error.message);
+        return;
+      }
       console.error('Delete error:', error);
       throw error;
     }
-  } catch (error) {
+  } catch (error: any) {
+    // Handle bucket not found errors gracefully
+    if (error?.message?.includes('Bucket not found') || 
+        error?.message?.includes('bucket not found') ||
+        error?.message?.includes('not found')) {
+      console.warn('Bucket not found, skipping deletion:', error.message);
+      return;
+    }
     console.error('Delete error:', error);
     throw error;
   }
