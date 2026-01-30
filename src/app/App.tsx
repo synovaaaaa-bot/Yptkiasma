@@ -28,7 +28,6 @@ import GalleryPage from './pages/admin/GalleryPage';
 import DonationsPage from './pages/admin/DonationsPage';
 import FundraisingProgramsPage from './pages/admin/FundraisingProgramsPage';
 import MessagesPage from './pages/admin/MessagesPage';
-import MessagesPage from './pages/admin/MessagesPage';
 import UsersPage from './pages/admin/UsersPage';
 
 export default function App() {
