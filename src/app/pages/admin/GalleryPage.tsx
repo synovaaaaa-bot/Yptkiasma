@@ -16,7 +16,7 @@ import { Textarea } from '@/app/components/ui/textarea';
 import { Plus, FolderPlus, Image as ImageIcon, Trash2, Pencil, Loader2, X } from 'lucide-react';
 import { albumsApi, photosApi } from '@/api/supabase-db';
 import { ImageUpload } from '@/app/components/admin/ImageUpload';
-import { uploadImage } from '@/lib/supabase-storage';
+import { uploadImage, deleteImage } from '@/lib/supabase-storage';
 import { toast } from 'sonner';
 import type { Album, Photo } from '@/db/schema';
 
@@ -102,9 +102,11 @@ export default function GalleryPage() {
       return;
     }
 
+    let imageUrl: string | null = null;
+
     try {
-      // Upload image to storage
-      const imageUrl = await uploadImage(photoFile, 'albums');
+      // Upload image to storage first
+      imageUrl = await uploadImage(photoFile, 'albums');
       
       // Get current max order for this album
       const existingPhotos = albumPhotos[selectedAlbum] || [];
@@ -112,7 +114,7 @@ export default function GalleryPage() {
         ? Math.max(...existingPhotos.map(p => p.order || 0))
         : 0;
 
-      // Create photo record
+      // Create photo record in database
       await photosApi.create({
         albumId: selectedAlbum,
         url: imageUrl,
@@ -126,9 +128,17 @@ export default function GalleryPage() {
       setPhotoCaption('');
       setSelectedAlbum(null);
       loadAlbums();
-    } catch (error: any) {
-      console.error('Error uploading photo:', error);
-      toast.error(error.message || 'Gagal upload foto');
+    } catch (dbError: any) {
+      // Cleanup uploaded image if database operation fails
+      if (imageUrl) {
+        try {
+          await deleteImage(imageUrl);
+        } catch (cleanupError) {
+          console.error('Failed to cleanup image:', cleanupError);
+        }
+      }
+      console.error('Error uploading photo:', dbError);
+      toast.error(dbError.message || 'Gagal upload foto');
     }
   };
 
