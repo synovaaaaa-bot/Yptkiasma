@@ -26,6 +26,8 @@ import ActivitiesPage from './pages/admin/ActivitiesPage';
 import PostsPage from './pages/admin/PostsPage';
 import GalleryPage from './pages/admin/GalleryPage';
 import DonationsPage from './pages/admin/DonationsPage';
+import FundraisingProgramsPage from './pages/admin/FundraisingProgramsPage';
+import MessagesPage from './pages/admin/MessagesPage';
 import MessagesPage from './pages/admin/MessagesPage';
 import UsersPage from './pages/admin/UsersPage';
 
@@ -77,6 +79,7 @@ export default function App() {
             <Route path="activities" element={<ActivitiesPage />} />
             <Route path="posts" element={<PostsPage />} />
             <Route path="gallery" element={<GalleryPage />} />
+            <Route path="fundraising-programs" element={<FundraisingProgramsPage />} />
             <Route path="donations" element={<DonationsPage />} />
             <Route path="messages" element={<MessagesPage />} />
             <Route path="users" element={<UsersPage />} />

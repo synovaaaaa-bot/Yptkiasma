@@ -46,6 +46,7 @@ export default function GalleryPage() {
     try {
       setLoading(true);
       const data = await albumsApi.getAll();
+      console.log('Loaded albums:', data);
       setAlbums(data);
       
       // Load photos for each album
@@ -53,6 +54,7 @@ export default function GalleryPage() {
       for (const album of data) {
         try {
           const photos = await photosApi.getByAlbumId(album.id);
+          console.log(`Photos for album ${album.id}:`, photos);
           photosMap[album.id] = photos;
         } catch (error) {
           console.error(`Error loading photos for album ${album.id}:`, error);
@@ -344,7 +346,10 @@ export default function GalleryPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {albums.map((album) => {
             const photos = albumPhotos[album.id] || [];
-            const coverImage = album.coverImage || (photos.length > 0 ? photos[0].url : null);
+            // Prioritize coverImage from album, fallback to first photo
+            const coverImage = album.coverImage 
+              ? album.coverImage 
+              : (photos.length > 0 && photos[0]?.url ? photos[0].url : null);
 
             return (
               <Card key={album.id} className="overflow-hidden">
@@ -354,6 +359,10 @@ export default function GalleryPage() {
                       src={coverImage}
                       alt={album.title}
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%23e5e7eb"/%3E%3Ctext x="50" y="50" font-family="Arial" font-size="12" fill="%239ca3af" text-anchor="middle" dominant-baseline="middle"%3EImage%3C/text%3E%3C/svg%3E';
+                      }}
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">

@@ -178,6 +178,18 @@ export default function DonationsPage() {
     ? donations 
     : donations.filter(d => d.paymentStatus === filterStatus);
 
+  // Group approved donations by program for donor list
+  const approvedDonationsByProgram = donations
+    .filter(d => d.paymentStatus === 'approved')
+    .reduce((acc, donation) => {
+      const program = donation.program || 'Donasi Umum';
+      if (!acc[program]) {
+        acc[program] = [];
+      }
+      acc[program].push(donation);
+      return acc;
+    }, {} as Record<string, Donation[]>);
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -343,6 +355,51 @@ export default function DonationsPage() {
           )}
         </CardContent>
       </Card>
+
+      {/* List Donatur yang Sudah Approve */}
+      {Object.keys(approvedDonationsByProgram).length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Daftar Donatur (Approved)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              {Object.entries(approvedDonationsByProgram).map(([program, programDonations]) => {
+                const totalAmount = programDonations.reduce((sum, d) => sum + d.amount, 0);
+                return (
+                  <div key={program} className="border rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="font-semibold text-lg">{program}</h3>
+                      <div className="text-right">
+                        <p className="text-sm text-gray-600">Total Donatur</p>
+                        <p className="text-xl font-bold text-primary">{programDonations.length}</p>
+                        <p className="text-sm text-gray-600 mt-1">Total: {formatCurrency(totalAmount)}</p>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      {programDonations.map((donation) => (
+                        <div key={donation.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                          <div className="flex-1">
+                            <p className="font-medium">{donation.donorName}</p>
+                            <p className="text-sm text-gray-600">{donation.donorEmail}</p>
+                            {donation.donorPhone && (
+                              <p className="text-sm text-gray-600">{donation.donorPhone}</p>
+                            )}
+                          </div>
+                          <div className="text-right">
+                            <p className="font-bold text-primary">{formatCurrency(donation.amount)}</p>
+                            <p className="text-xs text-gray-500">{formatDate(donation.createdAt)}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Review Dialog */}
       <Dialog open={isReviewOpen} onOpenChange={setIsReviewOpen}>
