@@ -184,26 +184,32 @@ export const albumsApi = {
       .select('*')
       .order('created_at', { ascending: false });
     
-    if (error) throw error;
+    if (error) {
+      console.error('Error fetching albums:', error);
+      throw error;
+    }
+    
     // Transform snake_case to camelCase
-    return (data || []).map(album => ({
+    const transformed = (data || []).map((album: any) => ({
       id: album.id,
       title: album.title,
-      description: album.description,
-      coverImage: album.cover_image,
-      createdAt: album.created_at,
-      updatedAt: album.updated_at,
+      description: album.description || null,
+      coverImage: album.cover_image || album.coverImage || null,
+      createdAt: album.created_at || album.createdAt,
+      updatedAt: album.updated_at || album.updatedAt,
     }));
+    
+    return transformed;
   },
 
   create: async (album: Omit<NewAlbum, 'id' | 'createdAt' | 'updatedAt'>): Promise<Album> => {
     await requireAuth(); // Require authentication
     
     // Transform camelCase to snake_case for Supabase
-    const albumData = {
+    const albumData: any = {
       title: album.title,
-      description: album.description,
-      cover_image: album.coverImage,
+      description: album.description || null,
+      cover_image: album.coverImage || null,
     };
     
     const { data, error } = await supabase
@@ -212,16 +218,22 @@ export const albumsApi = {
       .select()
       .single();
     
-    if (error) throw error;
+    if (error) {
+      console.error('Error creating album:', error);
+      throw error;
+    }
+    
     // Transform snake_case to camelCase
-    return {
+    const transformed = {
       id: data.id,
       title: data.title,
-      description: data.description,
-      coverImage: data.cover_image,
-      createdAt: data.created_at,
-      updatedAt: data.updated_at,
+      description: data.description || null,
+      coverImage: data.cover_image || data.coverImage || null,
+      createdAt: data.created_at || data.createdAt,
+      updatedAt: data.updated_at || data.updatedAt,
     };
+    
+    return transformed;
   },
 
   update: async (id: number, updates: Partial<Omit<Album, 'id' | 'createdAt'>>): Promise<Album> => {
@@ -233,8 +245,8 @@ export const albumsApi = {
     };
     
     if (updates.title !== undefined) updateData.title = updates.title;
-    if (updates.description !== undefined) updateData.description = updates.description;
-    if (updates.coverImage !== undefined) updateData.cover_image = updates.coverImage;
+    if (updates.description !== undefined) updateData.description = updates.description || null;
+    if (updates.coverImage !== undefined) updateData.cover_image = updates.coverImage || null;
     
     const { data, error } = await supabase
       .from('albums')
@@ -243,16 +255,22 @@ export const albumsApi = {
       .select()
       .single();
     
-    if (error) throw error;
+    if (error) {
+      console.error('Error updating album:', error);
+      throw error;
+    }
+    
     // Transform snake_case to camelCase
-    return {
+    const transformed = {
       id: data.id,
       title: data.title,
-      description: data.description,
-      coverImage: data.cover_image,
-      createdAt: data.created_at,
-      updatedAt: data.updated_at,
+      description: data.description || null,
+      coverImage: data.cover_image || data.coverImage || null,
+      createdAt: data.created_at || data.createdAt,
+      updatedAt: data.updated_at || data.updatedAt,
     };
+    
+    return transformed;
   },
 
   delete: async (id: number): Promise<void> => {

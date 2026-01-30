@@ -75,7 +75,7 @@ export default function GalleryPage() {
     }
 
     try {
-      await albumsApi.create({
+      const newAlbum = await albumsApi.create({
         title: albumForm.title,
         description: albumForm.description || null,
         coverImage: albumForm.coverImage || null,
@@ -84,7 +84,9 @@ export default function GalleryPage() {
       toast.success('Album berhasil dibuat!');
       setCreateAlbumOpen(false);
       setAlbumForm({ title: '', description: '', coverImage: '' });
-      loadAlbums();
+      
+      // Refresh albums list
+      await loadAlbums();
     } catch (error: any) {
       console.error('Error creating album:', error);
       toast.error(error.message || 'Gagal membuat album');
@@ -132,7 +134,7 @@ export default function GalleryPage() {
       setPhotoFile(null);
       setPhotoCaption('');
       setSelectedAlbum(null);
-      loadAlbums();
+      await loadAlbums();
     } catch (dbError: any) {
       // Cleanup uploaded image if database operation fails
       if (imageUrl) {
@@ -155,7 +157,7 @@ export default function GalleryPage() {
     try {
       await albumsApi.delete(id);
       toast.success('Album berhasil dihapus!');
-      loadAlbums();
+      await loadAlbums();
     } catch (error: any) {
       console.error('Error deleting album:', error);
       toast.error(error.message || 'Gagal menghapus album');
@@ -180,7 +182,7 @@ export default function GalleryPage() {
         }
       }
       toast.success('Foto berhasil dihapus!');
-      loadAlbums();
+      await loadAlbums();
     } catch (error: any) {
       console.error('Error deleting photo:', error);
       toast.error(error.message || 'Gagal menghapus foto');
