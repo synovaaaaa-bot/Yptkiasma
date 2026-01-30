@@ -15,6 +15,8 @@ interface Article {
   gradient: string;
   content?: string;
   tags?: string[];
+  sourceUrl?: string;
+  documentationUrl?: string;
 }
 
 interface ArticleDetailModalProps {
@@ -42,28 +44,25 @@ export function ArticleDetailModal({ article, isOpen, onClose }: ArticleDetailMo
     }
   };
 
-  // Extract source links from content
-  const extractSourceLinks = (content: string) => {
+  // Get source and documentation links from article data
+  const getSourceLinks = () => {
     const links: Array<{ platform: string; url: string }> = [];
-    const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
-    let match;
-
-    while ((match = regex.exec(content)) !== null) {
-      const text = match[1];
-      const url = match[2];
-      
+    
+    // Use documentationUrl if available, otherwise fallback to sourceUrl
+    const docUrl = article.documentationUrl || article.sourceUrl;
+    if (docUrl) {
       let platform = 'External';
-      if (url.includes('instagram.com')) platform = 'Instagram';
-      else if (url.includes('facebook.com')) platform = 'Facebook';
-      else if (url.includes('threads.net')) platform = 'Threads';
+      if (docUrl.includes('instagram.com')) platform = 'Instagram';
+      else if (docUrl.includes('facebook.com')) platform = 'Facebook';
+      else if (docUrl.includes('threads.net')) platform = 'Threads';
       
-      links.push({ platform, url });
+      links.push({ platform, url: docUrl });
     }
     
     return links;
   };
 
-  const sourceLinks = article.content ? extractSourceLinks(article.content) : [];
+  const sourceLinks = getSourceLinks();
 
   // Remove source links from content for display
   const contentWithoutLinks = article.content 

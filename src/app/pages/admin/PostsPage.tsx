@@ -36,6 +36,8 @@ interface Post {
   category: string;
   status: string;
   image?: string;
+  sourceUrl?: string;
+  documentationUrl?: string;
   published_at?: string;
 }
 
@@ -53,6 +55,8 @@ export default function PostsPage() {
     category: '',
     status: 'published',
     image: '',
+    sourceUrl: '',
+    documentationUrl: '',
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -106,6 +110,8 @@ export default function PostsPage() {
       category: '',
       status: 'published',
       image: '',
+      sourceUrl: '',
+      documentationUrl: '',
     });
     setEditingPost(null);
   };
@@ -120,6 +126,8 @@ export default function PostsPage() {
       category: post.category,
       status: post.status,
       image: post.image || '',
+      sourceUrl: post.sourceUrl || '',
+      documentationUrl: post.documentationUrl || '',
     });
     setIsDialogOpen(true);
   };
@@ -230,6 +238,30 @@ export default function PostsPage() {
                   folder="posts"
                   label="Featured Image"
                 />
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="sourceUrl">URL Sumber</Label>
+                    <Input
+                      id="sourceUrl"
+                      type="url"
+                      value={formData.sourceUrl}
+                      onChange={(e) => setFormData({ ...formData, sourceUrl: e.target.value })}
+                      placeholder="https://instagram.com/..."
+                    />
+                    <p className="text-xs text-gray-500">Link sumber artikel (opsional)</p>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="documentationUrl">URL Dokumentasi</Label>
+                    <Input
+                      id="documentationUrl"
+                      type="url"
+                      value={formData.documentationUrl}
+                      onChange={(e) => setFormData({ ...formData, documentationUrl: e.target.value })}
+                      placeholder="https://instagram.com/p/..."
+                    />
+                    <p className="text-xs text-gray-500">Link dokumentasi Instagram/Facebook (opsional)</p>
+                  </div>
+                </div>
                 <div className="space-y-2">
                   <Label htmlFor="status">Status</Label>
                   <select

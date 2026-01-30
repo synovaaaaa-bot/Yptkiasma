@@ -125,8 +125,17 @@ export const donationsApi = {
     
     if (error) {
       console.error('Error creating donation:', error);
+      console.error('Error code:', error.code);
+      console.error('Error details:', error.details);
+      console.error('Error hint:', error.hint);
       throw new Error(error.message || 'Gagal membuat donasi');
     }
+    
+    if (!data) {
+      throw new Error('Tidak ada data yang dikembalikan dari server');
+    }
+    
+    console.log('Donation created successfully:', data);
     
     // Transform snake_case to camelCase
     return {

@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { ProgramDetailModal } from '../components/ProgramDetailModal';
 import { RegistrationModal } from '../components/RegistrationModal';
 import { programsApi } from '@/api/supabase-db';
+import { statsApi } from '@/api/stats-api';
 
 export default function ProgramPage() {
   const [activeCategory, setActiveCategory] = useState('Semua');
@@ -17,6 +18,7 @@ export default function ProgramPage() {
   const [programForRegistration, setProgramForRegistration] = useState<any>(null);
   const [programsData, setProgramsData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [programStats, setProgramStats] = useState<any>(null);
 
   // Load programs from database
   useEffect(() => {
@@ -26,8 +28,12 @@ export default function ProgramPage() {
   const loadPrograms = async () => {
     try {
       setLoading(true);
-      const data = await programsApi.getAll();
+      const [data, stats] = await Promise.all([
+        programsApi.getAll(),
+        statsApi.getPublicStats(),
+      ]);
       setProgramsData(data);
+      setProgramStats(stats);
     } catch (error) {
       console.error('Error loading programs:', error);
     } finally {
@@ -36,26 +42,33 @@ export default function ProgramPage() {
   };
 
   // Map programs from database to match display format
-  const programs = programsData.map((prog, index) => ({
-    id: prog.id,
-    title: prog.title,
-    category: prog.category?.charAt(0).toUpperCase() + prog.category?.slice(1) || 'Umum',
-    description: prog.description,
-    image: prog.image || 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=800',
-    icon: prog.category === 'sosial' || prog.category === 'Sosial' ? HandHeart : prog.category === 'kesehatan' || prog.category === 'Kesehatan' ? Heart : BookOpen,
-    gradient: index % 7 === 0 ? 'from-teal-500 to-green-600' : 
-               index % 7 === 1 ? 'from-rose-500 to-red-600' :
-               index % 7 === 2 ? 'from-pink-500 to-rose-600' :
-               index % 7 === 3 ? 'from-blue-500 to-cyan-600' :
-               index % 7 === 4 ? 'from-amber-500 to-orange-600' :
-               index % 7 === 5 ? 'from-emerald-500 to-teal-600' :
-               'from-purple-500 to-indigo-600',
-    schedule: prog.category === 'sosial' || prog.category === 'Sosial' ? 'Sepanjang Tahun' : 'Batch Berkala',
-    participants: '100+ Terbantu',
-    location: 'Berbagai Lokasi',
-    benefits: [],
-    contact: '0812-3456-7890',
-  }));
+  const programs = programsData.map((prog, index) => {
+    // Parse benefits from string (comma-separated) to array
+    const benefits = prog.benefits 
+      ? prog.benefits.split(',').map(b => b.trim()).filter(Boolean)
+      : [];
+    
+    return {
+      id: prog.id,
+      title: prog.title,
+      category: prog.category?.charAt(0).toUpperCase() + prog.category?.slice(1) || 'Umum',
+      description: prog.description,
+      image: prog.image || 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=800',
+      icon: prog.category === 'sosial' || prog.category === 'Sosial' ? HandHeart : prog.category === 'kesehatan' || prog.category === 'Kesehatan' ? Heart : BookOpen,
+      gradient: index % 7 === 0 ? 'from-teal-500 to-green-600' : 
+                 index % 7 === 1 ? 'from-rose-500 to-red-600' :
+                 index % 7 === 2 ? 'from-pink-500 to-rose-600' :
+                 index % 7 === 3 ? 'from-blue-500 to-cyan-600' :
+                 index % 7 === 4 ? 'from-amber-500 to-orange-600' :
+                 index % 7 === 5 ? 'from-emerald-500 to-teal-600' :
+                 'from-purple-500 to-indigo-600',
+      schedule: prog.schedule || 'Batch Berkala',
+      participants: prog.participants || '100+ Terbantu',
+      location: prog.location || 'Berbagai Lokasi',
+      benefits: benefits,
+      contact: prog.contact || '0812-3456-7890',
+    };
+  });
 
   // Update categories count based on loaded data
   const categories = [
@@ -141,7 +154,7 @@ export default function ProgramPage() {
                   <Users className="w-6 h-6 text-accent-foreground" />
                 </div>
                 <div className="text-left">
-                  <div className="text-2xl font-bold text-white">5000+</div>
+                  <div className="text-2xl font-bold text-white">{programStats?.penerimaManfaat || '5000+'}</div>
                   <div className="text-sm text-white/80">Terbantu</div>
                 </div>
               </div>
@@ -150,7 +163,7 @@ export default function ProgramPage() {
                   <TrendingUp className="w-6 h-6 text-secondary-foreground" />
                 </div>
                 <div className="text-left">
-                  <div className="text-2xl font-bold text-white">15+</div>
+                  <div className="text-2xl font-bold text-white">{programStats?.tahunBerdedikasi || '15+'}</div>
                   <div className="text-sm text-white/80">Tahun Aktif</div>
                 </div>
               </div>

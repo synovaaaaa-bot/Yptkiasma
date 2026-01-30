@@ -15,6 +15,8 @@ import {
   X,
   Newspaper,
   Target,
+  Phone,
+  UserCog,
 } from 'lucide-react';
 
 interface NavItem {
@@ -63,6 +65,16 @@ const navItems: NavItem[] = [
     title: 'Pesan',
     href: '/admin/messages',
     icon: <Mail className="w-5 h-5" />,
+  },
+  {
+    title: 'Kontak',
+    href: '/admin/contact',
+    icon: <Phone className="w-5 h-5" />,
+  },
+  {
+    title: 'Pengurus',
+    href: '/admin/management-team',
+    icon: <UserCog className="w-5 h-5" />,
   },
   {
     title: 'Admin Users',

@@ -28,6 +28,8 @@ import GalleryPage from './pages/admin/GalleryPage';
 import DonationsPage from './pages/admin/DonationsPage';
 import FundraisingProgramsPage from './pages/admin/FundraisingProgramsPage';
 import MessagesPage from './pages/admin/MessagesPage';
+import ContactPage from './pages/admin/ContactPage';
+import ManagementTeamPage from './pages/admin/ManagementTeamPage';
 import UsersPage from './pages/admin/UsersPage';
 
 export default function App() {
@@ -81,6 +83,8 @@ export default function App() {
             <Route path="fundraising-programs" element={<FundraisingProgramsPage />} />
             <Route path="donations" element={<DonationsPage />} />
             <Route path="messages" element={<MessagesPage />} />
+            <Route path="contact" element={<ContactPage />} />
+            <Route path="management-team" element={<ManagementTeamPage />} />
             <Route path="users" element={<UsersPage />} />
           </Route>
         </Routes>

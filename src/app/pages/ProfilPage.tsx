@@ -2,21 +2,65 @@ import { Users, Target, Eye, Award, ArrowLeft, BookOpen, GraduationCap, Briefcas
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { logoTPK, logoIASMA } from '../../assets/logos';
+import { programsApi, managementTeamApi } from '@/api/supabase-db';
+import { statsApi } from '@/api/stats-api';
 
 export default function ProfilPage() {
   const navigate = useNavigate();
-  const [selectedProgram, setSelectedProgram] = useState<number | null>(null);
+  const [publicStats, setPublicStats] = useState({
+    penerimaManfaat: '5000+',
+    programAktif: 23,
+    tahunBerdedikasi: '15+',
+    amanahTransparan: '100%',
+  });
+  const [programsData, setProgramsData] = useState<any[]>([]);
+  const [organizers, setOrganizers] = useState<any[]>([]);
+  const [stats, setStats] = useState([
+    { count: '15+', label: 'Tahun Berdedikasi', icon: Calendar, color: 'bg-primary' },
+    { count: '12', label: 'Program Sosial', icon: HandHeart, color: 'bg-secondary' },
+    { count: '11', label: 'Program Pendidikan', icon: GraduationCap, color: 'bg-accent' },
+    { count: '5000+', label: 'Penerima Manfaat', icon: Users, color: 'bg-primary' },
+  ]);
 
-  const organizers = [
-    { name: 'Dr. Ahmad Syarif, S.Pd', position: 'Ketua Yayasan' },
-    { name: 'Muhammad Yusuf, M.Pd', position: 'Wakil Ketua' },
-    { name: 'Abdullah Rahman, S.Sos', position: 'Sekretaris' },
-    { name: 'Suryadi, S.E', position: 'Bendahara' },
-    { name: 'Ridwan Kamil, M.Pd', position: 'Bidang Pendidikan' },
-    { name: 'Dr. Fahmi Idris', position: 'Bidang Sosial' },
-  ];
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      const [programsData, statsData, organizersData] = await Promise.all([
+        programsApi.getAll(),
+        statsApi.getPublicStats(),
+        managementTeamApi.getAll().catch(() => []), // Fallback to empty array if error
+      ]);
+      setProgramsData(programsData);
+      setPublicStats(statsData);
+      setOrganizers(organizersData.length > 0 ? organizersData : [
+        { name: 'Dr. Ahmad Syarif, S.Pd', position: 'Ketua Yayasan' },
+        { name: 'Muhammad Yusuf, M.Pd', position: 'Wakil Ketua' },
+        { name: 'Abdullah Rahman, S.Sos', position: 'Sekretaris' },
+        { name: 'Suryadi, S.E', position: 'Bendahara' },
+        { name: 'Ridwan Kamil, M.Pd', position: 'Bidang Pendidikan' },
+        { name: 'Dr. Fahmi Idris', position: 'Bidang Sosial' },
+      ]);
+      
+      // Calculate program stats by category
+      const sosialPrograms = programsData.filter(p => p.category?.toLowerCase() === 'sosial' && p.status === 'active').length;
+      const pendidikanPrograms = programsData.filter(p => p.category?.toLowerCase() === 'pendidikan' && p.status === 'active').length;
+      
+      setStats([
+        { count: statsData.tahunBerdedikasi, label: 'Tahun Berdedikasi', icon: Calendar, color: 'bg-primary' },
+        { count: sosialPrograms.toString(), label: 'Program Sosial', icon: HandHeart, color: 'bg-secondary' },
+        { count: pendidikanPrograms.toString(), label: 'Program Pendidikan', icon: GraduationCap, color: 'bg-accent' },
+        { count: statsData.penerimaManfaat, label: 'Penerima Manfaat', icon: Users, color: 'bg-primary' },
+      ]);
+    } catch (error) {
+      console.error('Error loading data:', error);
+    }
+  };
+  const [selectedProgram, setSelectedProgram] = useState<number | null>(null);
 
   const programs = [
     {
@@ -63,13 +107,6 @@ export default function ProfilPage() {
     { year: '2015', event: 'Ekspansi Program', desc: 'Penambahan program pemberdayaan ekonomi dan sosial' },
     { year: '2020', event: 'Digitalisasi', desc: 'Transformasi digital layanan dan program yayasan' },
     { year: '2025', event: 'Saat Ini', desc: 'Melayani ribuan penerima manfaat di berbagai program' },
-  ];
-
-  const stats = [
-    { count: '15+', label: 'Tahun Berdedikasi', icon: Calendar, color: 'bg-primary' },
-    { count: '12', label: 'Program Sosial', icon: HandHeart, color: 'bg-secondary' },
-    { count: '11', label: 'Program Pendidikan', icon: GraduationCap, color: 'bg-accent' },
-    { count: '5000+', label: 'Penerima Manfaat', icon: Users, color: 'bg-primary' },
   ];
 
   const values = [
@@ -400,16 +437,27 @@ export default function ProfilPage() {
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {organizers.map((organizer, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
+            {organizers.map((organizer: any, index: number) => (
+              <Card key={organizer.id || index} className="hover:shadow-lg transition-shadow">
                 <CardContent className="pt-6">
                   <div className="flex items-start space-x-4">
-                    <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
-                      <Users className="w-8 h-8 text-white" />
-                    </div>
+                    {organizer.image ? (
+                      <img
+                        src={organizer.image}
+                        alt={organizer.name}
+                        className="w-16 h-16 rounded-full object-cover flex-shrink-0"
+                      />
+                    ) : (
+                      <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                        <Users className="w-8 h-8 text-white" />
+                      </div>
+                    )}
                     <div>
                       <h4 className="mb-1">{organizer.name}</h4>
                       <p className="text-muted-foreground">{organizer.position}</p>
+                      {organizer.bio && (
+                        <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{organizer.bio}</p>
+                      )}
                     </div>
                   </div>
                 </CardContent>
