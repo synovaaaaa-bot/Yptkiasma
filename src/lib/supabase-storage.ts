@@ -114,12 +114,9 @@ export async function deleteImage(imageUrl: string): Promise<void> {
       .from(BUCKET_NAME)
       .remove([filePath]);
 
-    if (error) {
-      // Handle bucket not found or file not found errors gracefully
       if (error.message?.includes('Bucket not found') || 
-          error.message?.includes('bucket not found') ||
-          error.message?.includes('not found')) {
-        console.warn('Bucket or file not found, skipping deletion:', error.message);
+          error.message?.includes('bucket not found')) {
+        console.warn('Bucket not found, skipping deletion:', error.message);
         return;
       }
       console.error('Delete error:', error);
