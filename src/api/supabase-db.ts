@@ -185,37 +185,74 @@ export const albumsApi = {
       .order('created_at', { ascending: false });
     
     if (error) throw error;
-    return data || [];
+    // Transform snake_case to camelCase
+    return (data || []).map(album => ({
+      id: album.id,
+      title: album.title,
+      description: album.description,
+      coverImage: album.cover_image,
+      createdAt: album.created_at,
+      updatedAt: album.updated_at,
+    }));
   },
 
   create: async (album: Omit<NewAlbum, 'id' | 'createdAt' | 'updatedAt'>): Promise<Album> => {
     await requireAuth(); // Require authentication
     
+    // Transform camelCase to snake_case for Supabase
+    const albumData = {
+      title: album.title,
+      description: album.description,
+      cover_image: album.coverImage,
+    };
+    
     const { data, error } = await supabase
       .from('albums')
-      .insert([album])
+      .insert([albumData])
       .select()
       .single();
     
     if (error) throw error;
-    return data;
+    // Transform snake_case to camelCase
+    return {
+      id: data.id,
+      title: data.title,
+      description: data.description,
+      coverImage: data.cover_image,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at,
+    };
   },
 
   update: async (id: number, updates: Partial<Omit<Album, 'id' | 'createdAt'>>): Promise<Album> => {
     await requireAuth(); // Require authentication
     
+    // Transform camelCase to snake_case for Supabase
+    const updateData: any = {
+      updated_at: new Date().toISOString(),
+    };
+    
+    if (updates.title !== undefined) updateData.title = updates.title;
+    if (updates.description !== undefined) updateData.description = updates.description;
+    if (updates.coverImage !== undefined) updateData.cover_image = updates.coverImage;
+    
     const { data, error } = await supabase
       .from('albums')
-      .update({
-        ...updates,
-        updated_at: new Date().toISOString(),
-      })
+      .update(updateData)
       .eq('id', id)
       .select()
       .single();
     
     if (error) throw error;
-    return data;
+    // Transform snake_case to camelCase
+    return {
+      id: data.id,
+      title: data.title,
+      description: data.description,
+      coverImage: data.cover_image,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at,
+    };
   },
 
   delete: async (id: number): Promise<void> => {
@@ -241,34 +278,73 @@ export const photosApi = {
       .order('created_at', { ascending: false });
     
     if (error) throw error;
-    return data || [];
+    // Transform snake_case to camelCase
+    return (data || []).map(photo => ({
+      id: photo.id,
+      albumId: photo.album_id,
+      url: photo.url,
+      caption: photo.caption,
+      order: photo.order,
+      createdAt: photo.created_at,
+    }));
   },
 
   create: async (photo: Omit<NewPhoto, 'id' | 'createdAt'>): Promise<Photo> => {
     await requireAuth(); // Require authentication
     
+    // Transform camelCase to snake_case for Supabase
+    const photoData = {
+      album_id: photo.albumId,
+      url: photo.url,
+      caption: photo.caption,
+      order: photo.order,
+    };
+    
     const { data, error } = await supabase
       .from('photos')
-      .insert([photo])
+      .insert([photoData])
       .select()
       .single();
     
     if (error) throw error;
-    return data;
+    // Transform snake_case to camelCase
+    return {
+      id: data.id,
+      albumId: data.album_id,
+      url: data.url,
+      caption: data.caption,
+      order: data.order,
+      createdAt: data.created_at,
+    };
   },
 
   update: async (id: number, updates: Partial<Omit<Photo, 'id' | 'createdAt'>>): Promise<Photo> => {
     await requireAuth(); // Require authentication
     
+    // Transform camelCase to snake_case for Supabase
+    const updateData: any = {};
+    if (updates.albumId !== undefined) updateData.album_id = updates.albumId;
+    if (updates.url !== undefined) updateData.url = updates.url;
+    if (updates.caption !== undefined) updateData.caption = updates.caption;
+    if (updates.order !== undefined) updateData.order = updates.order;
+    
     const { data, error } = await supabase
       .from('photos')
-      .update(updates)
+      .update(updateData)
       .eq('id', id)
       .select()
       .single();
     
     if (error) throw error;
-    return data;
+    // Transform snake_case to camelCase
+    return {
+      id: data.id,
+      albumId: data.album_id,
+      url: data.url,
+      caption: data.caption,
+      order: data.order,
+      createdAt: data.created_at,
+    };
   },
 
   delete: async (id: number): Promise<void> => {
