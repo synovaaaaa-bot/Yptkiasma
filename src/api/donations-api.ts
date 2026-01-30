@@ -100,12 +100,14 @@ export const donationsApi = {
     }
     
     // Transform camelCase to snake_case for Supabase
+    // TODO: Consider changing `program` field to integer with foreign key to `fundraising_programs`
+    // for better data integrity (currently stored as text for backward compatibility)
     const donationData: any = {
       donor_name: donation.donorName || donation.donor_name,
       donor_email: donation.donorEmail || donation.donor_email || null,
       donor_phone: donation.donorPhone || donation.donor_phone || null,
       amount: Number(donation.amount),
-      program: donation.program || null,
+      program: donation.program || null, // Can be program ID (string) or null
       payment_method: donation.paymentMethod || donation.payment_method || null,
       account_number: donation.accountNumber || donation.account_number || null,
       payment_proof: donation.paymentProof || donation.payment_proof || null,

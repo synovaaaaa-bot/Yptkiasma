@@ -153,18 +153,6 @@ export default function DonasiPage() {
         ? null 
         : selectedProgram;
       
-      console.log('Submitting donation:', {
-        donorName: formData.fullName,
-        donorEmail: formData.email,
-        donorPhone: formData.phone,
-        amount: amount,
-        program: programId,
-        paymentMethod: formData.paymentMethod,
-        accountNumber: formData.accountNumber,
-        paymentProof: formData.paymentProof,
-        message: formData.message || null,
-      });
-      
       await donationsApi.create({
         donorName: formData.fullName.trim(),
         donorEmail: formData.email.trim(),

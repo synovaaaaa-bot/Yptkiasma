@@ -14,6 +14,7 @@ import {
   Menu,
   X,
   Newspaper,
+  Target,
 } from 'lucide-react';
 
 interface NavItem {
